@@ -6,15 +6,6 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* html {
-  height: 100%;
-}
-
-body {
-  min-height: 100%;
-} */
-
-
 body {
   height: 100vh;
 }
@@ -22,34 +13,40 @@ body {
 nav {
   background-color: #795FA1;
   display: flex;
-  height: 80px;
+  height: 5rem;
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 3.125rem;
   color: #fff;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
-  padding: 20px;
+  box-shadow: 0rem 0.125rem 0.25rem rgba(0, 0, 0, 0.15);
+  padding: 1.25rem;
 }
 
 ul {
   list-style-type: none;
 }
 
+nav>ul {
+  padding: 0px;
+}
+
+/* Pseudo-elementos */
 ::placeholder {
   color: #c3c3c3;
 }
 
 /* Classes */
 .logo {
-  height: 40px;
-  width: 40px;
+  height: 2.5rem;
+  width: 2.5rem;
   justify-content: center;
   align-self: flex-start;
 }
 
+/* Botoes */
 .botao {
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   color: #fff;
-  font-weight: bolder;
+  font-weight: 550;
   text-align: center;
 }
 
@@ -81,17 +78,29 @@ ul {
   background-color: #6f6eaa;
 }
 
+/* Container */
+.btnContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.labelContainer {
+  width: 100%;
+  margin-bottom: 2.5rem;
+}
+
 /* Media Queries */
 /* Celular */
 @media(max-width: 767px) {
   nav {
-    height: 60px;
-    padding: 15px;
+    height: 3.75rem;
+    padding: 0.9375rem;
   }
 
   .logo {
-    height: 30px;
-    width: 30px;
+    height: 1.875rem;
+    width: 1.875rem;
   }
 }
 

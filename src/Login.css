@@ -1,0 +1,140 @@
+/* nav {
+    margin-bottom: 59px;
+}  */
+
+.labelContainer {
+    width: 100%;
+    margin-bottom: 2.5rem;
+}
+
+.destaqueContainer {
+    display: flex;
+    flex-direction: column;
+    color: #633F9A;
+    left: 0;
+    float: left;
+    font-size: 20pt;
+    margin-left: 6.25rem;
+    width: 37.5rem;
+}
+
+.tituloDestaque {
+    font-weight: 900;
+}
+
+.subDestaque {
+    font-weight: 600;
+    width: 31.25rem;
+}
+
+.textoDestaque {
+    font-size: 16pt;
+    text-transform: lowercase;
+}
+
+.login {
+    background-color: #795FA1;
+    color: #fff;
+    border-radius: 0.9375rem;
+    width: 28.75rem;
+    height: 41.9375rem;
+    float: right;
+    margin-right: 6.25rem;
+    margin-bottom: 8.75rem;
+    padding: 3.125rem 1.875rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+.inputLogin {
+    width: 100%;
+    height: 2.8125rem;
+    border-radius: 0.625rem;
+    padding: 0.625rem 0.8125rem;
+}
+
+.manterConectado {
+    display: inline-block;
+    margin-left: 0.3125rem;
+    margin-bottom: 2.5rem;
+}
+
+.btnEntrar {
+    width: 100%;
+    height: 3.125rem;
+    border-radius: 0.9375rem;
+    /* background-color: #633F9A; */
+    color: #fff;
+    font-weight: 550;
+    font-size: 18pt;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.esqueciSenha_Container {
+    width: 100%;
+    display: inline-block;
+}
+
+.esqueciSenha {
+    float: right;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.iconesContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+}
+
+.icones {
+    cursor: pointer;
+}
+
+.naoPossuiLogin {
+    width: 100%;
+    border-top: 0.125rem solid #633F9A;
+    padding-top: 1.875rem;
+    text-align: center;
+}
+
+.btnCadastro {
+    width: 100%;
+    height: 3.125rem;
+    color: #fff;
+    font-size: 18pt;
+    padding: 0.5rem;
+    border-radius: 0.9375rem;
+    margin: 0;
+}
+
+/* Media Queries */
+/* Tablet */
+@media(max-width: 1129px) {
+    .destaqueContainer {
+        display: none;
+    }
+
+    .login {
+        display: flex;
+        flex-direction: row;
+        left: 0;
+        right: 0;
+        margin: auto;
+        position: absolute;
+    }
+}
+
+@media(min-width: 1130px) and (max-width: 1279px) {
+    .destaqueContainer {
+        width: 25rem;
+    }
+
+    .subDestaque {
+        width: 18.75rem;
+        white-space: break-spaces;
+    }
+}

@@ -5,12 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Cadastro from './Cadastro';
 import Login from './Login';
+import RecuperarSenha from './RecuperarSenha';
+import RedefinirSenha from './RedefinirSenha';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Login />
+    <RedefinirSenha />
   </React.StrictMode>
 );
 

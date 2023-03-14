@@ -1,0 +1,32 @@
+.redefinirSenha {
+    width: 30rem;
+    height: 23.9375rem;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: auto;
+    background-color: #795FA1;
+    padding: 3.125rem 1.875rem;
+    border-radius: 0.9375rem;
+    color: #fff;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+.labelContainer {
+    margin-bottom: 2.0938rem;
+}
+
+.redefinirInput {
+    width: 100%;
+    height: 2.8125rem;
+    padding: 0.625rem 0.8125rem;
+    border-radius: 0.625rem;
+}
+
+.btnVoltar {
+    width: 10.5rem;
+}
+
+.btnRedefinir {
+    width: 10.5rem;
+}

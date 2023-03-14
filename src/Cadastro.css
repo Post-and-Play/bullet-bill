@@ -1,0 +1,243 @@
+label>p {
+    margin-bottom: 0rem;
+}
+
+nav>ul {
+    padding: 0px;
+}
+
+body {
+    /* border: 5px solid red; */
+}
+
+/* Classes */
+.cadastro {
+    background-color: #795FA1;
+    height: 34.75rem;
+    width: 53.75rem;
+    margin: auto;
+    padding: 2.3125rem 0.9375rem;
+    border-radius: 0.9375rem;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+.inputCadastro {
+    height: 2.3125rem;
+    width: 23.4375rem;
+    border-radius: 0.625rem;
+    border-color: transparent;
+    margin-bottom: 1.875rem;
+    margin-right: 3.125rem;
+    padding: 0.4375rem;
+    white-space: nowrap;
+}
+
+.lastInput {
+    margin-right: 0rem;
+}
+
+.inputData {
+    width: 7.0625rem;
+    margin-right: 1.125rem;
+}
+
+.inputAno {
+    margin-right: 0rem;
+}
+
+.termos {
+    display: inline-block;
+    margin-bottom: 1.25rem;
+}
+
+.termosTexto {
+    margin-left: 0.3125rem;
+}
+
+.termosDestaque {
+    color: #B0AFE6;
+    text-decoration: underline;
+}
+
+.botao {
+    width: 23.4375rem;
+    height: 2.8125rem;
+    box-shadow: 0rem 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+}
+
+.btnSecundario {
+    margin-right: 3.125rem;
+}
+
+.termosDestaque {
+    cursor: pointer;
+}
+
+.blob {
+    display: none;
+    height: 16.563rem;
+    bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.blobEsquerda {
+    float: left;
+    left: 0px;
+}
+
+.blobDireita {
+    float: right;
+    right: 0px;
+}
+
+.termosUso {
+    background-color: #633F9A;
+    width: 750px;
+    height: 681px;
+    top: 0;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-radius: 10px;
+    position: absolute;
+    padding: 35px 25px;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    /* box-sizing: border-box; */
+}
+
+.termosUso>h3 {
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 26px;
+    float: left;
+}
+
+.termosUso_texto {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    width: 100%;
+    height: 90.3%;
+    /* box-sizing: border-box; */
+    overflow-y: auto;
+}
+
+.closeBtn {
+    filter: invert(100%);
+    height: 30px;
+    float: right;
+    cursor: pointer;
+}
+
+/* Media Queries */
+/* Celular */
+@media(max-width: 767px) {
+    .cadastro {
+        display: flex;
+        flex-direction: column;
+        width: 23.75rem;
+        height: 72.75rem;
+        margin-bottom: 3.125rem;
+    }
+
+    .inputCadastro {
+        height: 2.75rem;
+        width: 20.3125rem;
+    }
+
+    select.inputCadastro {
+        height: 2.75rem;
+        width: 20.3125rem;
+    }
+
+    .inputData {
+        margin-bottom: 1.25rem;
+    }
+
+    .botao {
+        width: 20rem;
+    }
+
+    .btnPrincipal:active {
+        background-color: #482c74;
+    }
+
+    .btnSecundario {
+        margin-bottom: 1.875rem;
+    }
+
+    .btnSecundario:active {
+        background-color: #8786c2;
+    }
+
+    .blob {
+        display: none;
+    }
+
+    .termosUso {
+        width: 400px;
+        height: 1150px;
+        padding: 20px;
+        margin-top: 75px;
+    }
+
+    .termosUso_texto {
+        padding: 17px;
+        height: 94%;
+    }
+}
+
+/* Tablet */
+@media(min-width: 768px) and (max-width: 991px) {
+    .cadastro {
+        width: 46.875rem;
+        margin-bottom: 3.125rem;
+    }
+
+    .inputCadastro {
+        width: 20rem;
+    }
+
+    .inputData {
+        width: 6.1688rem;
+        margin-right: 0.75rem;
+    }
+
+    .lastInput {
+        margin-right: 0rem;
+    }
+
+    .botao {
+        width: 20rem;
+    }
+
+    .btnPrincipal:active {
+        background-color: #482c74;
+    }
+
+    .btnSecundario:active {
+        background-color: #8786c2;
+    }
+
+    .blob {
+        display: none;
+        height: 12.3rem;
+        width: 18.3rem;
+    }
+
+    .termosUso {
+        width: 650px;
+        height: 630px;
+        padding: 20px;
+        top: 8%;
+    }
+
+    .termosUso_texto {
+        padding: 17px;
+        height: 90.3%;
+    }
+}

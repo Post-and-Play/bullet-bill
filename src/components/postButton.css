@@ -1,0 +1,27 @@
+.btn__post {
+    background-color: #633F9A;
+    border-radius: 10px;
+    color: white;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 13px;
+    box-sizing: border-box;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    cursor: pointer;
+}
+
+.icon__post {
+    width: 18px;
+    height: 18px;
+}
+
+.txt__post {
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+.btn__post:hover {
+    background-color: #4d2c80;
+}

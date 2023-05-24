@@ -1,0 +1,29 @@
+.nav__navbar {
+    width: 100%;
+    height: 5rem;
+    background-color: #795FA1;
+    padding: 1.25rem;
+    margin-bottom: 3.125rem;
+    color: #fff;
+    box-shadow: 0rem 0.125rem 0.25rem rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-img__logo {
+    width: 40px;
+    height: auto;
+    flex-grow: 0;
+}
+
+.search__bar {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.profile__icon {
+    flex-grow: 0;
+}

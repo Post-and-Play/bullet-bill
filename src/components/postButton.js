@@ -46,7 +46,7 @@ const PostButton = () => {
                         </select>
                         <div className="postBox__avaliacao">
                             <div className="txtAvaliacao__row">
-                                <p>Avaliação</p>
+                                <p>Avaliaçãoo</p>
                             </div>
                             <div className="postBox__nota-container">
                                 {valoresNotas.map((valoresNotas) => (

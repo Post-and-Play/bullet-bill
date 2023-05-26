@@ -1,7 +1,7 @@
 import '../src/Home.css'
 
 import React from 'react';
-import PostButton from './components/postButton';
+import PostButton from './components/PostButton';
 import Navbar from './components/navbar';
 
 const Home = () => {

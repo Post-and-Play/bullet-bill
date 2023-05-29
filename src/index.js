@@ -2,18 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import App from './App';
 import Login from './Login';
 import Perfil from './Perfil';
 import Home from './Home';
 import Cadastro from './Cadastro';
+import Jogo from './Jogo';
+import Pesquisa from './Pesquisa';
+import { BrowserRouter } from 'react-router-dom';
+import RedefinirSenha from './RedefinirSenha';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Home />
-  </React.StrictMode>
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

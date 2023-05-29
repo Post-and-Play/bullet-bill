@@ -16,7 +16,7 @@ ul {
 
 .profile__menu {
     position: absolute;
-    top: 100%;
+    /* top: 100%; */
     right: 0;
     background-color: #795FA1;
     list-style: none;
@@ -30,6 +30,7 @@ ul {
     border-bottom: 0.0625rem solid #633F9A;
     border-left: 0.0625rem solid #633F9A;
     width: 9.375rem;
+    z-index: 1;
 }
 
 .profile__menu li:hover {

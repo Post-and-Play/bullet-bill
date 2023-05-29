@@ -1,56 +1,86 @@
 import '../src/Home.css'
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
-import React from 'react';
-import PostButton from './components/PostButton';
+import FotoPerfil from './image/foto.png'
+import UnoPerfil from './image/uno-perfil.png'
+import UnoBanner from './image/banner-uno.png'
+import LoopHero from './image/loop-hero.png'
+import DuelLink from './image/duel-link.png'
+import Hearthstone from './image/hearthstone.png'
+
+import React, { useRef } from 'react';
+import Slider from 'react-slick';
+
+import { Icon } from '@iconify/react';
+
+import PostButton from './components/postButton';
 import Navbar from './components/navbar';
 
 const Home = () => {
+    const sliderRef = useRef(null);
+
+    const settings = {
+        infinite: true,
+        speed: 500,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        horizSwiping: true,
+        horizSwiping: true,
+        nextArrow: <></>,
+        prevArrow: <></>,
+    };
+
+    const images = [
+        FotoPerfil,
+        FotoPerfil,
+        FotoPerfil,
+        FotoPerfil,
+        FotoPerfil,
+        FotoPerfil,
+        FotoPerfil,
+        FotoPerfil,
+        FotoPerfil
+    ];
+
+    const handleSlideRight = () => {
+        if (sliderRef.current) {
+            const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
+            const slidesToShow = settings.slidesToShow;
+            const nextSlideIndex = slideIndex + slidesToShow;
+            sliderRef.current.slickGoTo(nextSlideIndex);
+        }
+    };
+
+    const handleSlideLeft = () => {
+        if (sliderRef.current) {
+            const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
+            const slidesToShow = settings.slidesToShow;
+            const nextSlideIndex = slideIndex - slidesToShow;
+            sliderRef.current.slickGoTo(nextSlideIndex);
+        }
+    };
 
     return (
         <div>
             <Navbar />
-            <div className="container">
-                <h2>Carousel Example</h2>
-                <div id="myCarousel" className="carousel slide" data-ride="carousel">
-                    {/* Indicators */}
-                    <ol className="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" className="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                    </ol>
-                    {/* Wrapper for slides */}
-                    <div className="carousel-inner">
-                        <div className="item active">
-                            <img src="la.jpg" alt="Los Angeles" style={{ width: '100%' }} />
-                            <div className="carousel-caption">
-                                <h3>Los Angeles</h3>
-                                <p>LA is always so much fun!</p>
-                            </div>
-                        </div>
-                        <div className="item">
-                            <img src="chicago.jpg" alt="Chicago" style={{ width: '100%' }} />
-                            <div className="carousel-caption">
-                                <h3>Chicago</h3>
-                                <p>Thank you, Chicago!</p>
-                            </div>
-                        </div>
-                        <div className="item">
-                            <img src="ny.jpg" alt="New York" style={{ width: '100%' }} />
-                            <div className="carousel-caption">
-                                <h3>New York</h3>
-                                <p>We love the Big Apple!</p>
-                            </div>
-                        </div>
+            <div className="home__bemAvaliado-slider">
+                <div className="home__bemAvaliado-container">
+                    <div className="home-carousel-icon" onClick={handleSlideLeft} >
+                        <Icon icon="ep:arrow-up-bold" rotate={3} className="image-slider__image" />
                     </div>
-                    {/* Left and right controls */}
-                    <a className="left carousel-control" href="#myCarousel" data-slide="prev">
-                        <span className="glyphicon glyphicon-chevron-left"></span>
-                        <span className="sr-only">Previous</span>
-                    </a>
-                    <a className="right carousel-control" href="#myCarousel" data-slide="next">
-                        <span className="glyphicon glyphicon-chevron-right"></span>
-                        <span className="sr-only">Next</span>
-                    </a>
+                    <Slider ref={sliderRef} {...settings} className="slider-centered custom-slider">
+                        {images.map((image, index) => (
+                            <div key={index} className="home-image-slider__item">
+                                <a href="#" className='home-image-slider__link'>
+                                    <img src={image} alt={`Imagem ${index + 1}`} className="home-image-slider__image" />
+                                </a>
+                            </div>
+                        ))}
+                    </Slider>
+                    <div className="home-carousel-icon" onClick={handleSlideRight} >
+                        <Icon icon="ep:arrow-up-bold" rotate={1} />
+                    </div>
                 </div>
             </div>
             <div className="custom-container">

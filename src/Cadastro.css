@@ -5,9 +5,9 @@
 
 .cadastro {
     background-color: #795FA1;
-    height: 34.75rem;
+    height: auto;
     width: 53.375rem;
-    margin: auto;
+    margin: 60px auto;
     padding: 2.3125rem 0.9375rem;
     border-radius: 0.9375rem;
     color: #fff;
@@ -54,14 +54,37 @@
     text-decoration: underline;
 }
 
-.botao {
-    width: 23.4375rem;
+.cadastro__botao-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cadastro__botao {
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    color: #fff;
+    font-weight: 500;
+    width: 45%;
     height: 2.8125rem;
     box-shadow: 0rem 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
 }
 
-.btnSecundario {
-    margin-right: 3.125rem;
+.cadastro__btnVoltar {
+    background-color: #B0AFE6;
+}
+
+.cadastro__btnVoltar:hover {
+    background-color: #9594cc;
+}
+
+.cadastro__btnCadastrar {
+    background-color: #633F9A;
+}
+
+.cadastro__btnCadastrar:hover {
+    background-color: #532f8a;
 }
 
 .termosDestaque {
@@ -85,9 +108,12 @@
     right: 0px;
 }
 
+.termosUso__container {
+    /* backdrop-filter: blur(5px); */
+}
+
 .termosUso {
     /* display: none; */
-
     background-color: #633F9A;
     width: 46.875rem;
     height: 42.5625rem;
@@ -101,6 +127,7 @@
     position: absolute;
     padding: 2.1875rem 1.5625rem;
     box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    /* backdrop-filter: blur(5px); */
     /* box-sizing: border-box; */
 }
 
@@ -128,6 +155,35 @@
     cursor: pointer;
 }
 
+.cadastro__camposPopup {
+    width: 450px;
+    height: 100px;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #633F9A;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out forwards;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+@keyframes slideIn {
+    from {
+        top: -100%;
+    }
+
+    to {
+        top: 80px;
+    }
+}
+
 /* Media Queries */
 /* Celular */
 @media(max-width: 767px) {
@@ -153,12 +209,17 @@
         margin-bottom: 1.25rem;
     }
 
-    .botao {
-        width: 20rem;
+    .cadastro__botao-container {
+        flex-direction: column;
     }
 
-    .btnSecundario {
+    .cadastro__botao {
+        width: 100%;
+    }
+
+    .cadastro__btnVoltar {
         margin-bottom: 1.875rem;
+        font-weight: 500;
     }
 
     .blob {
@@ -166,15 +227,21 @@
     }
 
     .termosUso {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
         width: 25rem;
-        height: 71.875rem;
+        height: 70%;
         padding: 1.25rem;
         /* margin-top: 4.6875rem; */
     }
 
     .termosUso_texto {
         padding: 1.0625rem;
-        height: 94%;
+        /* height: 94%; */
     }
 }
 
@@ -196,10 +263,6 @@
 
     .lastInput {
         margin-right: 0rem;
-    }
-
-    .botao {
-        width: 20rem;
     }
 
     .blob {

@@ -3,7 +3,7 @@ import './Perfil.css'
 import React from 'react'
 import { Icon } from '@iconify/react';
 
-import PostButton from './components/PostButton';
+import PostButton from './components/postButton';
 import Navbar from './components/navbar';
 
 import Banner from './image/banner.png'

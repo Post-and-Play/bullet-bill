@@ -1,10 +1,17 @@
 import '../src/Home.css'
-
-import React from 'react';
-import PostButton from './components/PostButton';
+import React, { useState } from 'react';
+import PostButton from './components/postButton';
 import Navbar from './components/navbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+
 
 const Home = () => {
+    const [liked, setLiked] = useState(false);
+
+    const handleLike = () => {
+        setLiked(!liked);
+      };
 
     return (
         <div>
@@ -71,6 +78,9 @@ const Home = () => {
                         <div className="card-post__descricrao">
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
                         </div>
+                        <button className="post-card__like-button" onClick={handleLike}>
+                        <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
+                        </button>
                     </div>
                     <div className="card-post">
                         <div className="container__foto-content">
@@ -88,6 +98,9 @@ const Home = () => {
                         <div className="card-post__descricrao">
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
                         </div>
+                        <button className="post-card__like-button" onClick={handleLike}>
+                        <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
+                        </button>
                     </div>
                     <div className="card-post">
                         <div className="container__foto-content">
@@ -105,6 +118,9 @@ const Home = () => {
                         <div className="card-post__descricrao">
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
                         </div>
+                        <button className="post-card__like-button" onClick={handleLike}>
+                        <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
+                        </button>
                     </div>
                     <div className="card-post">
                         <div className="container__foto-content">
@@ -122,11 +138,15 @@ const Home = () => {
                         <div className="card-post__descricrao">
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
                         </div>
+                        <button className="post-card__like-button" onClick={handleLike}>
+                        <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
+                        </button>
                     </div>
                 </div>
             </div>
             <PostButton />
         </div>
+        
     );
 }
 

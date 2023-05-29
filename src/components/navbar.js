@@ -1,7 +1,6 @@
 import React from 'react'
 
 import '../components/navbar.css';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Logo from '../image/PAP.png';
 import ProfileIcon from '../components/profileIcon';
@@ -12,7 +11,7 @@ const navbar = () => {
         <div>
             <nav className='nav__navbar'>
                 <div className="nav__logo">
-                    <a href="Home.js">
+                    <a href="Home">
                         <img src={Logo} alt="Logo" className='nav-img__logo' />
                     </a>
                 </div>

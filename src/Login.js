@@ -1,25 +1,14 @@
 import '../src/Login.css'
 
-import Logo from '../src/image/PAP.png';
-import EpicLogo from '../src/icons/epic-games.svg'
-import SteamLogo from '../src/icons/steam.svg'
-import TwitchLogo from '../src/icons/twitch.svg'
-import GoogleLogo from '../src/icons/google.svg'
-import FacebookLogo from '../src/icons/facebook.svg'
-import GitHubLogo from '../src/icons/github.svg'
+import Navbar from './components/navbar';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
+
+    
     return (
         <div>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#">
-                            <img src={Logo} className='logo' />
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <Navbar/>
             <div className="destaqueContainer">
                 <h1 className='destaque tituloDestaque'>Olá!</h1>
                 <h2 className='destaque subDestaque'>Bem-Vindo ao Post and Playing</h2>
@@ -51,18 +40,10 @@ const Login = () => {
                     <div className="esqueciSenha_Container">
                         <a className='esqueciSenha' href="">Esqueci a minha senha</a>
                     </div>
-                    <div className="iconesContainer">
-                        <img className='icones' src={EpicLogo} alt="" />
-                        <img className='icones' src={SteamLogo} alt="" />
-                        <img className='icones' src={TwitchLogo} alt="" />
-                        <img className='icones' src={GoogleLogo} alt="" />
-                        <img className='icones' src={FacebookLogo} alt="" />
-                        <img className='icones' src={GitHubLogo} alt="" />
-                    </div>
                     <div className="row naoPossuiLogin">
                         <p>Não possui login?</p>
                     </div>
-                    <input className='botao btnCadastro btnSecundario' type="button" value="Cadastre-se" />
+                    <Link to="/cadastro" className='botao btnCadastro btnSecundario' type="button" value="Cadastre-se">Cadastro</Link>
                 </div>
             </form>
         </div>

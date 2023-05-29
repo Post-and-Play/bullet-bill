@@ -26,7 +26,6 @@ html {
     overflow: hidden;
     object-fit: cover;
     object-position: center center;
-    z-index: 1;
     border: 0.125rem solid #633F9A;
 }
 
@@ -53,6 +52,31 @@ html {
     flex: 1;
     height: auto;
 }
+.perfil-info__plataformas{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.perfil-info__info-container .perfil-info__info > div a {
+    text-decoration: none;
+    color: black;
+  }
+  .perfil-info__info-container .perfil-info__info > div img {
+    filter: grayscale(100%);
+  }
+  
+  .perfil-info__info-container .perfil-info__info > div a:hover {
+    text-decoration: none;
+  }
+
+.perfil-info__plataformas img {
+    width: 1.563rem;
+    height: 1.563rem;
+    margin-right: 10px;
+  }
 
 .perfil-info__container {
     float: left;
@@ -67,11 +91,55 @@ html {
 
 .perfil-info__nome-container {
     border-bottom: 1px solid #E2E2E2;
+    margin: auto;
 }
 
 .perfil-info__follow-container {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.perfil-info__follow-button {
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 2px solid #4d2c80;
+    color: #4d2c80;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 50px;
+}
+
+.perfil-info__spacer {
+    flex-grow: 1;
+}
+
+.perfil-info__follow-button .perfil-info__follow-icon {
+    margin-right: 0px;
+    margin:auto;
+}
+
+.perfil-info__follow-button:hover {
+    background-color: #4d2c80;
+    color: #fff;
+}
+
+.perfil-info__follow-button:hover .perfil-info__follow-icon {
+    color: #8662bc;
+}
+
+.perfil-info__folllow {
+    color: #BBBBBB;
+}
+
+.perfil-info__folllow:nth-child(1) {
+    margin-right: 20px;
 }
 
 .perfil-info__folllow {
@@ -162,6 +230,27 @@ html {
 .perfil-info__info-container {
     padding: 20px;
 }
+
+.perfil-post-card__like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding-left: 10px;
+    outline: none;
+    margin: left;
+  }
+  
+  .perfil-post-card__heart-icon {
+    font-size: 30px;
+    color: #633f9a2c;
+    border-radius: #000000;
+    transition: color 0.3s;
+  }
+  
+  .perfil-post-card__heart-icon.filled {
+    color: #633F9A
+  }
+
 
 /* Media Queries */
 /* Tablet */

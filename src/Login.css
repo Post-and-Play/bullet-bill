@@ -203,6 +203,14 @@
     }
 }
 
+.btnCadastro:hover {
+    text-decoration: none;
+    color: white;
+    /* Altere a cor desejada */
+}
+
+
+
 /* Media Queries */
 /* Tablet */
 @media(max-width: 1129px) {

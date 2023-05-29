@@ -182,6 +182,28 @@
     border-radius: 5px;
 }
 
+
+.post-card__like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    margin-top: 15px ;
+    margin-right: 90%;
+  }
+  
+  .post-card__heart-icon {
+    font-size: 30px;
+    color: #4b4a4d6d;
+    border-radius: #000000;
+    transition: color 0.3s;
+  }
+  
+  .post-card__heart-icon.filled {
+    color: #ffffff
+  }
+
+
 /* Media Queries */
 /* Celular */
 @media(max-width: 767px) {

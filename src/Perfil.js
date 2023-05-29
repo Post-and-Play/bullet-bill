@@ -1,7 +1,13 @@
 import './Perfil.css'
 
-import React from 'react'
-import { Icon } from '@iconify/react';
+import React, { useState } from 'react';
+import Steam from './icons/steam.png'
+import Discord from './icons/discord.png'
+import EpicGames from './icons/epic-games.png'
+import Twitch from './icons/twitch.png'
+import Github from './icons/github.png'
+
+import ConfigButton from './components/ConfigButton';
 
 import PostButton from './components/postButton';
 import Navbar from './components/navbar';
@@ -9,28 +15,97 @@ import Navbar from './components/navbar';
 import Banner from './image/banner.png'
 import FotoPerfil from './image/foto.png'
 
+import { FaUserPlus, FaCheck } from 'react-icons/fa';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+
 const Perfil = () => {
+    const [following, setFollowing] = useState(false);
+    const [liked, setLiked] = useState(false);
+    const isPerfilPessoal = false;  //false = outro user, true = user pessoal
+    const spanValueSteam = 'Rodolfinho08';
+    const spanValueDiscord = 'Dolfi#2917';
+    const spanValueEpic = 'RodolfinhoGamers';
+    const spanValueTwitch = 'rOdOL25k';
+    const spanValueGithub = 'DolfDev';
+    const handleFollow = () => {
+        setFollowing(!following);
+    };
+
+
+    const handleLike = () => {
+        setLiked(!liked);
+    };
+
     return (
         <div className='perfil__page-container'>
             <Navbar />
             <header className="perfil-banner__container">
+
                 <img src={Banner} alt="Banner usuário" className='perfil-banner__banner' />
                 <div className="perfil-banner__foto">
                     <img src={FotoPerfil} alt="Foto perfil" className='perfil__foto' />
                 </div>
-                <Icon icon="ph:gear" className='perfil-banner__gearIcon' />
+                <ConfigButton />
             </header>
+
             <div className="perfil-info-post__container">
                 <div className="perfil-info__container">
                     <section className="perfil-info__nome-container">
-                        <h1>Rodolfo</h1>
+                        <div className="perfil-info__follow-container">
+                            <h1>Rodolfo</h1>
+                            {!isPerfilPessoal && (
+                                <button
+                                    className={`perfil-info__follow-button ${following ? 'following' : ''}`}
+                                    onClick={handleFollow}
+                                >
+                                    {following ? (
+                                        <FaCheck className="perfil-info__follow-icon" />
+                                    ) : (
+                                        <FaUserPlus className="perfil-info__follow-icon" />
+                                    )}
+                                    {following ? 'Seguindo' : 'Seguir'}
+                                </button>
+                            )}
+                        </div>
                         <div className="perfil-info__follow-container">
                             <p className='perfil-info__folllow'>29 seguidores</p>
                             <p className='perfil-info__folllow'>11 seguindo</p>
                         </div>
+
                     </section>
                     <section className="perfil-info__info-container">
                         <div className="perfil-info__info perfil-info__plataformas">
+                            <div>
+                                <a href={`https://steamcommunity.com/id/${spanValueSteam}`}>
+                                    <img src={Steam} alt="steam" />
+                                    <span>Rodolfinho08</span>
+                                </a>
+                            </div>
+                            <div>
+                                <a href={`https://discordapp.com/users/${spanValueDiscord}`}>
+                                    <img src={Discord} alt="discord" />
+                                    <span>Dolfi#2917</span>
+                                </a>
+                            </div>
+                            <div>
+                                <a href={`https://www.epicgames.com/id/${spanValueEpic}`}>
+                                    <img src={EpicGames} alt="epic" />
+                                    <span>RodolfinhoGamers</span>
+                                </a>
+                            </div>
+                            <div>
+                                <a href={`https://www.twitch.tv/${spanValueTwitch}`}>
+                                    <img src={Twitch} alt="twitch" />
+                                    <span>rOdOL25k</span>
+                                </a>
+                            </div>
+                            <div>
+                                <a href={`https://github.com/${spanValueGithub}`}>
+                                    <img src={Github} alt="github" />
+                                    <span>DolfDev</span>
+                                </a>
+                            </div>
                         </div>
                         <div className="perfil-info__info perfil-info__descricao">
                             <h2>Descrição</h2>
@@ -71,13 +146,16 @@ const Perfil = () => {
                         <div className="perfil-post-card__descricrao">
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita ducimus error facere maxime, distinctio optio excepturi atque accusantium aliquid fuga nostrum iste dolore porro illum quibusdam? Aut odit sapiente eaque. Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio hic, voluptatem quas commodi voluptate reiciendis ipsum consectetur. Accusantium ab error aliquam voluptatem. Error repellat a rerum iure voluptatum quae voluptates! Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit asperiores vel dolorem dolore aperiam fuga aut, quisquam ducimus eius quo nesciunt maiores dolor eveniet amet. Modi quaerat tempora fugit consequuntur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad quae debitis id deserunt dolores quia nihil quaerat. Eaque itaque labore voluptate repellat unde. Tempora cupiditate architecto ducimus fuga nemo sed! Lorem ipsum dolor sit amet consectetur adipisicing elit. In eveniet rem neque eos, vero voluptatibus placeat repellendus aliquid voluptas corrupti recusandae aliquam ex optio minima dolores voluptatem voluptatum velit dicta?</p>
                         </div>
+                        <button className="perfil-post-card__like-button" onClick={handleLike}>
+                            <FontAwesomeIcon icon={faHeart} className={`perfil-post-card__heart-icon ${liked ? 'filled' : ''}`} />
+                        </button>
                     </article>
 
                     <article className="perfil-post__post">
                         <div className="perfil-post-container__foto-content">
                             <div className='perfil-post-card-post__foto-container'>
                                 <a href="">
-                                    <img src="" alt="Foto jogo" className="perfil-post-card__foto" />
+                                    <img src={FotoPerfil} alt="Foto jogo" className="perfil-post-card__foto" />
                                 </a>
                             </div>
                             <div className='perfil-post-card__content-container'>

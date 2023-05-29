@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 import '../components/navbar.css';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Logo from '../image/PAP.png';
 import ProfileIcon from '../components/profileIcon';

@@ -1,27 +1,27 @@
 import React from 'react';
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
-import Home from './Home';
+import { Route, Router, Routes } from 'react-router-dom';
+
 import Perfil from './Perfil';
-import Editar from './components/ConfigButton'
+import Home from './Home';
 import Login from './Login';
-import Cadastro from './Cadastro';
-import Recuperar from './RecuperarSenha';
+import Cadastro from './Cadastro'
+import RecuperarSenha from './RecuperarSenha';
+import RedefinirSenha from './RedefinirSenha';
 
 function App() {
-      return (
-        <>
-          <Routes>
-            <Route path="/perfil" element={<Perfil />} />
-            <Route path="/editar" element={<Editar />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="*" element={<div>ERROR</div>} />
-            <Route path="/" element={<Login />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/cadastro" element={<Cadastro />} />
-            <Route path="/recuperar-senha" element={<Recuperar/>}/>
-          </Routes>
-        </>
-      )
+  return (
+    <>
+      <Routes>
+        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="*" element={<div>ERROR</div>} />
+        <Route path="/" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/recuperar-senha" element={<RecuperarSenha />} />
+        <Route path="/redefinir-senha" element={<RedefinirSenha />} />
+      </Routes>
+    </>
+  );
 }
 export default App;

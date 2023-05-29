@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 import '../components/navbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,20 +7,20 @@ import Logo from '../image/PAP.png';
 import ProfileIcon from '../components/profileIcon';
 import Searchbar from '../components/searchbar';
 
-const navbar = () => {
+const navbar = ({ hideSearchbar }) => {
     return (
         <div>
             <nav className='nav__navbar'>
                 <div className="nav__logo">
-                    <a href="Home">
+                    <Link to="home">
                         <img src={Logo} alt="Logo" className='nav-img__logo' />
-                    </a>
+                    </Link>
                 </div>
                 <div className="search__bar">
-                    <Searchbar />
+                    {!hideSearchbar && <Searchbar />}
                 </div>
                 <div className="profile__icon">
-                    <ProfileIcon />
+                    {!hideSearchbar && <ProfileIcon />}
                 </div>
             </nav>
         </div>

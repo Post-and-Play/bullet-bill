@@ -2,6 +2,23 @@
     margin-bottom: 59px;
 }  */
 
+.login__container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    height: 100vh;
+    width: 100vw;
+}
+
+.login-page__container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* align-items: center; */
+}
+
 .labelContainer {
     width: 100%;
     margin-bottom: 2.5rem;
@@ -37,7 +54,7 @@
     color: #fff;
     border-radius: 0.9375rem;
     width: 28.75rem;
-    height: 41.9375rem;
+    height: 40.625rem;
     float: right;
     margin-right: 6.25rem;
     margin-bottom: 8.75rem;
@@ -45,11 +62,19 @@
     display: flex;
     flex-direction: column;
     box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+}
+
+.labelContainer {
+    display: flex;
+    flex-direction: column;
 }
 
 .inputLogin {
+    border: none;
+    outline: none;
     width: 100%;
-    height: 2.8125rem;
+    height: auto;
     border-radius: 0.625rem;
     padding: 0.625rem 0.8125rem;
 }
@@ -62,14 +87,20 @@
 
 .btnEntrar {
     width: 100%;
-    height: 3.125rem;
+    height: 50px !important;
     border-radius: 0.9375rem;
-    /* background-color: #633F9A; */
+    background-color: #633F9A;
     color: #fff;
     font-weight: 550;
     font-size: 18pt;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
+    outline: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }
 
 .esqueciSenha_Container {
@@ -81,6 +112,11 @@
     float: right;
     color: #fff;
     margin-bottom: 0.5rem;
+    text-decoration: none;
+}
+
+.esqueciSenha:hover {
+    color: #fff;
 }
 
 .iconesContainer {
@@ -102,19 +138,76 @@
 }
 
 .btnCadastro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    border: none;
+    background-color: #B0AFE6;
     width: 100%;
-    height: 3.125rem;
-    color: white;
-    text-decoration: none;
+    height: 50px !important;
+    color: #fff;
+    font-weight: 500;
     font-size: 18pt;
     padding: 0.5rem;
     border-radius: 0.9375rem;
     margin: 0;
+    text-decoration: none;
 }
+
+.btnEntrar:hover {
+    background-color: #532f8a;
+    color: #fff;
+}
+
+.btnCadastro:hover {
+    background-color: #9594cc;
+    color: #fff;
+}
+
+.login__blob {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    float: left;
+    height: 21.25rem;
+    width: auto;
+}
+
+.cadastro__camposPopup {
+    width: 450px;
+    height: 100px;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #633F9A;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out forwards;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+@keyframes slideIn {
+    from {
+        top: -100%;
+    }
+
+    to {
+        top: 80px;
+    }
+}
+
 .btnCadastro:hover {
     text-decoration: none;
-    color: white; /* Altere a cor desejada */
-  }
+    color: white;
+    /* Altere a cor desejada */
+}
 
 
 
@@ -133,6 +226,10 @@
         margin: auto;
         position: absolute;
     }
+
+    .login__blob {
+        display: none;
+    }
 }
 
 @media(min-width: 1130px) and (max-width: 1279px) {
@@ -143,5 +240,19 @@
     .subDestaque {
         width: 18.75rem;
         white-space: break-spaces;
+    }
+
+    .login__blob {
+        display: none;
+    }
+}
+
+@media(max-width: 991px) {
+    .botao {
+        width: 100% !important;
+    }
+
+    .login__blob {
+        display: none;
     }
 }

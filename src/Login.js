@@ -1,43 +1,49 @@
-import Logo from '../src/image/PAP.png';
+import '../src/Login.css'
+
+import Navbar from './components/navbar';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
+
+    
     return (
         <div>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#">
-                            <img src={Logo} className='logo' />
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <h1>Olá!</h1>
-            <h2>Bem-Vindo ao Post and Playing</h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet malesuada velit. Mauris tempus lobortis tincidunt.
-                Mauris et lectus vitae tellus posuere vehicula ac id sem. Aenean ligula arcu, semper in fringilla nec, tempus a nibh. Morbi scelerisque
-                venenatis ligula id ullamcorper. Donec nisi nisi, viverra id vehicula malesuada, ornare eu sem. Phasellus tristique purus in dui sagittis rutrum.
-                In ac dictum odio. Mauris feugiat volutpat nisi, at tempus augue mollis eget. Nam bibendum purus sed justo venenatis tempor. Cras maximus, massa nec
-                blandit varius, nulla purus facilisis enim, vel maximus tellus nibh vel est.
-            </p>
+            <Navbar/>
+            <div className="destaqueContainer">
+                <h1 className='destaque tituloDestaque'>Olá!</h1>
+                <h2 className='destaque subDestaque'>Bem-Vindo ao Post and Playing</h2>
+                <p className='destaque textoDestaque'>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet malesuada velit. Mauris tempus lobortis tincidunt.
+                    Mauris et lectus vitae tellus posuere vehicula ac id sem. Aenean ligula arcu, semper in fringilla nec, tempus a nibh. Morbi scelerisque
+                    venenatis ligula id ullamcorper. Donec nisi nisi, viverra id vehicula malesuada, ornare eu sem. Phasellus tristique purus in dui sagittis rutrum.
+                    In ac dictum odio. Mauris feugiat volutpat nisi, at tempus augue mollis eget. Nam bibendum purus sed justo venenatis tempor. Cras maximus, massa nec
+                    blandit varius, nulla purus facilisis enim, vel maximus tellus nibh vel est.
+                </p>
+            </div>
             <form className='login'>
                 <div className="container">
-                    <label>
-                        <p>Email</p>
-                        <input type="email" name="" id="" />
+                    <label className='labelContainer'>
+                        <p className='textoInput'>Email</p>
+                        <input className='inputLogin' placeholder='Digite o seu email' type="email" name="" id="" />
                     </label>
-                    <label htmlFor="">
-                        <p>Senha</p>
-                        <input type="password" name="" id="" />
+                    <label className='labelContainer'>
+                        <p className='textoInput'>Senha</p>
+                        <input className='inputLogin' placeholder='Digite a sua senha' type="password" name="" id="" />
                     </label>
                     <div className="row">
-                        <label>
+                        <div>
                             <input type="checkbox" name="" id="" />
-                            <p>Mantenha-me conectado</p>
-                        </label>
+                            <p className='manterConectado'>Mantenha-me conectado</p>
+                        </div>
                     </div>
-                    <input type="button" value="Entrar" />
+                    <input className='botao btnEntrar btnPrincipal' type="button" value="Entrar" />
+                    <div className="esqueciSenha_Container">
+                        <a className='esqueciSenha' href="">Esqueci a minha senha</a>
+                    </div>
+                    <div className="row naoPossuiLogin">
+                        <p>Não possui login?</p>
+                    </div>
+                    <Link to="/cadastro" className='botao btnCadastro btnSecundario' type="button" value="Cadastre-se">Cadastro</Link>
                 </div>
             </form>
         </div>

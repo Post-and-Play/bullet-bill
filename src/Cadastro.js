@@ -22,19 +22,19 @@ const Cadastro = () => {
             <form className='cadastro'>
                 <div className="container">
                     <label>
-                        <p>Nome</p>
+                        <p className='labelCadastro'>Nome</p>
                         <input className='inputCadastro' placeholder='Digite o seu primeiro nome' type="text" name="name" />
                     </label>
                     <label>
-                        <p>Sobrenome</p>
+                        <p className='labelCadastro'>Sobrenome</p>
                         <input className='inputCadastro lastInput' placeholder='Digite o seu sobrenome' type="text" name="name" />
                     </label>
                     <label>
-                        <p>Nome de usuário</p>
+                        <p className='labelCadastro'>Nome de usuário</p>
                         <input className='inputCadastro' placeholder='Digite o seu nome de usuário' type="text" name="username" />
                     </label>
                     <label>
-                        <p>Data de nascimento</p>
+                        <p className='labelCadastro'>Data de nascimento</p>
                         <input className='inputCadastro inputData inputDia' placeholder='1' type="number" name='dia'></input>
                         <select className='inputCadastro inputData inputMes' placeholder='Jan' name="mes" id="mes">
                             <option value="Janeiro">Jan</option>
@@ -53,19 +53,19 @@ const Cadastro = () => {
                         <input className='inputCadastro inputData inputAno lastInput' placeholder='2023' type="number" name='ano'></input>
                     </label>
                     <label>
-                        <p>Email</p>
+                        <p className='labelCadastro'>Email</p>
                         <input className='inputCadastro' placeholder='Digite o  seu endereço de email' type="email" name="email" />
                     </label>
                     <label>
-                        <p>Confirme seu email</p>
+                        <p className='labelCadastro'>Confirme seu email</p>
                         <input className='inputCadastro lastInput' placeholder='Confirme o seu endereço de email' type="email" name="emailC" />
                     </label>
                     <label>
-                        <p>Senha</p>
+                        <p className='labelCadastro'>Senha</p>
                         <input className='inputCadastro' placeholder='Digite a sua senha' type="password" name="senha" />
                     </label>
                     <label>
-                        <p>Confirme sua senha</p>
+                        <p className='labelCadastro'>Confirme sua senha</p>
                         <input className='inputCadastro lastInput' placeholder='Confirme a sua senha' type="password" name="senhaC" />
                     </label>
                     <div className="row">

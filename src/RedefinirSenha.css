@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     position: absolute;
-    margin: auto;
+    margin: 50px auto;
     background-color: #795FA1;
     padding: 3.125rem 1.875rem;
     border-radius: 0.9375rem;
@@ -32,6 +32,7 @@
 .btnVoltar,
 .btnRedefinir {
     width: 40%;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;

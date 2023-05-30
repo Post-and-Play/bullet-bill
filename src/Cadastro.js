@@ -99,67 +99,79 @@ const Cadastro = () => {
     return (
         <div>
             <Navbar hideSearchbar={true} />
-            <form className='cadastro'>
-                <div className="container">
-                    <label>
-                        <p className='labelCadastro'>Nome</p>
-                        <input className='inputCadastro' placeholder='Digite o seu primeiro nome' type="text" name="name" value={nomeInput} onChange={(e) => handleInputChange(e, setNomeInput)} />
-                    </label>
-                    <label>
-                        <p className='labelCadastro'>Sobrenome</p>
-                        <input className='inputCadastro lastInput' placeholder='Digite o seu sobrenome' type="text" name="name" value={sobrenomeInput} onChange={(e) => handleInputChange(e, setSobrenomeInput)} />
-                    </label>
-                    <label>
-                        <p className='labelCadastro'>Nome de usuário</p>
-                        <input className='inputCadastro' placeholder='Digite o seu nome de usuário' type="text" name="username" value={nomeUserInput} onChange={(e) => handleInputChange(e, setNomeUserInput)} />
-                    </label>
-                    <label>
-                        <p className='labelCadastro'>Data de nascimento</p>
-                        <input className='inputCadastro inputData inputDia' placeholder='1' type="number" name='dia' value={diaInput} onChange={(e) => handleInputChange(e, setDiaInput)} ></input>
-                        <select className='inputCadastro inputData inputMes' placeholder='Jan' name="mes" id="mes">
-                            <option value="Janeiro">Jan</option>
-                            <option value="Fevereiro">Fev</option>
-                            <option value="Março">Mar</option>
-                            <option value="Abril">Abr</option>
-                            <option value="Maio">Mai</option>
-                            <option value="Junho">Jun</option>
-                            <option value="Julho">Jul</option>
-                            <option value="Agosto">Ago</option>
-                            <option value="Setembro">Set</option>
-                            <option value="Outubro">Out</option>
-                            <option value="Novembro">Nov</option>
-                            <option value="Dezembro">Dez</option>
-                        </select>
-                        <input className='inputCadastro inputData inputAno lastInput' placeholder='2023' type="number" name='ano' value={anoInput} onChange={(e) => handleInputChange(e, setAnoInput)} ></input>
-                    </label>
-                    <label>
-                        <p className='labelCadastro'>Email</p>
-                        <input className='inputCadastro' placeholder='Digite o  seu endereço de email' type="email" name="email" value={emailInput} onChange={(e) => handleInputChange(e, setEmailInput)} />
-                    </label>
-                    <label>
-                        <p className='labelCadastro'>Confirme seu email</p>
-                        <input className='inputCadastro lastInput' placeholder='Confirme o seu endereço de email' type="email" name="emailC" value={confirmEmailInput} onChange={(e) => handleInputChange(e, setConfirmEmailInput)} />
-                    </label>
-                    <label>
-                        <p className='labelCadastro'>Senha</p>
-                        <input className='inputCadastro' placeholder='Digite a sua senha' type="password" name="senha" value={senhaInput} onChange={(e) => handleInputChange(e, setSenhaInput)} />
-                    </label>
-                    <label>
-                        <p className='labelCadastro'>Confirme sua senha</p>
-                        <input className='inputCadastro lastInput' placeholder='Confirme a sua senha' type="password" name="senhaC" value={confirmSenhaInput} onChange={(e) => handleInputChange(e, setConfirmSenhaInput)} />
-                    </label>
-                    <div className="row">
-                        <label>
-                            <input className='termos termosCB' type="checkbox" name="name" checked={isChecked} onChange={handleCheckboxChange} />
-                            <p className='termos termosTexto' onClick={handleClick}>Li e aceito os <em className='termos termosDestaque'>termos de uso</em></p>
-                        </label>
+            <div className="cadastro__page-container">
+                <form className='cadastro'>
+                    <div className="cadastro__container">
+                        <div className="cadastro__row-container">
+                            <label className='cadastro__input-container'>
+                                <p className='labelCadastro'>Nome</p>
+                                <input className='inputCadastro' placeholder='Digite o seu primeiro nome' type="text" name="name" value={nomeInput} onChange={(e) => handleInputChange(e, setNomeInput)} />
+                            </label>
+                            <label className='cadastro__input-container'>
+                                <p className='labelCadastro'>Sobrenome</p>
+                                <input className='inputCadastro lastInput' placeholder='Digite o seu sobrenome' type="text" name="name" value={sobrenomeInput} onChange={(e) => handleInputChange(e, setSobrenomeInput)} />
+                            </label>
+                        </div>
+                        <div className="cadastro__row-container">
+                            <label className='cadastro__input-container'>
+                                <p className='labelCadastro'>Nome de usuário</p>
+                                <input className='inputCadastro' placeholder='Digite o seu nome de usuário' type="text" name="username" value={nomeUserInput} onChange={(e) => handleInputChange(e, setNomeUserInput)} />
+                            </label>
+                            <label className='cadastro__data-container'>
+                                <p className='labelCadastro'>Data de nascimento</p>
+                                <div className="cadastro__select-data-container">
+                                    <input className='inputCadastro inputData inputDia' placeholder='1' type="number" name='dia' value={diaInput} onChange={(e) => handleInputChange(e, setDiaInput)} ></input>
+                                    <select className='inputCadastro inputData inputMes' placeholder='Jan' name="mes" id="mes">
+                                        <option value="Janeiro">Jan</option>
+                                        <option value="Fevereiro">Fev</option>
+                                        <option value="Março">Mar</option>
+                                        <option value="Abril">Abr</option>
+                                        <option value="Maio">Mai</option>
+                                        <option value="Junho">Jun</option>
+                                        <option value="Julho">Jul</option>
+                                        <option value="Agosto">Ago</option>
+                                        <option value="Setembro">Set</option>
+                                        <option value="Outubro">Out</option>
+                                        <option value="Novembro">Nov</option>
+                                        <option value="Dezembro">Dez</option>
+                                    </select>
+                                    <input className='inputCadastro inputData inputAno lastInput' placeholder='2023' type="number" name='ano' value={anoInput} onChange={(e) => handleInputChange(e, setAnoInput)} ></input>
+                                </div>
+                            </label>
+                        </div>
+                        <div className="cadastro__row-container">
+                            <label className='cadastro__input-container'>
+                                <p className='labelCadastro'>Email</p>
+                                <input className='inputCadastro' placeholder='Digite o  seu endereço de email' type="email" name="email" value={emailInput} onChange={(e) => handleInputChange(e, setEmailInput)} />
+                            </label>
+                            <label className='cadastro__input-container'>
+                                <p className='labelCadastro'>Confirme seu email</p>
+                                <input className='inputCadastro lastInput' placeholder='Confirme o seu endereço de email' type="email" name="emailC" value={confirmEmailInput} onChange={(e) => handleInputChange(e, setConfirmEmailInput)} />
+                            </label>
+                        </div>
+                        <div className="cadastro__row-container">
+                            <label className='cadastro__input-container'>
+                                <p className='labelCadastro'>Senha</p>
+                                <input className='inputCadastro' placeholder='Digite a sua senha' type="password" name="senha" value={senhaInput} onChange={(e) => handleInputChange(e, setSenhaInput)} />
+                            </label>
+                            <label className='cadastro__input-container'>
+                                <p className='labelCadastro'>Confirme sua senha</p>
+                                <input className='inputCadastro lastInput' placeholder='Confirme a sua senha' type="password" name="senhaC" value={confirmSenhaInput} onChange={(e) => handleInputChange(e, setConfirmSenhaInput)} />
+                            </label>
+                        </div>
+                        <div className="row">
+                            <label>
+                                <input className='termos termosCB' type="checkbox" name="name" checked={isChecked} onChange={handleCheckboxChange} />
+                                <p className='termos termosTexto' onClick={handleClick}>Li e aceito os <em className='termos termosDestaque'>termos de uso</em></p>
+                            </label>
+                        </div>
+                        <div className="cadastro__botao-container">
+                            <button className='cadastro__botao cadastro__btnVoltar' type="button" onClick={handleBackClick}>Voltar</button>
+                            <button className='cadastro__botao cadastro__btnCadastrar' type="submit" value="Cadastrar" onClick={handleButtonClick} >Cadastrar</button>
+                        </div>
                     </div>
-                    <div className="cadastro__botao-container">
-                        <button className='cadastro__botao cadastro__btnVoltar' type="button" onClick={handleBackClick}>Voltar</button>
-                        <button className='cadastro__botao cadastro__btnCadastrar' type="submit" value="Cadastrar" onClick={handleButtonClick} >Cadastrar</button>
-                    </div>
-                </div>
-            </form>
+                </form >
+            </div>
             {termsBox &&
                 <div className="container termosUso__container">
                     <div className="termosUso">
@@ -209,7 +221,7 @@ const Cadastro = () => {
             {emailIgualPopup && <div className='cadastro__camposPopup'>Os emails devem ser iguais!</div>}
             {senhaIgualPopup && <div className='cadastro__camposPopup'>As senhas devem ser iguais!</div>}
             {termosPopup && <div className='cadastro__camposPopup'>Os termos de uso devem ser aceitos!</div>}
-        </div>
+        </div >
     )
 }
 

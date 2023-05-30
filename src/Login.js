@@ -46,7 +46,7 @@ const Login = () => {
                         </p>
                     </div>
                     <form className='login'>
-                        <div className="container">
+                        <div className="login__container">
                             <label className='labelContainer'>
                                 <p className='textoInput'>Email</p>
                                 <input className='inputLogin' placeholder='Digite o seu email' type="email" value={emailInput} onChange={(e) => handleInputChange(e, setEmailInput)} />

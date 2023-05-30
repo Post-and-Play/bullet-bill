@@ -10,6 +10,9 @@ import DuelLink from './image/duel-link.png'
 import Hearthstone from './image/hearthstone.png'
 import HeartIcon from './icons/heart-solid.svg'
 
+import Adalberto from './image/perfil-adalberto.png';
+import Cleber from './image/perfil-cleber.png';
+
 import Navbar from './components/navbar';
 import PostButton from './components/postButton'
 
@@ -122,7 +125,7 @@ const Jogo = () => {
                 <div className="jogo__post">
                     <div className="jogo__post-info-perfil-container">
                         <a href="#" className='jogo__post-foto-user'>
-                            <img src="" alt="Foto perfil" className='jogo__post-foto-user' />
+                            <img src={Cleber} alt="Foto perfil" className='jogo__post-foto-user' />
                         </a>
                         <div className="jogo__post-info-user">
                             <p className='jogo__post-nomeUser'>Cleber</p>
@@ -141,10 +144,10 @@ const Jogo = () => {
                 <div className="jogo__post">
                     <div className="jogo__post-info-perfil-container">
                         <a href="#" className='jogo__post-foto-user'>
-                            <img src="" alt="Foto perfil" className='jogo__post-foto-user' />
+                            <img src={Adalberto} alt="Foto perfil" className='jogo__post-foto-user' />
                         </a>
                         <div className="jogo__post-info-user">
-                            <p className='jogo__post-nomeUser'>Cleber</p>
+                            <p className='jogo__post-nomeUser'>Adalberto</p>
                             <div className="jogo__post-nota">10</div>
                         </div>
                     </div>

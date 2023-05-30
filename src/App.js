@@ -8,6 +8,8 @@ import Login from './Login';
 import Cadastro from './Cadastro'
 import RecuperarSenha from './RecuperarSenha';
 import RedefinirSenha from './RedefinirSenha';
+import Jogo from './Jogo'
+import Pesquisa from './Pesquisa'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/recuperar-senha" element={<RecuperarSenha />} />
         <Route path="/redefinir-senha" element={<RedefinirSenha />} />
+        <Route path="/jogo" element={<Jogo />} />
+        <Route path="/pesquisa" element={<Pesquisa />} />
       </Routes>
     </>
   );

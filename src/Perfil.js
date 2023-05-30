@@ -12,8 +12,11 @@ import ConfigButton from './components/ConfigButton';
 import PostButton from './components/postButton';
 import Navbar from './components/navbar';
 
-import Banner from './image/banner.png'
-import FotoPerfil from './image/foto.png'
+import Banner from './image/banner-cleber.png'
+import FotoPerfil from './image/perfil-cleber.png'
+
+import Stray from './icons/Render background/icon-Stray.png'
+import Valorant from './icons/Render background/icon - valorant.png'
 
 import { FaUserPlus, FaCheck } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -53,7 +56,7 @@ const Perfil = () => {
                 <div className="perfil-info__container">
                     <section className="perfil-info__nome-container">
                         <div className="perfil-info__follow-container">
-                            <h1>Rodolfo</h1>
+                            <h1>Cleber</h1>
                             {!isPerfilPessoal && (
                                 <button
                                     className={`perfil-info__follow-button ${following ? 'following' : ''}`}
@@ -69,8 +72,8 @@ const Perfil = () => {
                             )}
                         </div>
                         <div className="perfil-info__follow-container">
-                            <p className='perfil-info__folllow'>29 seguidores</p>
-                            <p className='perfil-info__folllow'>11 seguindo</p>
+                            <p className='perfil-info__folllow'>97 seguidores</p>
+                            <p className='perfil-info__folllow'>552 seguindo</p>
                         </div>
 
                     </section>
@@ -79,31 +82,31 @@ const Perfil = () => {
                             <div>
                                 <a href={`https://steamcommunity.com/id/${spanValueSteam}`}>
                                     <img src={Steam} alt="steam" />
-                                    <span>Rodolfinho08</span>
+                                    <span>Cleber_Fire</span>
                                 </a>
                             </div>
                             <div>
                                 <a href={`https://discordapp.com/users/${spanValueDiscord}`}>
                                     <img src={Discord} alt="discord" />
-                                    <span>Dolfi#2917</span>
+                                    <span>CleberBow#1322</span>
                                 </a>
                             </div>
                             <div>
                                 <a href={`https://www.epicgames.com/id/${spanValueEpic}`}>
                                     <img src={EpicGames} alt="epic" />
-                                    <span>RodolfinhoGamers</span>
+                                    <span>CleberFireXx</span>
                                 </a>
                             </div>
                             <div>
                                 <a href={`https://www.twitch.tv/${spanValueTwitch}`}>
                                     <img src={Twitch} alt="twitch" />
-                                    <span>rOdOL25k</span>
+                                    <span>cLebinhoBowXX</span>
                                 </a>
                             </div>
                             <div>
                                 <a href={`https://github.com/${spanValueGithub}`}>
                                     <img src={Github} alt="github" />
-                                    <span>DolfDev</span>
+                                    <span>CleberV</span>
                                 </a>
                             </div>
                         </div>
@@ -118,11 +121,11 @@ const Perfil = () => {
                         <div className="perfil-post-container__foto-content">
                             <div className='perfil-post-card-post__foto-container'>
                                 <a href="">
-                                    <img src="" alt="Foto jogo" className="perfil-post-card__foto" />
+                                    <img src={Stray} alt="Foto jogo" className="perfil-post-card__foto" />
                                 </a>
                             </div>
                             <div className='perfil-post-card__content-container'>
-                                <h3 className='perfil-post-card__game perfil-post__content'>Overwatch</h3>
+                                <h3 className='perfil-post-card__game perfil-post__content'>Stray</h3>
                                 <div className="perfil-post-card__nota perfil-post__content">7</div>
                             </div>
                         </div>
@@ -135,11 +138,11 @@ const Perfil = () => {
                         <div className="perfil-post-container__foto-content">
                             <div className='perfil-post-card-post__foto-container'>
                                 <a href="">
-                                    <img src="" alt="Foto jogo" className="perfil-post-card__foto" />
+                                    <img src={Valorant} alt="Foto jogo" className="perfil-post-card__foto" />
                                 </a>
                             </div>
                             <div className='perfil-post-card__content-container'>
-                                <h3 className='perfil-post-card__game perfil-post__content'>Overwatch</h3>
+                                <h3 className='perfil-post-card__game perfil-post__content'>Valorant</h3>
                                 <div className="perfil-post-card__nota perfil-post__content">7</div>
                             </div>
                         </div>
@@ -159,7 +162,7 @@ const Perfil = () => {
                                 </a>
                             </div>
                             <div className='perfil-post-card__content-container'>
-                                <h3 className='perfil-post-card__game perfil-post__content'>Overwatch</h3>
+                                <h3 className='perfil-post-card__game perfil-post__content'>Dragon Ball Z Kakarot</h3>
                                 <div className="perfil-post-card__nota perfil-post__content">7</div>
                             </div>
                         </div>

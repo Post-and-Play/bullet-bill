@@ -98,8 +98,6 @@ const Cadastro = () => {
 
     return (
         <div>
-            {/* <Switch> */}
-
             <Navbar hideSearchbar={true} />
             <form className='cadastro'>
                 <div className="container">

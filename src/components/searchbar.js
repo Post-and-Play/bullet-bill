@@ -34,15 +34,15 @@ const SearchBar = () => {
             {
                 image: HitmanFoto,
                 text: `${searchTerm}`,
-            },
-            {
-                image: "caminho_para_imagem2.jpg",
-                text: `Resultado 2 para "${searchTerm}"`,
-            },
-            {
-                image: "caminho_para_imagem3.jpg",
-                text: `Resultado 3 para "${searchTerm}"`,
-            },
+            }
+            // {
+            //     image: "caminho_para_imagem2.jpg",
+            //     text: `Resultado 2 para "${searchTerm}"`,
+            // },
+            // {
+            //     image: "caminho_para_imagem3.jpg",
+            //     text: `Resultado 3 para "${searchTerm}"`,
+            // },
         ];
     };
 

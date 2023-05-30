@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../components/profileIcon.css';
 
+import FotoPerfil from '../image/foto.png'
+
 const ProfileMenu = () => {
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -12,9 +14,9 @@ const ProfileMenu = () => {
   return (
     <div className="navbar-profileicon">
       <img
-        src="caminho/para/foto-de-perfil.jpg"
+        src={FotoPerfil}
         alt="Foto de Perfil"
-        className="profilepicture"
+        className="profile__picture"
         onClick={toggleMenu}
       />
 
@@ -23,7 +25,9 @@ const ProfileMenu = () => {
           <li>
             <Link to="/perfil" className="menu__link">Ver Perfil</Link>
           </li>
-          <Link to="/login" className="menu__link">Sair</Link>
+          <li>
+            <Link to="/login" className="menu__link">Sair</Link>
+          </li>
         </ul>
       )}
     </div>

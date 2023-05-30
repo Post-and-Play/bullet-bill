@@ -110,8 +110,6 @@
     display: flex;
     width: 100%;
     max-width: 660px;
-    background-color: #d3d3d3;
-    border-radius: 10px;
     overflow-x: auto;
     margin-bottom: 20px;
     padding: 5px;
@@ -123,11 +121,23 @@
     flex-grow: 0;
     padding: 10px;
     border: 1px solid #795FA1;
+    background-color: #d3d3d3;
     display: flex;
     text-align: center;
     align-items: center;
     justify-content: center;
 }
+
+.postBox__nota:nth-child(1) {
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.postBox__nota:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
 
 .postBox__nota:nth-child(1):hover {
     background-color: #A70000;
@@ -273,12 +283,12 @@
         flex-direction: column;
         align-items: center;
     }
-    
+
     .btn__post {
         position: static;
         margin-bottom: 20px;
     }
-    
+
     .postBox {
         position: absolute;
         top: 50%;
@@ -287,12 +297,12 @@
         padding: 15px;
         flex-basis: 100%;
     }
-    
+
     .postBox__selectJogo,
     .postBox__opiniao-textarea {
         width: 100%;
     }
-    
+
     .postBox__button {
         width: 100%;
     }
@@ -303,17 +313,17 @@
     .postBox__container {
         padding: 20px;
     }
-    
+
     .postBox {
         padding: 15px;
         flex-basis: 100%;
     }
-    
+
     .postBox__selectJogo,
     .postBox__opiniao-textarea {
         width: 100%;
     }
-    
+
     .postBox__button {
         width: 100%;
     }

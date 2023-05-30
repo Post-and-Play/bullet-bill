@@ -16,8 +16,15 @@
     box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
 }
 
+.container {
+    height: 100%;
+    text-align: start !important;
+}
+
 .inputCadastro {
-    height: 2.3125rem;
+    border: none;
+    outline: none;
+    height: 45px;
     width: 23.4375rem;
     border-radius: 0.625rem;
     border-color: transparent;

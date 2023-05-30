@@ -5,6 +5,12 @@ html {
     margin: 0;
 }
 
+.container {
+    /* display: none; */
+    height: 0 !important;
+    width: 0 !important;
+}
+
 .perfil-banner__container {
     position: relative;
     box-sizing: border-box;
@@ -52,31 +58,33 @@ html {
     flex: 1;
     height: auto;
 }
-.perfil-info__plataformas{
-    display:flex;
+
+.perfil-info__plataformas {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 50px;
 }
 
-.perfil-info__info-container .perfil-info__info > div a {
+.perfil-info__info-container .perfil-info__info>div a {
     text-decoration: none;
     color: black;
-  }
-  .perfil-info__info-container .perfil-info__info > div img {
+}
+
+.perfil-info__info-container .perfil-info__info>div img {
     filter: grayscale(100%);
-  }
-  
-  .perfil-info__info-container .perfil-info__info > div a:hover {
+}
+
+.perfil-info__info-container .perfil-info__info>div a:hover {
     text-decoration: none;
-  }
+}
 
 .perfil-info__plataformas img {
     width: 1.563rem;
     height: 1.563rem;
     margin-right: 10px;
-  }
+}
 
 .perfil-info__container {
     float: left;
@@ -122,7 +130,7 @@ html {
 
 .perfil-info__follow-button .perfil-info__follow-icon {
     margin-right: 0px;
-    margin:auto;
+    margin: auto;
 }
 
 .perfil-info__follow-button:hover {
@@ -238,18 +246,18 @@ html {
     padding-left: 10px;
     outline: none;
     margin: left;
-  }
-  
-  .perfil-post-card__heart-icon {
+}
+
+.perfil-post-card__heart-icon {
     font-size: 30px;
     color: #633f9a2c;
     border-radius: #000000;
     transition: color 0.3s;
-  }
-  
-  .perfil-post-card__heart-icon.filled {
+}
+
+.perfil-post-card__heart-icon.filled {
     color: #633F9A
-  }
+}
 
 
 /* Media Queries */

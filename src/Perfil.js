@@ -17,6 +17,7 @@ import FotoPerfil from './image/perfil-cleber.png'
 
 import Stray from './icons/Render background/icon-Stray.png'
 import Valorant from './icons/Render background/icon - valorant.png'
+import NeonWhite from './icons/Render background/icon - Neon White.png'
 
 import { FaUserPlus, FaCheck } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -158,11 +159,11 @@ const Perfil = () => {
                         <div className="perfil-post-container__foto-content">
                             <div className='perfil-post-card-post__foto-container'>
                                 <a href="">
-                                    <img src={FotoPerfil} alt="Foto jogo" className="perfil-post-card__foto" />
+                                    <img src={NeonWhite} alt="Foto jogo" className="perfil-post-card__foto" />
                                 </a>
                             </div>
                             <div className='perfil-post-card__content-container'>
-                                <h3 className='perfil-post-card__game perfil-post__content'>Dragon Ball Z Kakarot</h3>
+                                <h3 className='perfil-post-card__game perfil-post__content'>Neon White</h3>
                                 <div className="perfil-post-card__nota perfil-post__content">7</div>
                             </div>
                         </div>

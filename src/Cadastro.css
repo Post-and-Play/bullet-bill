@@ -1,19 +1,79 @@
 /* Classes */
+.cadastro__page-container {
+    /* width: 100vw; */
+    /* height: 100vh; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .labelCadastro {
     margin-bottom: 0rem;
+    /* width: 50%; */
 }
 
 .cadastro {
+    margin-top: 50px;
     background-color: #795FA1;
     height: auto;
-    width: 53.375rem;
-    margin: 60px auto;
+    width: 50%;
+    /* position: absolute; */
+    left: 0;
+    right: 0;
+    /* margin: 60px auto; */
     padding: 2.3125rem 0.9375rem;
     border-radius: 0.9375rem;
     color: #fff;
     display: flex;
-    flex-direction: row;
+    flex-direction: row !important;
     box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+}
+
+.cadastro__container {
+    height: 100%;
+    width: 100%;
+    text-align: start;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    box-sizing: border-box;
+    /* justify-content: space-between; */
+}
+
+.cadastro__row-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cadastro__input-container {
+    display: flex;
+    flex-grow: 0;
+    flex-basis: 1;
+    flex-direction: column;
+    width: 45%;
+}
+
+.cadastro__data-container {
+    display: flex;
+    flex-direction: column;
+    /* width: 100%; */
+}
+
+.cadastro__data-container {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+}
+
+.cadastro__select-data-container {
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+    /* justify-content: space-between; */
 }
 
 .container {
@@ -25,11 +85,11 @@
     border: none;
     outline: none;
     height: 45px;
-    width: 23.4375rem;
+    width: 100%;
     border-radius: 0.625rem;
     border-color: transparent;
     margin-bottom: 1.875rem;
-    margin-right: 3.125rem;
+    /* margin-right: 3.125rem; */
     padding: 0.4375rem;
     white-space: nowrap;
 }
@@ -39,7 +99,7 @@
 }
 
 .inputData {
-    width: 7.0625rem;
+    /* width: 7.0625rem; */
     margin-right: 1.125rem;
 }
 
@@ -63,8 +123,10 @@
 
 .cadastro__botao-container {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 }
 
 .cadastro__botao {
@@ -192,79 +254,38 @@
 }
 
 /* Media Queries */
-/* Celular */
-@media(max-width: 767px) {
+
+/* Tablet */
+@media(max-width: 1024px) {
     .cadastro {
-        display: flex;
-        flex-direction: column;
-        width: 23.75rem;
-        height: 72.75rem;
+        width: 45vw;
         margin-bottom: 3.125rem;
+        justify-content: center;
     }
 
-    .inputCadastro {
-        height: 2.75rem;
-        width: 20.3125rem;
-    }
-
-    select.inputCadastro {
-        height: 2.75rem;
-        width: 20.3125rem;
-    }
-
-    .inputData {
-        margin-bottom: 1.25rem;
-    }
-
-    .cadastro__botao-container {
+    .cadastro__row-container {
         flex-direction: column;
+        /* align-items: center; */
     }
 
-    .cadastro__botao {
+    .cadastro__input-container {
         width: 100%;
     }
 
-    .cadastro__btnVoltar {
-        margin-bottom: 1.875rem;
-        font-weight: 500;
-    }
-
-    .blob {
-        display: none;
-    }
-
-    .termosUso {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-        width: 25rem;
-        height: 70%;
-        padding: 1.25rem;
-        /* margin-top: 4.6875rem; */
-    }
-
-    .termosUso_texto {
-        padding: 1.0625rem;
-        /* height: 94%; */
-    }
-}
-
-/* Tablet */
-@media(min-width: 768px) and (max-width: 991px) {
-    .cadastro {
-        width: 46.875rem;
-        margin-bottom: 3.125rem;
-    }
-
     .inputCadastro {
-        width: 20rem;
+        width: 100%;
+    }
+
+    .cadastro__data-container {
+        width: 100%;
+    }
+
+    .cadastro__select-data-container {
+        justify-content: space-between;
     }
 
     .inputData {
-        width: 6.1688rem;
+        width: 30%;
         margin-right: 0.75rem;
     }
 
@@ -278,7 +299,13 @@
         width: 18.3rem;
     }
 
+    .cadastro__botao {
+        width: 100%;
+        margin-bottom: 50px;
+    }
+
     .termosUso {
+        position: fixed;
         width: 40.625rem;
         height: 39.375rem;
         padding: 1.25rem;

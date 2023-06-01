@@ -24,6 +24,7 @@ function App() {
         <Route path="/redefinir-senha" element={<RedefinirSenha />} />
         <Route path="/jogo" element={<Jogo />} />
         <Route path="/pesquisa" element={<Pesquisa />} />
+        <Route path="/api" element={<Route />} />
       </Routes>
     </>
   );

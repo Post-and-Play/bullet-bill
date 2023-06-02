@@ -28,6 +28,10 @@ const SearchBar = () => {
         }
     };
 
+    const handleSearchClick = (e) => {
+        navigate('/pesquisa');
+    };
+
     const searchInDatabase = (searchTerm) => {
         // Simulação: Retorna resultados fictícios com base no searchTerm
         return [
@@ -57,7 +61,7 @@ const SearchBar = () => {
                         placeholder="Digite o nome do jogo"
                         className="search-bar__input"
                     />
-                    <button type="submit" className="search-bar__submit-button">
+                    <button onClick={handleSearchClick} type="submit" className="search-bar__submit-button">
                         <Icon icon={searchIcon} className="iconify" />
                     </button>
                 </div>

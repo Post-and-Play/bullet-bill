@@ -12,7 +12,7 @@ const navbar = ({ hideSearchbar }) => {
         <div>
             <nav className='nav__navbar'>
                 <div className="nav__logo">
-                    <Link to="home">
+                    <Link to="/home">
                         <img src={Logo} alt="Logo" className='nav-img__logo' />
                     </Link>
                 </div>

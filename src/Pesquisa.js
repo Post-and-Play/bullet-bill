@@ -16,6 +16,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 
+
 const Pesquisa = () => {
     const navigate = useNavigate();
 
@@ -54,90 +55,6 @@ const Pesquisa = () => {
                         </a>
                     </div>
                 ))}
-                {/* <div className="pesquisa__jogo">
-                    <a href="" className='pesquisa__jogo-link'>
-                        <img src={Valorant} alt="Foto jogo" className='pesquisa__jogo-foto' />
-                        <div className="`pesquisa__jogo-info-container`">
-                            <p className='pesquisa__jogo-titulo'>Valorant #138</p>
-                            <div className="pesquisa__categoria-container">
-                                <div className="pesquisa__categoria">Tiro</div>
-                                <div className="pesquisa__categoria">Tático</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="pesquisa__jogo">
-                    <a href="" className='pesquisa__jogo-link'>
-                        <img src={ForzaHorizon} alt="Foto jogo" className='pesquisa__jogo-foto' />
-                        <div className="`pesquisa__jogo-info-container`">
-                            <p className='pesquisa__jogo-titulo'>Forza Horizon #84</p>
-                            <div className="pesquisa__categoria-container">
-                                <div className="pesquisa__categoria">Corrida</div>
-                                <div className="pesquisa__categoria">Simulação</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="pesquisa__jogo">
-                    <a href="" className='pesquisa__jogo-link'>
-                        <img src={GOW} alt="Foto jogo" className='pesquisa__jogo-foto' />
-                        <div className="`pesquisa__jogo-info-container`">
-                            <p className='pesquisa__jogo-titulo'>God of War #124</p>
-                            <div className="pesquisa__categoria-container">
-                                <div className="pesquisa__categoria">Ação-aventura</div>
-                                <div className="pesquisa__categoria">Jogador Solo</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="pesquisa__jogo">
-                    <a href="" className='pesquisa__jogo-link'>
-                        <img src={TLOS} alt="Foto jogo" className='pesquisa__jogo-foto' />
-                        <div className="`pesquisa__jogo-info-container`">
-                            <p className='pesquisa__jogo-titulo'>The Last of Us #22</p>
-                            <div className="pesquisa__categoria-container">
-                                <div className="pesquisa__categoria">Aventura</div>
-                                <div className="pesquisa__categoria">Tiro</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="pesquisa__jogo">
-                    <a href="" className='pesquisa__jogo-link'>
-                        <img src={RedDead} alt="Foto jogo" className='pesquisa__jogo-foto' />
-                        <div className="`pesquisa__jogo-info-container`">
-                            <p className='pesquisa__jogo-titulo'>Red Dead Redemption 2 #10</p>
-                            <div className="pesquisa__categoria-container">
-                                <div className="pesquisa__categoria">Aventura</div>
-                                <div className="pesquisa__categoria">Tiro</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="pesquisa__jogo">
-                    <a href="" className='pesquisa__jogo-link'>
-                        <img src={TheDivision} alt="Foto jogo" className='pesquisa__jogo-foto' />
-                        <div className="`pesquisa__jogo-info-container`">
-                            <p className='pesquisa__jogo-titulo'>Tom Clancy's - The Division 2 #33</p>
-                            <div className="pesquisa__categoria-container">
-                                <div className="pesquisa__categoria">Aventura</div>
-                                <div className="pesquisa__categoria">Tática</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="pesquisa__jogo">
-                    <a href="" className='pesquisa__jogo-link'>
-                        <img src={GhostWire} alt="Foto jogo" className='pesquisa__jogo-foto' />
-                        <div className="`pesquisa__jogo-info-container`">
-                            <p className='pesquisa__jogo-titulo'>Ghostwire Tokyo #97</p>
-                            <div className="pesquisa__categoria-container">
-                                <div className="pesquisa__categoria">Ação-aventura</div>
-                                <div className="pesquisa__categoria">Jogador Solo</div>
-                            </div>
-                        </div>
-                    </a>
-                </div> */}
             </div>
             <PostButton />
         </div>

@@ -15,9 +15,11 @@ import Adalberto from './image/perfil-adalberto.png';
 import Cleber from './image/perfil-cleber.png';
 import Gabriel from './image/perfil-gabriel.png';
 
+
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 import Slider from 'react-slick';
 
 import { Icon } from '@iconify/react';
@@ -125,26 +127,6 @@ const Home = () => {
             </div>
             <div className="custom-container">
                 <div className="container__card-post">
-                    {/* <div className="card-post">
-                        <div className="container__foto-content">
-                            <div className="card-post__foto-container">
-                                <a href="#">
-                                    <img src={Cleitin} alt="Foto perfil" className='card-post__foto' />
-                                </a>
-                            </div>
-                            <div className="card-post__content-container">
-                                <span className='card-post__user card-post__content'>Cleitin</span>
-                                <span className='card-post__game card-post__content'>Elden Ring</span>
-                                <div className="card-post__nota card-post__content">10</div>
-                            </div>
-                        </div>
-                        <div className="card-post__descricrao">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
-                        </div>
-                        <button className="post-card__like-button" onClick={handleLike}>
-                            <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
-                        </button>
-                    </div> */}
                     <div className="card-post">
                         {dados.map((item) => (
                             <div key={item.id}>
@@ -172,7 +154,7 @@ const Home = () => {
                     <PostButton />
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 

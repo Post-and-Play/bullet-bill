@@ -160,7 +160,6 @@ const Perfil = () => {
                             </div>
                             <div className="perfil-post-card__descricrao">
                                 <p>{item.descricao}</p>
-                            </div>
                         </article>
                     ))}
 

@@ -2,17 +2,19 @@ import React from 'react';
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: "localhost:5000/api" 
+  baseURL: "http://localhost:5000/api" 
 });
 
 function Post() {
-  const [post, setPost] = React.useState(null);
+  const [user, setUser] = React.useState(null);
 
   React.useEffect(() => {
-    client.post("/users/2").then((response) => {
-      setPost(response.data);
+    client.post("/users").then((response) => {
+      setUser(response.data);
     });
   }, []);
+
+  console.log(user)
 }
 
-export default Get;
+export default Post;

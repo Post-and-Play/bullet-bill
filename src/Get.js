@@ -15,7 +15,6 @@ function Get() {
   }, []);
 
   console.log(user)
-
 }
 
 export default Get;

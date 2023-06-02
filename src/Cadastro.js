@@ -9,6 +9,8 @@ import Navbar from './components/navbar';
 // i
 import CloseIcon from '../src/icons/close.svg';
 
+import Get from './Get'
+
 const Cadastro = () => {
     const [nomeInput, setNomeInput] = useState('');
     const [sobrenomeInput, setSobrenomeInput] = useState('');
@@ -78,6 +80,9 @@ const Cadastro = () => {
                 setIdadePopup(false);
             }, 3000);
         } else {
+            /*params = [nomeInput, sobrenomeInput, nomeUserInput, diaInput, anoInput, emailInput, confirmEmailInput, senhaInput, confirmSenhaInput]
+            Post(params, route); */
+            Get();
             navigate('/');
         }
     };

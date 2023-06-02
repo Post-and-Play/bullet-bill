@@ -1,6 +1,8 @@
 import './Perfil.css'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Steam from './icons/steam.png'
 import Discord from './icons/discord.png'
 import EpicGames from './icons/epic-games.png'
@@ -8,6 +10,7 @@ import Twitch from './icons/twitch.png'
 import Github from './icons/github.png'
 
 import ConfigButton from './components/ConfigButton';
+import Get from './Get'
 
 import PostButton from './components/postButton';
 import Navbar from './components/navbar';
@@ -32,6 +35,8 @@ const Perfil = () => {
     const spanValueEpic = 'RodolfinhoGamers';
     const spanValueTwitch = 'rOdOL25k';
     const spanValueGithub = 'DolfDev';
+
+
     const handleFollow = () => {
         setFollowing(!following);
     };
@@ -40,6 +45,28 @@ const Perfil = () => {
     const handleLike = () => {
         setLiked(!liked);
     };
+
+    const navigate = useNavigate();
+
+    const handleGameProfileClick = (e) => {
+        navigate('/jogo');
+    };
+
+    const [dados, setDados] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/dados'); // Endpoint para obter dados do banco de dados
+                setDados(response.data);
+            } catch (error) {
+                console.error('Erro ao obter os dados do banco de dados:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
 
     return (
         <div className='perfil__page-container'>
@@ -118,24 +145,26 @@ const Perfil = () => {
                     </section>
                 </div>
                 <div className="perfil-post__container">
-                    <article className="perfil-post__post">
-                        <div className="perfil-post-container__foto-content">
-                            <div className='perfil-post-card-post__foto-container'>
-                                <a href="">
-                                    <img src={Stray} alt="Foto jogo" className="perfil-post-card__foto" />
-                                </a>
+                    {dados.map((item) => (
+                        <article className="perfil-post__post">
+                            <div className="perfil-post-container__foto-content">
+                                <div className='perfil-post-card-post__foto-container'>
+                                    <a href="" onClick={handleGameProfileClick}>
+                                        <img src={item.foto} alt="Foto jogo" className="perfil-post-card__foto" />
+                                    </a>
+                                </div>
+                                <div className='perfil-post-card__content-container'>
+                                    <h3 className='perfil-post-card__game perfil-post__content'>{item.game}</h3>
+                                    <div className="perfil-post-card__nota perfil-post__content">{item.nota}</div>
+                                </div>
                             </div>
-                            <div className='perfil-post-card__content-container'>
-                                <h3 className='perfil-post-card__game perfil-post__content'>Stray</h3>
-                                <div className="perfil-post-card__nota perfil-post__content">7</div>
+                            <div className="perfil-post-card__descricrao">
+                                <p>{item.descricao}</p>
                             </div>
-                        </div>
-                        <div className="perfil-post-card__descricrao">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita ducimus error facere maxime, distinctio optio excepturi atque accusantium aliquid fuga nostrum iste dolore porro illum quibusdam? Aut odit sapiente eaque. Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio hic, voluptatem quas commodi voluptate reiciendis ipsum consectetur. Accusantium ab error aliquam voluptatem. Error repellat a rerum iure voluptatum quae voluptates! Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit asperiores vel dolorem dolore aperiam fuga aut, quisquam ducimus eius quo nesciunt maiores dolor eveniet amet. Modi quaerat tempora fugit consequuntur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad quae debitis id deserunt dolores quia nihil quaerat. Eaque itaque labore voluptate repellat unde. Tempora cupiditate architecto ducimus fuga nemo sed! Lorem ipsum dolor sit amet consectetur adipisicing elit. In eveniet rem neque eos, vero voluptatibus placeat repellendus aliquid voluptas corrupti recusandae aliquam ex optio minima dolores voluptatem voluptatum velit dicta?</p>
-                        </div>
-                    </article>
+                        </article>
+                    ))}
 
-                    <article className="perfil-post__post">
+                    {/* <article className="perfil-post__post">
                         <div className="perfil-post-container__foto-content">
                             <div className='perfil-post-card-post__foto-container'>
                                 <a href="">
@@ -170,7 +199,7 @@ const Perfil = () => {
                         <div className="perfil-post-card__descricrao">
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita ducimus error facere maxime, distinctio optio excepturi atque accusantium aliquid fuga nostrum iste dolore porro illum quibusdam? Aut odit sapiente eaque. Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio hic, voluptatem quas commodi voluptate reiciendis ipsum consectetur. Accusantium ab error aliquam voluptatem. Error repellat a rerum iure voluptatum quae voluptates! Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit asperiores vel dolorem dolore aperiam fuga aut, quisquam ducimus eius quo nesciunt maiores dolor eveniet amet. Modi quaerat tempora fugit consequuntur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad quae debitis id deserunt dolores quia nihil quaerat. Eaque itaque labore voluptate repellat unde. Tempora cupiditate architecto ducimus fuga nemo sed! Lorem ipsum dolor sit amet consectetur adipisicing elit. In eveniet rem neque eos, vero voluptatibus placeat repellendus aliquid voluptas corrupti recusandae aliquam ex optio minima dolores voluptatem voluptatum velit dicta?</p>
                         </div>
-                    </article>
+                    </article> */}
                 </div>
             </div>
 

@@ -6,6 +6,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
+import Get from './Get';
+
 const Login = () => {
     const [emailInput, setEmailInput] = useState('');
     const [senhaInput, setSenhaInput] = useState('');
@@ -13,9 +15,13 @@ const Login = () => {
 
     const navigate = useNavigate();
 
+    const params = [emailInput, senhaInput]
+    const route = "/api/users"
+
     const handleInputChange = (event, setInput) => {
         setInput(event.target.value);
     };
+
     const handleButtonClick = (e) => {
         if (emailInput.trim() === '' || senhaInput.trim() === '') {
             e.preventDefault();
@@ -23,7 +29,7 @@ const Login = () => {
             setTimeout(() => {
                 setCamposObrigatoriosPopup(false);
             }, 3000);
-        } else {
+        } else if (Get(params, route)) {
             navigate('/home');
         }
     };

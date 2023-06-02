@@ -12,26 +12,49 @@ import RedDead from './icons/Render background/icon-Red dead.png'
 import TheDivision from './icons/Render background/icon-The division 2.png'
 import GhostWire from './icons/Render background/icon - Ghostwire Tokyo.png'
 
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 const Pesquisa = () => {
+    const navigate = useNavigate();
+
+    const handleGameProfileClick = (e) => {
+        navigate('/jogo');
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/dados'); // Endpoint para obter dados do banco de dados
+                setDados(response.data);
+            } catch (error) {
+                console.error('Erro ao obter os dados do banco de dados:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <div>
             <Navbar />
             <div className="pesquisa__jogos-container">
-                <div className="pesquisa__jogo">
-                    <a href="" className='pesquisa__jogo-link'>
-                        <img src={LolFoto} alt="Foto jogo" className='pesquisa__jogo-foto' />
-                        <div className="`pesquisa__jogo-info-container`">
-                            <p className='pesquisa__jogo-titulo'>League of Legends #50</p>
-                            <div className="pesquisa__categoria-container">
-                                <div className="pesquisa__categoria">MOBA</div>
-                                <div className="pesquisa__categoria">Multijogador</div>
+                {dados.map((item) => (
+                    <div className="pesquisa__jogo">
+                        <a href="" onClick={handleGameProfileClick} className='pesquisa__jogo-link'>
+                            <img src={item.foto} alt="Foto jogo" className='pesquisa__jogo-foto' />
+                            <div className="`pesquisa__jogo-info-container`">
+                                <p className='pesquisa__jogo-titulo'>{item.game} {item.ranking}</p>
+                                <div className="pesquisa__categoria-container">
+                                    <div className="pesquisa__categoria">{item.categoria}</div>
+                                    {/* <div className="pesquisa__categoria">Multijogador</div> */}
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="pesquisa__jogo">
+                        </a>
+                    </div>
+                ))}
+                {/* <div className="pesquisa__jogo">
                     <a href="" className='pesquisa__jogo-link'>
                         <img src={Valorant} alt="Foto jogo" className='pesquisa__jogo-foto' />
                         <div className="`pesquisa__jogo-info-container`">
@@ -114,7 +137,7 @@ const Pesquisa = () => {
                             </div>
                         </div>
                     </a>
-                </div>
+                </div> */}
             </div>
             <PostButton />
         </div>

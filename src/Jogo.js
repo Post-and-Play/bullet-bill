@@ -15,13 +15,15 @@ import Cleber from './image/perfil-cleber.png';
 
 import Navbar from './components/navbar';
 import PostButton from './components/postButton'
+import Get from './Get'
 
 import { Icon } from '@iconify/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 
 const Jogo = () => {
@@ -59,11 +61,30 @@ const Jogo = () => {
         }
     };
 
+    const navigate = useNavigate();
+
+    const handleUserProfileClick = (e) => {
+        navigate('/perfil');
+    };
+
     const [liked, setLiked] = useState(false);
 
     const handleLike = () => {
         setLiked(!liked);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/dados'); // Endpoint para obter dados do banco de dados
+                setDados(response.data);
+            } catch (error) {
+                console.error('Erro ao obter os dados do banco de dados:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <div>
@@ -122,26 +143,28 @@ const Jogo = () => {
                 </div>
             </div>
             <div className="jogo__posts-container">
-                <div className="jogo__post">
-                    <div className="jogo__post-info-perfil-container">
-                        <a href="#" className='jogo__post-foto-user'>
-                            <img src={Cleber} alt="Foto perfil" className='jogo__post-foto-user' />
-                        </a>
-                        <div className="jogo__post-info-user">
-                            <p className='jogo__post-nomeUser'>Cleber</p>
-                            <div className="jogo__post-nota">10</div>
+                {dados.map((item) => (
+                    <div className="jogo__post">
+                        <div className="jogo__post-info-perfil-container">
+                            <a href="" onClick={handleUserProfileClick} className='jogo__post-foto-user'>
+                                <img src={item.foto} alt="Foto perfil" className='jogo__post-foto-user' />
+                            </a>
+                            <div className="jogo__post-info-user">
+                                <p className='jogo__post-nomeUser'>{item.user}</p>
+                                <div className="jogo__post-nota">{item.nota}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="jogo__post-descricao-container">
-                        <div className="jogo__post-descricao">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis enim natus iste aliquid vel tenetur animi! Repellendus reprehenderit natus sapiente suscipit. Ex deserunt corrupti quasi perferendis officia ad. Qui, voluptatum? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perferendis perspiciatis, architecto quia molestias numquam mollitia. Alias possimus laboriosam accusantium? Laudantium, culpa mollitia consequatur quo qui vitae numquam magnam quisquam dignissimos! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint quidem quam dolor modi iste ea, eius et magnam in. Modi ipsum dignissimos ab atque nemo nam, quasi fugit. Impedit, minus.</p>
+                        <div className="jogo__post-descricao-container">
+                            <div className="jogo__post-descricao">
+                                <p>{item.descricao}</p>
+                            </div>
                         </div>
+                        <button className="post-cardlike-button" onClick={handleLike}>
+                            <FontAwesomeIcon icon={faHeart} className={`post-cardheart-icon ${liked ? 'filled' : ''}`} />
+                        </button>
                     </div>
-                    <button className="post-cardlike-button" onClick={handleLike}>
-                        <FontAwesomeIcon icon={faHeart} className={`post-cardheart-icon ${liked ? 'filled' : ''}`} />
-                    </button>
-                </div>
-                <div className="jogo__post">
+                ))}
+                {/* <div className="jogo__post">
                     <div className="jogo__post-info-perfil-container">
                         <a href="#" className='jogo__post-foto-user'>
                             <img src={Adalberto} alt="Foto perfil" className='jogo__post-foto-user' />
@@ -216,7 +239,7 @@ const Jogo = () => {
                     <button className="post-cardlike-button" onClick={handleLike}>
                         <FontAwesomeIcon icon={faHeart} className={`post-cardheart-icon ${liked ? 'filled' : ''}`} />
                     </button>
-                </div>
+                </div> */}
             </div>
             <PostButton />
         </div>

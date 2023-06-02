@@ -9,6 +9,8 @@ import Navbar from './components/navbar';
 // i
 import CloseIcon from '../src/icons/close.svg';
 
+import Post from './Post'
+
 const Cadastro = () => {
     const [nomeInput, setNomeInput] = useState('');
     const [sobrenomeInput, setSobrenomeInput] = useState('');
@@ -78,6 +80,10 @@ const Cadastro = () => {
                 setIdadePopup(false);
             }, 3000);
         } else {
+            const nome = nomeInput + sobrenomeInput
+            const params = [nome, nomeUserInput, diaInput, anoInput, emailInput, confirmEmailInput, senhaInput, confirmSenhaInput]
+            const route = "/api/users"
+            Post(params, route);
             navigate('/');
         }
     };

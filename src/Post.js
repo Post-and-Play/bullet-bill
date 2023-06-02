@@ -5,16 +5,16 @@ const client = axios.create({
   baseURL: "http://localhost:5000/api" 
 });
 
-function Post() {
-  const [user, setUser] = React.useState(null);
+function Post(route, params) {
+  const [item, setItem] = React.useState(null);
 
   React.useEffect(() => {
-    client.post("/users").then((response) => {
-      setUser(response.data);
+    client.post(route, params).then((response) => {
+      setItem(response.data);
     });
   }, []);
 
-  console.log(user)
+  console.log(item)
 }
 
 export default Post;

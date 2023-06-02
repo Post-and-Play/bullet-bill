@@ -5,16 +5,16 @@ const client = axios.create({
   baseURL: "http://localhost:5000/api" 
 });
 
-function Get() {
-  const [user, setUser] = React.useState(null);
+function Get(route, params) {
+  const [item, setItem] = React.useState(null);
 
   React.useEffect(() => {
-    client.get("/users?id=2").then((response) => {
-      setUser(response.data);
+    client.get(route, params).then((response) => {
+      setItem(response.data);
     });
   }, []);
 
-  console.log(user)
+  console.log(item)
 }
 
 export default Get;

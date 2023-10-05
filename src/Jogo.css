@@ -1,0 +1,361 @@
+.jogo__banner-container {
+    width: 100%;
+    height: 57vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.jogo__banner {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    /* position: relative; */
+}
+
+.jogo__info-container {
+    position: absolute;
+    /* top: 20%; */
+    width: 80%;
+    height: 100%;
+    max-width: 80%;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.jogo__info-img-container {
+    display: flex;
+    align-items: center;
+    width: auto;
+}
+
+.jogo__info-img {
+    max-width: 100%;
+    height: 250px;
+    margin-right: 10px;
+}
+
+.jogo__info-img img {
+    border-radius: 10px;
+    width: 200px;
+    max-width: 475px;
+    height: 100%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.jogo__titulo {
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.jogo__info-jogo-container {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+.jogo__info-titulo {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+
+.jogo__nota-jogo {
+    display: flex;
+    padding: 7px;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    background-color: #E5B91E;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+.jogo__categoria-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.jogo__categoria {
+    background-color: #D8D5DB;
+    border-radius: 15px;
+    padding: 3px 10px;
+    color: rgba(10, 9, 9, 0.705);
+    margin-right: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.jogo__rank-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.jogo__rank-icon {
+    color: #633F9A;
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+}
+
+.jogo__sinopse-container {
+    display: flex;
+    /* flex-direction: row; */
+    width: 40%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.jogo__sinopse-quoteIcon {
+    width: 40px;
+    height: 40px;
+    color: rgba(34, 31, 31, 1);
+}
+
+.jogo__sinopse-texto {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.quoteIcon-right {
+    margin-left: 90%;
+}
+
+.jogo__semelhantes-slider {
+    width: calc(100% - 80%);
+    float: right;
+    position: absolute;
+    top: 150px;
+    right: 0;
+    height: 100vh;
+}
+
+.jogo__semelhantes-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.jogo__semelhantes-slider .jogo__semelhanters-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.image-slider__item {
+    width: 100%;
+}
+
+.image-slider__item img {
+    width: 214px;
+    height: 214px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.slick-list,
+.slick-slide img {
+    width: 100%;
+}
+
+.carousel-icon {
+    position: absolute;
+    left: 8%;
+    z-index: 1;
+    cursor: pointer;
+    left: 27%;
+}
+
+.slider-centered {
+    margin: 0 auto;
+    position: relative;
+    width: 60%;
+    /* Ajuste conforme necessário */
+}
+
+.jogo__posts-container {
+    width: 80%;
+}
+
+.jogo__post {
+    border: 1px solid #E2E2E2;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+}
+
+.jogo__post-info-perfil-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 40px;
+}
+
+.jogo__post-foto-user {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+}
+
+.jogo__post-info-user {
+    display: flex;
+    flex-direction: column;
+}
+
+.jogo__post-nomeUser {
+    margin-bottom: 5px;
+}
+
+.jogo__post-nota {
+    width: 30px;
+    height: 30px;
+    padding: 7px;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: #0094DC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.post-cardlike-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    margin-top: 15px;
+    margin-right: 90%;
+}
+
+.post-cardheart-icon {
+    color: #633f9a2c;
+    font-size: 30px;
+    /* border-radius: #000000; */
+    transition: color 0.3s;
+}
+
+.post-cardheart-icon.filled {
+    color: #633F9A;
+}
+
+/* Media Queries */
+/* Tablet */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .jogo__banner-container {
+        height: 100vh;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+    }
+
+    .jogo__banner {
+        position: absolute;
+        top: 0;
+    }
+
+    .jogo__info-container {
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .jogo__banner {
+        height: auto;
+    }
+
+    .jogo__info-img-container {
+        margin-bottom: 50px;
+        flex-grow: 1;
+        flex-basis: 0;
+    }
+
+    .jogo__sinopse-container {
+        margin: 0;
+        flex-grow: 1;
+        flex-basis: 0;
+    }
+
+    .jogo__semelhantes-slider {
+        display: none;
+    }
+
+    .jogo__posts-container {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .jogo__banner-container {
+        height: 100vh;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+    }
+
+    .jogo__banner {
+        position: absolute;
+        top: 0;
+    }
+
+    .jogo__info-container {
+        margin-top: 50px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        box-sizing: border-box;
+    }
+
+    .jogo__banner {
+        height: auto;
+    }
+
+    .jogo__info-img-container {
+        width: auto;
+        margin-bottom: 50px;
+        flex-grow: 1;
+        flex-basis: 0;
+        flex-direction: row;
+        margin: 0 auto;
+    }
+
+    .jogo__sinopse-container {
+        width: 100%;
+        margin: 0;
+        flex-grow: 1;
+        flex-basis: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .jogo__semelhantes-slider {
+        display: none;
+    }
+
+    .jogo__posts-container {
+        width: 100%;
+    }
+}

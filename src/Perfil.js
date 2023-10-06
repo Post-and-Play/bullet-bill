@@ -36,9 +36,10 @@ const Perfil = () => {
     const [followed, setFollowed] = useState('');
     const [description, setDescription] = useState('');
 
-    const isPerfilPessoal = true;  //false = outro user, true = user pessoal
+    const isPerfilPessoal = false;  //false = outro user, true = user pessoal
 
-    
+    const [profileImage, setProfileImage] = useState(null);
+    const [bannerImage, setBannerImage] = useState(null);
     const [steamNick, setSteamNick] = useState('');
     const [epicGamesNick, setEpicGamesNick] = useState('');
     const [twitchNick, setTwitchNick] = useState('');
@@ -61,6 +62,8 @@ const Perfil = () => {
                     setEpicGamesNick(response.data.epic_user);
                     setSteamNick(response.data.steam_user);
                     setGithubNick(response.data.github_user);
+                    setProfileImage(response.data.photo_adr);
+                    setBannerImage(response.data.top_adr);
                     
                 }
         }
@@ -87,9 +90,9 @@ const Perfil = () => {
             <Navbar />
             <header className="perfil-banner__container">
 
-                <img src={Banner} alt="Banner usuário" className='perfil-banner__banner' />
+                <img src={bannerImage} alt="Banner usuário" className='perfil-banner__banner' />
                 <div className="perfil-banner__foto">
-                    <img src={FotoPerfil} alt="Foto perfil" className='perfil__foto' />
+                    <img src={profileImage} alt="Foto perfil" className='perfil__foto' />
                 </div>
                 <ConfigButton >
                 </ConfigButton>

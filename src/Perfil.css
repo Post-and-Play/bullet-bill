@@ -19,6 +19,7 @@ html {
 .perfil-banner__banner {
     width: 100%;
     height: 25rem;
+    object-fit: cover;
 }
 
 .perfil-banner__foto {
@@ -38,6 +39,7 @@ html {
 .perfil__foto {
     position: relative;
     width: 24rem;
+    height: 24rem;
     left: -4rem;
     top: -9rem;
 }

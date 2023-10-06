@@ -146,6 +146,14 @@ export const getUser = async () => {
     }
 };
 
+export const getGames = async () => {
+    if (await getStorage() == true)
+        return JSON.parse(localStorage.getItem(GAMES_KEY));
+    else {
+        logout();
+    }
+};
+
 //Inicia a sessão no servidor e grava os dados de autenticação no localStorage
 export const login = async (email, pass, con) => {
 

@@ -12,22 +12,61 @@ import RedDead from './icons/Render background/icon-Red dead.png'
 import TheDivision from './icons/Render background/icon-The division 2.png'
 import GhostWire from './icons/Render background/icon - Ghostwire Tokyo.png'
 
-import React from 'react'
+import api from './services/Api';
+import { getStorage, getUser } from './services/Auth';
+import { Modals } from './components/Modals';
+
+
+import React, { useState } from 'react'
 
 const Pesquisa = () => {
+    const [name ,setName]= useState ('');
+    const [description, setDescription] = useState('');
+    const [cover_adr, setCover] = useState(null);
+    const [top_adr, setTop] = useState(null);
+    const [genders, setGenders] = useState('');
+    const [reviews, setReviews] = useState('');
+    const [rating, setRating] = useState('');
+
+    const getCurrentGames = async() => {
+
+        let games = await getUser();
+        if (games) {
+                const response = await api.get('./api/games?id=' + games.id);
+                if (response.data.id){
+                    
+                    setName(response.data.name);
+                    setGenders(response.data.genders);
+                    setDescription(response.data.description);
+                    setRating(response.data.rating);
+                    setReviews(response.data.reviews);
+                    setCover(response.data.cover_adr);
+                    setTop(response.data.top_adr);
+                    
+                }
+        }
+    }
+        getCurrentGames();
+    
+      const genreArray = genders.split(',').map((genders) => genders.trim());
+
     return (
         <div>
             <Navbar />
             <div className="pesquisa__jogos-container">
                 <div className="pesquisa__jogo">
                     <a href="" className='pesquisa__jogo-link'>
-                        <img src={LolFoto} alt="Foto jogo" className='pesquisa__jogo-foto' />
+                        <img src={top_adr} alt="Foto jogo" className='pesquisa__jogo-foto' />
                         <div className="`pesquisa__jogo-info-container`">
-                            <p className='pesquisa__jogo-titulo'>League of Legends #50</p>
+                            <p className='pesquisa__jogo-titulo'>{name}</p>
+                            
                             <div className="pesquisa__categoria-container">
-                                <div className="pesquisa__categoria">MOBA</div>
-                                <div className="pesquisa__categoria">Multijogador</div>
-                            </div>
+                            {genreArray.map((genders, index) => (
+                            <div key={index} className="pesquisa__categoria">
+                                {genders}
+                        </div>
+                        ))}
+                    </div>
                         </div>
                     </a>
                 </div>

@@ -1,0 +1,319 @@
+/* Classes */
+.cadastro__page-container {
+    /* width: 100vw; */
+    /* height: 100vh; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.labelCadastro {
+    margin-bottom: 0rem;
+    /* width: 50%; */
+}
+
+.cadastro {
+    margin-top: 50px;
+    background-color: #795FA1;
+    height: auto;
+    width: 50%;
+    /* position: absolute; */
+    left: 0;
+    right: 0;
+    /* margin: 60px auto; */
+    padding: 2.3125rem 0.9375rem;
+    border-radius: 0.9375rem;
+    color: #fff;
+    display: flex;
+    flex-direction: row !important;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+}
+
+.cadastro__container {
+    height: 100%;
+    width: 100%;
+    text-align: start;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    box-sizing: border-box;
+    /* justify-content: space-between; */
+}
+
+.cadastro__row-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cadastro__input-container {
+    display: flex;
+    flex-grow: 0;
+    flex-basis: 1;
+    flex-direction: column;
+    width: 45%;
+}
+
+.cadastro__data-container {
+    display: flex;
+    flex-direction: column;
+    /* width: 100%; */
+}
+
+.cadastro__data-container {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+}
+
+.cadastro__select-data-container {
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+    /* justify-content: space-between; */
+}
+
+.container {
+    height: 100%;
+    text-align: start !important;
+}
+
+.inputCadastro {
+    border: none;
+    outline: none;
+    height: 45px;
+    width: 100%;
+    border-radius: 0.625rem;
+    border-color: transparent;
+    margin-bottom: 1.875rem;
+    /* margin-right: 3.125rem; */
+    padding: 0.4375rem;
+    white-space: nowrap;
+}
+
+.lastInput {
+    margin-right: 0rem;
+}
+
+.inputData {
+    /* width: 7.0625rem; */
+    margin-right: 1.125rem;
+}
+
+.inputAno {
+    margin-right: 0rem;
+}
+
+.termos {
+    display: inline-block;
+    margin-bottom: 1.25rem;
+}
+
+.termosTexto {
+    margin-left: 0.3125rem;
+}
+
+.termosDestaque {
+    color: #B0AFE6;
+    text-decoration: underline;
+}
+
+.cadastro__botao-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cadastro__botao {
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    color: #fff;
+    font-weight: 500;
+    width: 45%;
+    height: 2.8125rem;
+    box-shadow: 0rem 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+}
+
+.cadastro__btnVoltar {
+    background-color: #B0AFE6;
+}
+
+.cadastro__btnVoltar:hover {
+    background-color: #9594cc;
+}
+
+.cadastro__btnCadastrar {
+    background-color: #633F9A;
+}
+
+.cadastro__btnCadastrar:hover {
+    background-color: #532f8a;
+}
+
+.termosDestaque {
+    cursor: pointer;
+}
+
+.blob {
+    display: none;
+    height: 16.563rem;
+    bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.blobEsquerda {
+    float: left;
+    left: 0px;
+}
+
+.blobDireita {
+    float: right;
+    right: 0px;
+}
+
+.termosUso__container {
+    /* backdrop-filter: blur(5px); */
+}
+
+.termosUso {
+    /* display: none; */
+    background-color: #633F9A;
+    width: 46.875rem;
+    height: 42.5625rem;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: auto;
+    border-radius: 0.625rem;
+    position: absolute;
+    padding: 2.1875rem 1.5625rem;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    /* backdrop-filter: blur(5px); */
+    /* box-sizing: border-box; */
+}
+
+.termosUso>h3 {
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 1.625rem;
+    float: left;
+}
+
+.termosUso_texto {
+    background-color: #fff;
+    padding: 1.5625rem;
+    border-radius: 0.625rem;
+    width: 100%;
+    height: 90.3%;
+    /* box-sizing: border-box; */
+    overflow-y: auto;
+}
+
+.closeBtn {
+    filter: invert(100%);
+    height: 1.875rem;
+    float: right;
+    cursor: pointer;
+}
+
+.cadastro__camposPopup {
+    width: 450px;
+    height: 100px;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #633F9A;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out forwards;
+    box-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+@keyframes slideIn {
+    from {
+        top: -100%;
+    }
+
+    to {
+        top: 80px;
+    }
+}
+
+/* Media Queries */
+
+/* Tablet */
+@media(max-width: 1024px) {
+    .cadastro {
+        width: 45vw;
+        margin-bottom: 3.125rem;
+        justify-content: center;
+    }
+
+    .cadastro__row-container {
+        flex-direction: column;
+        /* align-items: center; */
+    }
+
+    .cadastro__input-container {
+        width: 100%;
+    }
+
+    .inputCadastro {
+        width: 100%;
+    }
+
+    .cadastro__data-container {
+        width: 100%;
+    }
+
+    .cadastro__select-data-container {
+        justify-content: space-between;
+    }
+
+    .inputData {
+        width: 30%;
+        margin-right: 0.75rem;
+    }
+
+    .lastInput {
+        margin-right: 0rem;
+    }
+
+    .blob {
+        display: none;
+        height: 12.3rem;
+        width: 18.3rem;
+    }
+
+    .cadastro__botao {
+        width: 100%;
+        margin-bottom: 50px;
+    }
+
+    .termosUso {
+        position: fixed;
+        width: 40.625rem;
+        height: 39.375rem;
+        padding: 1.25rem;
+        /* margin-top: 8%; */
+    }
+
+    .termosUso_texto {
+        padding: 1.0625rem;
+        height: 90.3%;
+    }
+}

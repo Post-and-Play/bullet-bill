@@ -27,7 +27,7 @@ import { FaUserPlus, FaCheck } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
-const Perfil = () => {
+const Perfil = () => { 
     const [following, setFollowing] = useState('');
     const [liked, setLiked] = useState('');
     const [name ,setName]= useState ('');

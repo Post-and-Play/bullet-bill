@@ -120,7 +120,7 @@
     object-fit: cover;
   }
   
-  .bannerImageWrapper {
+  .bannerImageWrapper { 
     position: relative;
     width: 100%;
     max-width: 1500px;

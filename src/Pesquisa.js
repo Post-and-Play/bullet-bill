@@ -35,7 +35,7 @@ const Pesquisa = () => {
                 const response = await api.get('./api/games?id=' + games.id);
                 if (response.data.id){
                     
-                    setName(response.data.name);
+                    setName(response.data.name); 
                     setGenders(response.data.genders);
                     setDescription(response.data.description);
                     setRating(response.data.rating);

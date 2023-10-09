@@ -102,7 +102,7 @@ const Jogo = () => {
                             <p className='jogo__sinopse-texto'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam autem laborum expedita ab veniam sapiente consequatur vero sed vel sit ipsa quas fugiat, nemo officia, sunt aspernatur animi blanditiis atque. Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti eligendi odio optio nihil quis? Voluptatibus, laborum sapiente perspiciatis repellat ea voluptatem impedit illo laudantium repellendus. Illum aspernatur delectus iste rem!</p>
                             <Icon icon="mingcute:quote-right-fill" className='jogo__sinopse-quoteIcon quoteIcon-right' />
                         </div>
-                    </div>
+                     </div>
                 </div>
             </div>
             <div className="jogo__semelhantes-slider">

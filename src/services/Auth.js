@@ -4,7 +4,7 @@
 /* eslint no-useless-concat: 'off' */
 /* eslint no-use-before-define: 'off' */
 /* eslint no-loop-func: 'off' */
-/* eslint default-case: 'off' */
+/* eslint default-case: 'off' */ 
 /* eslint no-mixed-operators: 'off' */
 /* eslint default-case: 'off' */
 
@@ -13,7 +13,7 @@ import { Modals } from '../components/Modals';
 
 const root = document.getElementById('root');
 const modals = new Modals();
-const loading = new modals.htmlLoading(root);
+const loading = new modals.htmlLoading(root); 
 
 export const recaptchaSiteKey = process.env.REACT_APP_RECAPTCHASECRETKEY;
 export const USER_KEY = "@pap-token";

@@ -12,10 +12,10 @@ import Jogo from './Jogo'
 import Pesquisa from './Pesquisa'
 import Api from './services/Api';
 function App() {
-  return (
+  return ( 
     <>
       <Routes>
-        <Route path="/perfil/" element={<Perfil />} />
+        <Route path="/perfil/ " element={<Perfil />} />
         <Route path="/home" element={<Home />} />
         <Route path="*" element={<div>ERROR</div>} />
         <Route path="/" element={<Login />} />

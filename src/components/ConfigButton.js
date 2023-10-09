@@ -321,7 +321,7 @@ const ConfigButton = () => {
                 <div className="imageLabel">Imagem de perfil</div>
                 <div className="profileImageWrapper">
                   {profileImage ? (
-                    <img className="profileImage" src={profileImage} alt="Imagem de perfil" />  
+                    <img className="profileImage" src={profileImage} alt="Imagem de perfil" />   
                   ) : (
                     <label htmlFor="profileImageUpload" className="upload-icon-placeholder">
                       <Icon icon="ph:pencil" size={24} />

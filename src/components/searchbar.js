@@ -53,7 +53,7 @@ const SearchBar = () => {
               // Outros campos que você deseja exibir no resultado da pesquisa
             }]);
           } else {
-            setSearchResults([]);
+            setSearchResults([]); 
           }
         } catch (error) {
           console.error('Erro ao buscar perfil:', error);

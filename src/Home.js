@@ -7,7 +7,7 @@ import CSGO from './icons/Render background/Imagens/icon/icon--CSGO.png'
 import EldenRing from './icons/Render background/Imagens/icon/icon--EldenRing.png'
 import Osu from './icons/Render background/Imagens/icon/icon--Osu.png'
 import Skyrim from './icons/Render background/Imagens/icon/icon--Skryim.png'
-
+ 
 import Cleitin from './image/perfil-cleitin.png';
 import Atreus from './image/perfil-atreus.png';
 import Kratus from './image/perfil-kratus.png';
@@ -15,7 +15,7 @@ import Adalberto from './image/perfil-adalberto.png';
 import Cleber from './image/perfil-cleber.png';
 import Gabriel from './image/perfil-gabriel.png';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react'; 
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 

@@ -27,7 +27,7 @@ api.interceptors.request.use(async config => {
         // config.headers.XContentTypeOptions = 'no-sniff';
     }
     return config;
-}, function (error) {
+}, function (error) { 
     // Do something with request error
     return Promise.reject(error);
 });

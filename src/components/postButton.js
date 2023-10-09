@@ -12,7 +12,7 @@ const PostButton = () => {
     const [postBox, setPostBox] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const [file, setFile] = useState(null);
-
+ 
     const handleClick = () => {
         setPostBox(!postBox);
     }

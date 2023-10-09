@@ -20,7 +20,7 @@ import Loading from '../image/loading.webp';
 
 //Classe para criar modals na página
 //!importante que o CSS esteja devidamente estilizado
-export class Modals{
+export class Modals {
     constructor() {
 
         const me = this;
@@ -76,12 +76,12 @@ export class Modals{
         }
 
         //Modals...
-        this.htmlModal = function(parent, info, style){
+        this.htmlModal = function (parent, info, style) {
 
             var modalId = info.modalId ? info.modalId : 'modalform';
-            function form_close(id){
+            function form_close(id) {
                 var modal = document.getElementById(id);
-                if (modal){
+                if (modal) {
                     modal.style.display = 'none';
                     parent.removeChild(modal);
                 }
@@ -93,27 +93,27 @@ export class Modals{
             modal.id = modalId;
             modal.className = 'modal';
             modal.setAttribute('role', 'dialog');
-                
+
             //Modal Content
             let modalcontent = document.createElement('div');
             modalcontent.className = 'modal-content';
-            
-            if(style.contentMaxWidth)
+
+            if (style.contentMaxWidth)
                 modalcontent.style.maxWidth = style.contentMaxWidth;
-    
-            if(style.contentWidth)
+
+            if (style.contentWidth)
                 modalcontent.style.width = style.contentWidth;
 
-            if(style.contentHeight)
+            if (style.contentHeight)
                 modalcontent.style.height = style.contentHeight;
 
-           
+
             //Header
             let modalheader = document.createElement('div');
             modalheader.className = 'modal-header';
-    
-            if(info.btnClose == undefined || info.btnClose == true){
-                    
+
+            if (info.btnClose == undefined || info.btnClose == true) {
+
                 let close = document.createElement('span');
                 close.className = 'close';
                 close.setAttribute('data-dismiss', 'modal');
@@ -135,12 +135,12 @@ export class Modals{
                         form_close(name);
                     }
                 }
-        
+
                 modalheader.appendChild(close);
 
             }
 
-    
+
             let modaltitle = document.createElement('h4');
             modaltitle.className = 'modal-title';
 
@@ -150,7 +150,7 @@ export class Modals{
             modalheader.appendChild(modaltitle);
             modalcontent.appendChild(modalheader)
             //Header
-    
+
             //Body
             let modalbody = document.createElement('div');
             modalbody.className = 'modal-body';
@@ -159,47 +159,46 @@ export class Modals{
             let modalfooter = document.createElement('div');
             modalfooter.className = 'modal-footer';
 
-            if(info.buttons){
-                if(info.buttons.length > 0){
+            if (info.buttons) {
+                if (info.buttons.length > 0) {
 
-                    for(var i = 0; i < info.buttons.length; i++)
-                    {
+                    for (var i = 0; i < info.buttons.length; i++) {
                         let ul = document.createElement('ul');
                         let btn = document.createElement('BUTTON');
                         btn.setAttribute('name', modalId);
                         let obj = info.buttons[i];
 
-                        if(obj.id)
+                        if (obj.id)
                             btn.id = obj.id;
 
-                        if(obj.className)
+                        if (obj.className)
                             btn.className = obj.className;
-                        
-                        if(obj.width)
+
+                        if (obj.width)
                             btn.style.width = obj.width;
 
-                        if(obj.text)
+                        if (obj.text)
                             btn.innerHTML = obj.text;
 
-                        if(obj.click){
+                        if (obj.click) {
                             btn.onclick = async (evt) => {
                                 let resp = await obj.click();
                                 //alert('resp: ' + resp);
-                                if(resp === 1){
+                                if (resp === 1) {
                                     var name = evt.target.getAttribute('name');
                                     form_close(name);
                                 }
-                               
+
                             }
                         }
-                        
+
                         ul.appendChild(btn);
                         modalfooter.appendChild(ul);
                     }
-                    
+
                 }
             }
-            
+
             modalcontent.appendChild(modalfooter);
             modal.appendChild(modalcontent);
 
@@ -211,14 +210,14 @@ export class Modals{
         }
 
         //Dialogs........
-        this.msgboxButtons = Object.freeze({okOnly: 0, okCancel: 1, yesNo: 2, yesNoCancel: 3 });
-        this.msgboxIcons = Object.freeze({check: 0, critical: 1, warning: 2, question: 3 });
+        this.msgboxButtons = Object.freeze({ okOnly: 0, okCancel: 1, yesNo: 2, yesNoCancel: 3 });
+        this.msgboxIcons = Object.freeze({ check: 0, critical: 1, warning: 2, question: 3 });
 
-        this.htmlDialog = function(parent, text, buttons, icons, title, actions, others){
-            
-            function msgbox_close(){
+        this.htmlDialog = function (parent, text, buttons, icons, title, actions, others) {
+
+            function msgbox_close() {
                 var modal = document.getElementById('msgbox');
-                if (modal){
+                if (modal) {
                     modal.style.display = 'none';
                 }
             }
@@ -233,15 +232,15 @@ export class Modals{
             modal.id = 'msgbox';
             modal.className = 'modal';
             modal.setAttribute('role', 'dialog');
-                
+
             //Modal Content
             let modalcontent = document.createElement('div');
             modalcontent.className = 'modal-content-dialog';
-              
+
             //Header
             let modalheader = document.createElement('div');
             modalheader.className = 'modal-header';
-    
+
             //let close = document.createElement('span');
             //close.className = 'close';
             //close.setAttribute('data-dismiss', 'modal');
@@ -249,9 +248,9 @@ export class Modals{
             //close.onclick = function(){
             //    msgbox_close();
             //}
-    
+
             //modalheader.appendChild(close);
-    
+
             let modaltitle = document.createElement('h4');
             modaltitle.className = 'modal-title';
 
@@ -263,21 +262,20 @@ export class Modals{
             modalheader.appendChild(modaltitle);
             modalcontent.appendChild(modalheader)
             //Header
-    
+
             //Body
             let modalbody = document.createElement('div');
             modalbody.className = 'modal-body';
 
             //alert(icons);
 
-            if(icons === undefined){
-               
-                if(text){
+            if (icons === undefined) {
+
+                if (text) {
                     let itens = [];
                     itens = String(text).split('\n');
-                    if(itens.length > 1){
-                        for(var i = 0; i < itens.length; i++)
-                        {
+                    if (itens.length > 1) {
+                        for (var i = 0; i < itens.length; i++) {
                             let txt = document.createElement('p');
                             txt.innerHTML = itens[i];
                             modalbody.appendChild(txt);
@@ -290,57 +288,56 @@ export class Modals{
                     }
                 }
 
-                if(others){
-                    if(others.textId){
+                if (others) {
+                    if (others.textId) {
                         let txt = document.createElement('p');
                         txt.id = others.textId;
 
-                        if(others.textValue)
-                        txt.innerHTML = others.textValue;
+                        if (others.textValue)
+                            txt.innerHTML = others.textValue;
                         modalbody.appendChild(txt);
                     }
                 }
             }
             else {
- 
+
                 modalbody.style.display = 'flex';
                 modalbody.style.flexDirection = 'row';
 
                 let column1 = document.createElement('div');
                 column1.className = 'modal-body-dialog-text';
-             
+
                 let column2 = document.createElement('div');
                 column2.className = 'modal-body-dialog-icons';
-               
+
                 let img = document.createElement('img');
                 img.style.margin = '0 auto';
                 img.style.width = '50px';
                 img.style.height = '50px';
 
-                if(icons == this.msgboxIcons.check){
+                if (icons == this.msgboxIcons.check) {
                     img.src = check;
                 }
 
-                if(icons == this.msgboxIcons.critical){
+                if (icons == this.msgboxIcons.critical) {
                     img.src = critical;
                 }
 
-                if(icons == this.msgboxIcons.warning){
+                if (icons == this.msgboxIcons.warning) {
                     img.src = warning;
                 }
 
-                if(icons == this.msgboxIcons.question){
+                if (icons == this.msgboxIcons.question) {
                     img.src = question;
                 }
 
                 column2.appendChild(img);
-   
-                if(text){
+
+                if (text) {
                     let itens = [];
                     itens = String(text).split('\n');
-                    if(itens.length > 1){
-                        for(var i = 0; i < itens.length; i++)
-                        {
+                    if (itens.length > 1) {
+                        for (var i = 0; i < itens.length; i++) {
                             let txt = document.createElement('p');
                             txt.innerHTML = itens[i];
                             column1.appendChild(txt);
@@ -353,104 +350,104 @@ export class Modals{
                     }
                 }
 
-                if(others){
-                    if(others.textId){
+                if (others) {
+                    if (others.textId) {
                         let txt = document.createElement('p');
                         txt.id = others.textId;
 
-                        if(others.textValue)
-                        txt.innerHTML = others.textValue;
+                        if (others.textValue)
+                            txt.innerHTML = others.textValue;
                         column1.appendChild(txt);
                     }
                 }
 
                 modalbody.appendChild(column1);
                 modalbody.appendChild(column2);
-                    
+
             }
-         
+
             modalcontent.appendChild(modalbody);
 
 
             let modalfooter = document.createElement('div');
             modalfooter.className = 'modal-footer';
 
-            if(buttons){
+            if (buttons) {
 
-                if(buttons === this.msgboxButtons.okOnly){
+                if (buttons === this.msgboxButtons.okOnly) {
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxOk',
                         containerClass: 'one-col',
                         value: 'Ok',
                         inputClass: 'btn-default',
                         sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
-                    },{});                 
+                    }, {});
                 }
-                else if(buttons === this.msgboxButtons.okCancel){
+                else if (buttons === this.msgboxButtons.okCancel) {
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxOk',
                         containerClass: 'two-col',
                         value: 'Ok',
                         inputClass: 'btn-default',
                         sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
-                    },{});    
+                    }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxCancel',
                         containerClass: 'two-col',
                         value: 'Cancelar',
                         inputClass: 'btn-default',
                         sub: actions != undefined ? actions.cancel ? () => { actions.cancel(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
-                    },{});    
+                    }, {});
                 }
-                else if(buttons === this.msgboxButtons.yesNo){
+                else if (buttons === this.msgboxButtons.yesNo) {
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxYes',
                         containerClass: 'two-col',
                         value: 'Sim',
                         inputClass: 'btn-default',
                         sub: actions != undefined ? actions.yes ? () => { actions.yes(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
-                    },{});    
+                    }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxNo',
                         containerClass: 'two-col',
                         value: 'Não',
                         inputClass: 'btn-default',
                         sub: actions != undefined ? actions.no ? () => { actions.no(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
-                    },{});    
+                    }, {});
                 }
-                else if(buttons === this.msgboxButtons.yesNoCancel){
+                else if (buttons === this.msgboxButtons.yesNoCancel) {
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxYes',
                         containerClass: 'two-col',
                         value: 'Sim',
                         inputClass: 'btn-default',
                         sub: actions != undefined ? actions.yes ? () => { actions.yes(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
-                    },{});    
+                    }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxNo',
                         containerClass: 'two-col',
                         value: 'Não',
                         inputClass: 'btn-default',
                         sub: actions != undefined ? actions.no ? () => { actions.no(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
-                    },{}); 
+                    }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxCancel',
                         containerClass: 'two-col',
                         value: 'Cancelar',
                         inputClass: 'btn-default',
                         sub: actions != undefined ? actions.cancel ? () => { actions.cancel(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
-                    },{});       
+                    }, {});
                 }
-                else{
+                else {
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxOk',
                         containerClass: 'one-col',
                         value: 'Ok',
                         inputClass: 'btn-default',
                         sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
-                    },{});   
+                    }, {});
                 }
-            
+
             }
             else {
                 this.htmlButton(modalfooter, {
@@ -459,9 +456,9 @@ export class Modals{
                     value: 'Ok',
                     inputClass: 'btn-default',
                     sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
-                },{});   
+                }, {});
             }
-            
+
             modalcontent.appendChild(modalfooter);
             modal.appendChild(modalcontent);
 
@@ -470,16 +467,16 @@ export class Modals{
             modal.style.display = 'flex';
 
             return modalbody;
-                
+
         }
 
-        this.htmlLoading = function(parent, animation = Loading){
+        this.htmlLoading = function (parent, animation = Loading) {
 
             var instance = this;
             instance.animation = animation;
 
-            instance.show = function(text){
-                
+            instance.show = function (text) {
+
                 formclose();
 
                 var modalId = 'modalloading';
@@ -487,25 +484,25 @@ export class Modals{
                 modal.id = modalId;
                 modal.className = 'modal';
                 modal.setAttribute('role', 'dialog');
-                    
+
                 //Modal Content
                 let modalcontent = document.createElement('div');
                 modalcontent.className = 'modal-content-loading';
                 modalcontent.style.maxWidth = '420px';
-            
+
                 //Header
                 // let modalheader = document.createElement('div');
                 // modalheader.className = 'modal-header';
                 // modalcontent.appendChild(modalheader)
                 //Header
-        
+
                 //Body
                 let modalbody = document.createElement('div');
                 modalbody.className = 'modal-body';
-    
+
                 let div = document.createElement('div');
                 div.className = 'container-loading';
-               
+
                 let loading = document.createElement('div');
                 loading.className = 'loading';
                 let img = document.createElement('img');
@@ -513,83 +510,80 @@ export class Modals{
                 img.alt = 'loading';
                 loading.appendChild(img);
                 div.appendChild(loading);
-    
-                if(text){
+
+                if (text) {
                     let ul = document.createElement('ul')
                     ul.className = 'one-col';
                     let label = document.createElement('label');
                     label.className = 'label-loading';
                     label.innerHTML = text;
-                    ul.appendChild(label);    
-                    div.appendChild(ul);              
+                    ul.appendChild(label);
+                    div.appendChild(ul);
                 }
                 modalbody.appendChild(div);
-    
+
                 modalcontent.appendChild(modalbody);
-    
+
                 // let modalfooter = document.createElement('div');
                 // modalfooter.className = 'modal-footer';
                 // modalcontent.appendChild(modalfooter);
 
                 modal.appendChild(modalcontent);
                 parent.appendChild(modal);
-    
+
                 modal.style.display = 'flex';
 
             }
 
-            instance.close = function(){
+            instance.close = function () {
                 var timer1 = new Timer(1000, formclose);
-                timer1.start(); 
+                timer1.start();
             }
 
-            function formclose(){
+            function formclose() {
                 var modal = document.getElementById('modalloading');
-                if (modal){
+                if (modal) {
                     modal.parentNode.removeChild(modal);
                 }
             }
 
         }
-      
-    }    
+
+    }
 }
 
-export class Timer{
-    constructor(time, tick){
+export class Timer {
+    constructor(time, tick) {
         //Components
         var c;
-        var t=time;
-        var timer_is_on=0;
-        
+        var t = time;
+        var timer_is_on = 0;
+
         var timerTick = () => tick();
 
-        var timedCount = function()
-        {
-            c = setTimeout(timerTick, t);                
+        var timedCount = function () {
+            c = setTimeout(timerTick, t);
         }
-        
-        this.start = function()
-        {
-            if (!timer_is_on){
-                timer_is_on=1;
+
+        this.start = function () {
+            if (!timer_is_on) {
+                timer_is_on = 1;
                 timedCount();
             }
         }
-        
-        this.stop = function()
-        {
+
+        this.stop = function () {
             clearTimeout(c);
-            timer_is_on=0;
+            timer_is_on = 0;
         }
 
-     
+
     }
 }
 
 export class Waiter {
     constructor() {
-       
+
         var me = this;
         me.flag = true;
 

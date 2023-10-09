@@ -157,7 +157,7 @@ export const login = async (email, pass, con) => {
             password: pass
         }).then(async function (response) {
             console.log(response);
-                        
+
             User = { Token: null, id: null };
 
             if (response.data.Token) {
@@ -204,7 +204,7 @@ export const login = async (email, pass, con) => {
                             }
                         });
                 }
-                               
+
             }
 
         }).catch(async function (error) {
@@ -226,13 +226,13 @@ export const login = async (email, pass, con) => {
                         });
                 }
             }
-                      
+
 
         });
-  
-        
+
+
     }
-   
+
 };
 
 //Remove os dados no localStorage
@@ -240,7 +240,7 @@ export const logout = async () => {
 
     localStorage.removeItem(USER_KEY);
     localStorage.removeItem(DATE_EXP);
-   
+
 };
 
 //Para verificar a autorização do usuario durante a sessão
@@ -250,17 +250,17 @@ export const getAuth = async (showMsg = false) => {
     //let location = window.location;
     //let search = window.location.search;
     //let params = new URLSearchParams(search);
-  
+
     if (await getStorage() == true) {
 
         User = await getUser();
-      
+
         var id = User.id;
-            
+
         //alert('isAuthenticated = true');
 
         const response = await api.get('./api/users?id=' + id);
-        if (!response.data.id) {                        
+        if (!response.data.id) {
             //alert('Problemas na autenticação!\n' + message + '\nStatus: ' + status);     
             await logout();
             window.location.assign('/');
@@ -272,11 +272,11 @@ export const getAuth = async (showMsg = false) => {
         //if (usern) {
         //    usern.innerHTML = response.data.name;
         //}
-      
+
         //localStorage.setItem(USER_KEY, JSON.stringify(User));
 
         //alert('isAuthenticated = true');
-       
+
     }
     else {
         //alert('isAuthenticated = false');

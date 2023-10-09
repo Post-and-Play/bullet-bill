@@ -7,6 +7,9 @@ import api from '../services/Api';
 import { getUser } from '../services/Auth';
 import { Modals } from '../components/Modals';
 import { useNavigate } from 'react-router-dom';
+// import Fotoperfil from '../image/fotosperfil';
+// import banner from '../image/fotosbanner';
+import axios from 'axios';
 
 const ConfigButton = () => {
   const [user, setUser] = useState({});
@@ -24,9 +27,13 @@ const ConfigButton = () => {
   const [twitch_user, setTwitchNick] = useState('');
   const [github_user, setGithubNick] = useState('');
   const [discordNick, setDiscordNick] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
-  const [bannerImage, setBannerImage] = useState(null);
+  const [profileImage, setProfileImage] = useState('');
+  const [bannerImage, setBannerImage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [userIdOrNick, setUserIdOrNick] = useState(null);
+  const [base64Image, setBase64Image] = useState('');
+
 
   const navigate = useNavigate();
   const root = document.getElementById('root');
@@ -48,6 +55,7 @@ const ConfigButton = () => {
           setEpicGamesNick(response.data.epic_user);
           setSteamNick(response.data.steam_user);
           setGithubNick(response.data.github_user);
+
         }
       }
     };
@@ -55,7 +63,7 @@ const ConfigButton = () => {
     fetchData(); // Chama a função fetchData quando o componente for montado
   }, []);
 
-       // Crie um objeto com os dados atualizados do perfil
+  // Crie um objeto com os dados atualizados do perfil
   const updateProfile = async () => {
     try {
       const user = await getUser();
@@ -65,6 +73,8 @@ const ConfigButton = () => {
 
       // Crie um objeto com os dados atualizados do perfil
       const updatedUserData = {
+        photo_adr: profileImage,
+        top_adr: bannerImage,
         id: user.id,
         name,
         user_name,
@@ -98,7 +108,7 @@ const ConfigButton = () => {
             'Mensagem!',
             {
               ok: (evt) => {
-                navigate('/');
+                window.location.reload();
               },
             }
           );
@@ -186,28 +196,6 @@ const ConfigButton = () => {
     setShowNextForm(false);
   };
 
-  const handleProfileImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleBannerImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setBannerImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSteam_userChange = (event) => {
     setSteamNick(event.target.value);
   };
@@ -226,6 +214,38 @@ const ConfigButton = () => {
 
   const handleDiscordNickChange = (event) => {
     setDiscordNick(event.target.value);
+  };
+
+  const handleProfileChange = (e) => {
+    const file = e.target.files[0]; // Obtenha o arquivo selecionado
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        // Quando a leitura estiver concluída, o resultado será armazenado em event.target.result
+        const base64String = reader.result;
+        setProfileImage(base64String); // Adicione a imagem de perfil ao array
+      };
+
+      reader.readAsDataURL(file); // Inicie a leitura do arquivo como base64
+    }
+  };
+
+  const handleBannerChange = (e) => {
+    const file = e.target.files[0]; // Obtenha o arquivo selecionado
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        // Quando a leitura estiver concluída, o resultado será armazenado em event.target.result
+        const base64String = reader.result;
+        setBannerImage(base64String); // Adicione a imagem de fundo ao array
+      };
+
+      reader.readAsDataURL(file); // Inicie a leitura do arquivo como base64
+    }
   };
 
   return (
@@ -310,7 +330,7 @@ const ConfigButton = () => {
                             type="file"
                             className="fileInput"
                             accept="image/*"
-                            onChange={handleProfileImageChange}
+                            onChange={handleProfileChange}
                           />
                         </label>
                       )}
@@ -329,7 +349,7 @@ const ConfigButton = () => {
                             type="file"
                             className="fileInput"
                             accept="image/*"
-                            onChange={handleBannerImageChange}
+                            onChange={handleBannerChange}
                           />
                         </label>
                       )}

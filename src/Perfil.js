@@ -30,42 +30,45 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 const Perfil = () => {
     const [following, setFollowing] = useState('');
     const [liked, setLiked] = useState('');
-    const [name ,setName]= useState ('');
+    const [name, setName] = useState('');
     // const [mail ,setMail]= useState ('');
     // const [user_name, setUsername] = useState();
     const [followed, setFollowed] = useState('');
     const [description, setDescription] = useState('');
 
-    const isPerfilPessoal = true;  //false = outro user, true = user pessoal
+    const isPerfilPessoal = false;  //false = outro user, true = user pessoal
 
-    
+    const [profileImage, setProfileImage] = useState(null);
+    const [bannerImage, setBannerImage] = useState(null);
     const [steamNick, setSteamNick] = useState('');
     const [epicGamesNick, setEpicGamesNick] = useState('');
     const [twitchNick, setTwitchNick] = useState('');
     const [githubNick, setGithubNick] = useState('');
     const [discordNick, setDiscordNick] = useState('');
 
-    const getCurrentUser = async() => {
+    const getCurrentUser = async () => {
 
         let user = await getUser();
         if (user) {
-                const response = await api.get('./api/users?id=' + user.id);
-                if (response.data.id){
-                    
-                    setName(response.data.name);
-                    setFollowed(response.data.followed);
-                    setFollowing(response.data.following);
-                    setDescription(response.data.description);
-                    setTwitchNick(response.data.twitch_user);
-                    setDiscordNick(response.data.discord_user);
-                    setEpicGamesNick(response.data.epic_user);
-                    setSteamNick(response.data.steam_user);
-                    setGithubNick(response.data.github_user);
-                    
-                }
+            const response = await api.get('./api/users?id=' + user.id);
+            if (response.data.id) {
+
+                setName(response.data.name);
+                setFollowed(response.data.followed);
+                setFollowing(response.data.following);
+                setDescription(response.data.description);
+                setTwitchNick(response.data.twitch_user);
+                setDiscordNick(response.data.discord_user);
+                setEpicGamesNick(response.data.epic_user);
+                setSteamNick(response.data.steam_user);
+                setGithubNick(response.data.github_user);
+                setProfileImage(response.data.photo_adr);
+                setBannerImage(response.data.top_adr);
+
+            }
         }
     }
-    
+
 
     const handleFollow = () => {
         setFollowing(!following);
@@ -87,9 +90,9 @@ const Perfil = () => {
             <Navbar />
             <header className="perfil-banner__container">
 
-                <img src={Banner} alt="Banner usuário" className='perfil-banner__banner' />
+                <img src={bannerImage} alt="Banner usuário" className='perfil-banner__banner' />
                 <div className="perfil-banner__foto">
-                    <img src={FotoPerfil} alt="Foto perfil" className='perfil__foto' />
+                    <img src={profileImage} alt="Foto perfil" className='perfil__foto' />
                 </div>
                 <ConfigButton >
                 </ConfigButton>

@@ -1,0 +1,176 @@
+.admin__container {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.admin__content-container {
+    display: flex;
+    flex-direction: row;
+    /* Altere de column para row para ficar ao lado do menu */
+    flex: 1;
+}
+
+/* Estilo para o menu vertical */
+.admin__menu-container {
+    background-color: #795FA1;
+    width: 12.5rem;
+    height: calc(100vh - 5rem);
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin__menu {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.admin__menu-option {
+    cursor: pointer;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin__menu-option:hover {
+    background-color: #604688;
+}
+
+.admin__menu-option.ativo {
+    filter: brightness(0.85);
+    background-color: #604688;
+}
+
+/* Novos estilos para colocar a admin-indicar__card-container ao lado do menu */
+.conteudo-relacionado {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+}
+
+/* GridView */
+.admin__gridView-container {
+    width: 25%;
+    border-right: solid 4px #795FA1;
+    margin-right: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Todo conteúdo do card de jogos indicados */
+.admin-indicar__card-container {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.admin__search-input {
+    background-color: #f3f3f3;
+    border-bottom: 2px solid #e6e6e6;
+    border-radius: 5px;
+    width: 100%;
+    padding: 5px;
+}
+
+.admin__gridView {
+    height: 100%;
+}
+
+.admin__gridView-cell {
+    /* border-top: solid 2px #795FA1; */
+    border-bottom: solid 2px #795FA1;
+    display: flex;
+    flex-direction: row;
+    font-size: larger;
+    cursor: pointer;
+}
+
+.admin__gridView-cell:hover,
+
+.admin__gridView-cell.active {
+    background-color: #e0e0e0;
+}
+
+.gridView-id,
+.gridView-game {
+    padding: 10px;
+}
+
+.gridView-game {
+    margin: auto;
+}
+
+.admin-indicar__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+    height: 35rem;
+    background-color: #795FA1;
+    border-radius: 15px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 50px;
+}
+
+.admin-indicar__row {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.admin-indicar__label {
+    color: #fff;
+}
+
+.admin-indicar__input,
+.admin-indicar__textarea {
+    padding: 8px;
+    width: 100%;
+    border-radius: 7px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+}
+
+.admin-indicar__input {
+    height: 2.2rem;
+}
+
+.admin-indicar__btn-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.indicar__btn-aprovar,
+.indicar__btn-reprovar {
+    width: 30%;
+    /* height: 1.2rem; */
+    border-radius: 15px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    color: #fff;
+    font-weight: 700;
+    transition: background-color 0.3s ease-in-out;
+    margin-top: 20px;
+}
+
+.indicar__btn-aprovar {
+    background-color: #633F9A;
+}
+
+.indicar__btn-aprovar:hover {
+    background-color: #492979;
+}
+
+.indicar__btn-reprovar {
+    background-color: transparent;
+    border: 2px solid #633F9A;
+}
+
+.indicar__btn-reprovar:hover {
+    background-color: #614688;
+}

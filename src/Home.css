@@ -1,0 +1,246 @@
+.home__bemAvaliado-slider {
+    width: 100vw;
+    height: 40vh !important;
+    display: flex;
+    /* align-items: center; */
+    margin-top: 40px;
+    box-sizing: border-box;
+}
+
+.home__bemAvaliado-container {
+    max-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.custom-slider {
+    height: 40vh;
+}
+
+.home__bemAvaliado-slider,
+.home__bemAvaliado-container {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.slider-centered {
+    margin: 0;
+    width: 65% !important;
+}
+
+.slick-slide {
+    margin-right: 30px;
+}
+
+.home-image-slider__item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
+}
+
+.home-image-slider__item img {
+    width: 220px;
+    height: 290px;
+    border-radius: 20px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.home-image-slider__item img:hover {
+    filter: brightness(0.7);
+}
+
+.home-carousel-icon {
+    cursor: pointer;
+    margin: 0 20px;
+}
+
+.custom-container {
+    margin-top: 100px;
+    /* width: 100%; */
+    max-width: 100%;
+    /* Largura máxima personalizada */
+    margin-left: 5%;
+    margin-right: 5%;
+    /* Outros estilos personalizados */
+}
+
+.container__card-post {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+}
+
+.card-post {
+    background-color: rgba(121, 95, 161, 0.8);
+    padding: 15px;
+    box-sizing: border-box;
+    width: 30%;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    margin: 30px 50px 30px 0px;
+}
+
+.card-post__foto {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.card-post__user {
+    font-size: 20px;
+}
+
+.card-post__game {
+    color: #BBBBBB;
+    font-size: 14px;
+    margin-left: 15px;
+    text-decoration: ;
+}
+
+.card-post__nota {
+    border-radius: 5px;
+    background-color: #0094DC;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    margin-left: 15px;
+}
+
+.container__foto-content {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.card-post__foto-container {
+    margin-right: 15px;
+}
+
+.card-post__content-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-post__content {
+    margin-bottom: 2px;
+}
+
+.card-post__descricao-container {
+    display: flex;
+    flex-direction: row;
+    /* width: 100%; */
+    height: 10.625rem;
+}
+
+.card-post__descricao {
+    margin-top: 8px;
+    background-color: #5E4485;
+    box-sizing: border-box;
+    padding: 15px;
+    /* display: flex; */
+    overflow: auto;
+    text-overflow: ellipsis;
+    height: auto;
+    width: 100%;
+
+}
+
+.card-post__descricao p {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.card-post__descricao::-webkit-scrollbar {
+    width: 8px;
+    /* Largura da barra de rolagem */
+}
+
+.card-post__descricao::-webkit-scrollbar-track {
+    background: transparent;
+    /* Cor de fundo da barra de rolagem */
+}
+
+.card-post__descricao::-webkit-scrollbar-thumb {
+    background: #4a3170;
+    /* Cor da barra de rolagem */
+    border-radius: 4px;
+    /* Raio dos cantos da barra de rolagem */
+}
+
+.card-post__descricao::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Cor da barra de rolagem ao passar o mouse */
+}
+
+.card-post,
+.card-post__descricao {
+    color: #fff;
+    border-radius: 5px;
+}
+
+.card-post__foto-opiniao {
+    max-height: 6.25rem;
+    max-width: 6.25rem;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.027));
+    border-radius: 5px;
+    padding: 15px;
+}
+
+
+.post-card__like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    margin-top: 15px;
+    margin-right: 90%;
+}
+
+.post-card__heart-icon {
+    font-size: 30px;
+    color: #4b4a4d6d;
+    border-radius: #000000;
+    transition: color 0.3s;
+}
+
+.post-card__heart-icon.filled {
+    color: #ffffff
+}
+
+
+/* Media Queries */
+/* Celular */
+@media(max-width: 767px) {
+    .container__card-post {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-post {
+        width: 75%;
+    }
+}
+
+/* Tablet */
+@media(min-width: 768px) and (max-width: 1024px) {
+    .container__card-post {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-post {
+        width: 50%;
+    }
+}

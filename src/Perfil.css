@@ -1,0 +1,305 @@
+body,
+html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.container {
+    /* display: none; */
+    height: 0 !important;
+    width: 0 !important;
+}
+
+.perfil-banner__container {
+    position: relative;
+    box-sizing: border-box;
+}
+
+.perfil-banner__banner {
+    width: 100%;
+    height: 25rem;
+}
+
+.perfil-banner__foto {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 13.75rem;
+    height: 13.75rem;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center center;
+    border: 0.125rem solid #633F9A;
+}
+
+.perfil__foto {
+    position: relative;
+    width: 24rem;
+    left: -4rem;
+    top: -9rem;
+}
+
+.perfil-banner__gearIcon {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    width: 3.125rem;
+    height: 3.125rem;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.perfil-info-post__container {
+    display: flex;
+    /* height: calc(100vh - 25rem); */
+    flex: 1;
+    height: auto;
+}
+
+.perfil-info__plataformas {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.perfil-info__info-container .perfil-info__info>div a {
+    text-decoration: none;
+    color: black;
+}
+
+.perfil-info__info-container .perfil-info__info>div img {
+    filter: grayscale(100%);
+}
+
+.perfil-info__info-container .perfil-info__info>div a:hover {
+    text-decoration: none;
+}
+
+.perfil-info__plataformas img {
+    width: 1.563rem;
+    height: 1.563rem;
+    margin-right: 10px;
+}
+
+.perfil-info__container {
+    float: left;
+    flex-direction: column;
+    width: 40%;
+    height: auto;
+    text-align: center;
+    border: 1px solid #E2E2E2;
+    box-sizing: border-box;
+    flex: 1 0;
+}
+
+.perfil-info__nome-container {
+    border-bottom: 1px solid #E2E2E2;
+    margin: auto;
+}
+
+.perfil-info__follow-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfil-info__follow-button {
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 2px solid #4d2c80;
+    color: #4d2c80;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 50px;
+}
+
+.perfil-info__spacer {
+    flex-grow: 1;
+}
+
+.perfil-info__follow-button .perfil-info__follow-icon {
+    margin-right: 0px;
+    margin: auto;
+}
+
+.perfil-info__follow-button:hover {
+    background-color: #4d2c80;
+    color: #fff;
+}
+
+.perfil-info__follow-button:hover .perfil-info__follow-icon {
+    color: #8662bc;
+}
+
+.perfil-info__folllow {
+    color: #BBBBBB;
+}
+
+.perfil-info__folllow:nth-child(1) {
+    margin-right: 20px;
+}
+
+.perfil-info__folllow {
+    color: #BBBBBB;
+}
+
+.perfil-info__folllow:nth-child(1) {
+    margin-right: 20px;
+}
+
+.perfil-post__container {
+    width: 60%;
+}
+
+.perfil-post__post {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid #E2E2E2;
+}
+
+
+.perfil-post-card__foto {
+    border-radius: 50%;
+    height: 5.625rem;
+    width: 5.625rem;
+}
+
+.card-post__user {
+    font-size: 20px;
+}
+
+.perfil-post-card__game {
+    font-size: 20px;
+    margin-left: 15px;
+}
+
+.perfil-post-card__nota {
+    border-radius: 5px;
+    background-color: #88AF66;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    margin-left: 15px;
+}
+
+.perfil-post-container__foto-content {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.perfil-post-card-post__foto-container {
+    margin-right: 15px;
+}
+
+.perfil-post-card__content-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.perfil-post__content {
+    margin-bottom: 2px;
+}
+
+.perfil-post-card__descricrao {
+    margin-top: 8px;
+    box-sizing: border-box;
+    padding: 15px;
+    display: block;
+    flex-grow: 1;
+    overflow: auto;
+    text-overflow: ellipsis;
+    height: auto;
+}
+
+.perfil-info__nome-container,
+.perfil-info__info-container {
+    padding: 20px;
+}
+
+.perfil-post-card__like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding-left: 10px;
+    outline: none;
+    margin: left;
+}
+
+.perfil-post-card__heart-icon {
+    font-size: 30px;
+    color: #633f9a2c;
+    border-radius: #000000;
+    transition: color 0.3s;
+}
+
+.perfil-post-card__heart-icon.filled {
+    color: #633F9A
+}
+
+.perfil-info__level-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.perfil-info__level-bar,
+.perfil-info__level-progress-bar {
+    width: 25rem;
+    height: 1rem;
+    border-radius: 15px;
+    margin-bottom: 0.75rem;
+}
+
+.perfil-info__level-bar {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #D9D9D9;
+}
+
+.perfil-info__level-progress-bar {
+    width: 5rem;
+    background-color: #633F9A;
+    box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.349);
+}
+
+/* Media Queries */
+/* Tablet */
+@media(max-width: 991px) {
+    .perfil-info-post__container {
+        flex-wrap: wrap;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .perfil-info__container {
+        /* height: auto; */
+    }
+
+    .perfil-info__container,
+    .perfil-post__container {
+        width: 100%;
+
+    }
+}

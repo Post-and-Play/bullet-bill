@@ -13,7 +13,7 @@ app.listen(5000, () => {
 });
 
 const corsOptions = {
-    origin: 'http://localhost:3000', // Substitua com a origem do seu aplicativo React
-  };
-   
-  app.use(cors(corsOptions));
+  origin: 'http://localhost:3000', // Substitua com a origem do seu aplicativo React
+};
+
+app.use(cors(corsOptions));

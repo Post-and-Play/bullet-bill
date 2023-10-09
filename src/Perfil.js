@@ -27,10 +27,10 @@ import { FaUserPlus, FaCheck } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
-const Perfil = () => { 
+const Perfil = () => {
     const [following, setFollowing] = useState('');
     const [liked, setLiked] = useState('');
-    const [name ,setName]= useState ('');
+    const [name, setName] = useState('');
     // const [mail ,setMail]= useState ('');
     // const [user_name, setUsername] = useState();
     const [followed, setFollowed] = useState('');
@@ -46,29 +46,29 @@ const Perfil = () => {
     const [githubNick, setGithubNick] = useState('');
     const [discordNick, setDiscordNick] = useState('');
 
-    const getCurrentUser = async() => {
+    const getCurrentUser = async () => {
 
         let user = await getUser();
         if (user) {
-                const response = await api.get('./api/users?id=' + user.id);
-                if (response.data.id){
-                    
-                    setName(response.data.name);
-                    setFollowed(response.data.followed);
-                    setFollowing(response.data.following);
-                    setDescription(response.data.description);
-                    setTwitchNick(response.data.twitch_user);
-                    setDiscordNick(response.data.discord_user);
-                    setEpicGamesNick(response.data.epic_user);
-                    setSteamNick(response.data.steam_user);
-                    setGithubNick(response.data.github_user);
-                    setProfileImage(response.data.photo_adr);
-                    setBannerImage(response.data.top_adr);
-                    
-                }
+            const response = await api.get('./api/users?id=' + user.id);
+            if (response.data.id) {
+
+                setName(response.data.name);
+                setFollowed(response.data.followed);
+                setFollowing(response.data.following);
+                setDescription(response.data.description);
+                setTwitchNick(response.data.twitch_user);
+                setDiscordNick(response.data.discord_user);
+                setEpicGamesNick(response.data.epic_user);
+                setSteamNick(response.data.steam_user);
+                setGithubNick(response.data.github_user);
+                setProfileImage(response.data.photo_adr);
+                setBannerImage(response.data.top_adr);
+
+            }
         }
     }
-    
+
 
     const handleFollow = () => {
         setFollowing(!following);

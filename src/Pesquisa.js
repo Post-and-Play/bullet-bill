@@ -20,7 +20,7 @@ import { Modals } from './components/Modals';
 import React, { useState } from 'react'
 
 const Pesquisa = () => {
-    const [name ,setName]= useState ('');
+    const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [cover_adr, setCover] = useState(null);
     const [top_adr, setTop] = useState(null);
@@ -28,27 +28,27 @@ const Pesquisa = () => {
     const [reviews, setReviews] = useState('');
     const [rating, setRating] = useState('');
 
-    const getCurrentGames = async() => {
+    const getCurrentGames = async () => {
 
         let games = await getUser();
         if (games) {
-                const response = await api.get('./api/games?id=' + games.id);
-                if (response.data.id){
-                    
-                    setName(response.data.name); 
-                    setGenders(response.data.genders);
-                    setDescription(response.data.description);
-                    setRating(response.data.rating);
-                    setReviews(response.data.reviews);
-                    setCover(response.data.cover_adr);
-                    setTop(response.data.top_adr);
-                    
-                }
+            const response = await api.get('./api/games?id=' + games.id);
+            if (response.data.id) {
+
+                setName(response.data.name);
+                setGenders(response.data.genders);
+                setDescription(response.data.description);
+                setRating(response.data.rating);
+                setReviews(response.data.reviews);
+                setCover(response.data.cover_adr);
+                setTop(response.data.top_adr);
+
+            }
         }
     }
-        getCurrentGames();
-    
-      const genreArray = genders.split(',').map((genders) => genders.trim());
+    getCurrentGames();
+
+    const genreArray = genders.split(',').map((genders) => genders.trim());
 
     return (
         <div>
@@ -59,14 +59,14 @@ const Pesquisa = () => {
                         <img src={top_adr} alt="Foto jogo" className='pesquisa__jogo-foto' />
                         <div className="`pesquisa__jogo-info-container`">
                             <p className='pesquisa__jogo-titulo'>{name}</p>
-                            
+
                             <div className="pesquisa__categoria-container">
-                            {genreArray.map((genders, index) => (
-                            <div key={index} className="pesquisa__categoria">
-                                {genders}
-                        </div>
-                        ))}
-                    </div>
+                                {genreArray.map((genders, index) => (
+                                    <div key={index} className="pesquisa__categoria">
+                                        {genders}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </a>
                 </div>

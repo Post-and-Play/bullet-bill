@@ -1,0 +1,159 @@
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    position: fixed; /* Stay in place */
+    z-index: 102; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #dfdfdff3; /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content, .modal-content-dialog, .modal-content-loading {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    top: 0px;
+    padding: 0;
+    width: 90%;
+    max-height: 100%;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: react-confirm-alert-fadeIn;
+    animation-duration: 1s;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content-dialog {
+    width: auto;
+    max-width: 460px;
+    min-width: 200px;
+    vertical-align: middle;
+}
+
+.modal-content-loading {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.modal-body-dialog-text {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: auto;
+    max-width: 380px;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.modal-body-dialog-icons {
+    display: flex;
+    align-items: center;
+    height: auto;
+    justify-content: center;
+    margin: 0px 10px;
+}
+
+#modalloading {
+    z-index: 103;
+}
+
+/* Modal Content */
+.loading-content {
+    position: relative;
+    margin: auto;
+    top: 30%;
+    padding: 0;
+    width: 80%;
+    border: 1px solid #888;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 #00000033,0 6px 20px 0 #00000030;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+/* Add Animation */
+@keyframes react-confirm-alert-fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* The Close Button */
+.close {
+    color: #444444;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 10px 16px;
+    margin: 10px 1px;
+    background-color: #fff;
+    color: #444444;
+    border-radius: 4px;
+    border-bottom: solid #ddd 1px;
+}
+
+.modal-body {
+    padding: 2px 16px;
+    min-height: 70px;
+    height: auto;
+    align-content: flex-start;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    display: flex;
+    padding: 10px 16px;
+    background-color: #fff;
+    color: #444444;
+    border-top: solid #ddd 1px;
+    border-radius: 4px;
+    bottom: 0px;
+    justify-content: flex-end;
+}
+
+.btn-default {
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    color: #fff;
+    background-color: #633F9A;
+    font-weight: 500;
+    width: 45%;
+    height: 2.8125rem;
+    box-shadow: 0rem 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+}
+
+.btn-default:hover {
+    background-color: #532f8a;
+}
+
+.one-col {
+    width: 100%
+}
+
+.two-col {
+    width: 50%
+}

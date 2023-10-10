@@ -19,6 +19,10 @@ html {
 .perfil-banner__banner {
     width: 100%;
     height: 25rem;
+<<<<<<< HEAD
+=======
+    object-fit: cover;
+>>>>>>> origin/games
 }
 
 .perfil-banner__foto {
@@ -38,6 +42,10 @@ html {
 .perfil__foto {
     position: relative;
     width: 24rem;
+<<<<<<< HEAD
+=======
+    height: 24rem;
+>>>>>>> origin/games
     left: -4rem;
     top: -9rem;
 }

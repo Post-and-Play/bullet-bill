@@ -6,9 +6,19 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
+<<<<<<< HEAD
 const Login = () => {
     const [emailInput, setEmailInput] = useState('');
     const [senhaInput, setSenhaInput] = useState('');
+=======
+import { login } from './services/Auth';
+
+const Login = () => {
+
+    const [emailInput, setEmailInput] = useState('');
+    const [senhaInput, setSenhaInput] = useState('');
+    const [conectadoInput, setConectadoInput] = useState(false);
+>>>>>>> origin/games
     const [camposObrigatoriosPopup, setCamposObrigatoriosPopup] = useState(false);
 
     const navigate = useNavigate();
@@ -16,6 +26,10 @@ const Login = () => {
     const handleInputChange = (event, setInput) => {
         setInput(event.target.value);
     };
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/games
     const handleButtonClick = (e) => {
         if (emailInput.trim() === '' || senhaInput.trim() === '') {
             e.preventDefault();
@@ -24,11 +38,19 @@ const Login = () => {
                 setCamposObrigatoriosPopup(false);
             }, 3000);
         } else {
+<<<<<<< HEAD
             navigate('/home');
         }
     };
 
 
+=======
+            e.preventDefault();
+            login(emailInput, senhaInput, conectadoInput);            
+        }
+    };
+
+>>>>>>> origin/games
     return (
         <div>
             <Navbar hideSearchbar={true} />
@@ -57,7 +79,11 @@ const Login = () => {
                             </label>
                             <div className="row">
                                 <div>
+<<<<<<< HEAD
                                     <input type="checkbox" name="" id="" />
+=======
+                                    <input type="checkbox" name="" id="" onChange={(e) => handleInputChange(e, setConectadoInput)} />
+>>>>>>> origin/games
                                     <p className='manterConectado'>Mantenha-me conectado</p>
                                 </div>
                             </div>

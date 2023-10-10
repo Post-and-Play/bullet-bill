@@ -9,11 +9,21 @@ import Navbar from './components/navbar';
 // i
 import CloseIcon from '../src/icons/close.svg';
 
+<<<<<<< HEAD
+=======
+import api from './services/Api';
+import { Modals } from './components/Modals';
+
+>>>>>>> origin/games
 const Cadastro = () => {
     const [nomeInput, setNomeInput] = useState('');
     const [sobrenomeInput, setSobrenomeInput] = useState('');
     const [nomeUserInput, setNomeUserInput] = useState('');
     const [diaInput, setDiaInput] = useState('');
+<<<<<<< HEAD
+=======
+    const [mesInput, setMesInput] = useState('');
+>>>>>>> origin/games
     const [anoInput, setAnoInput] = useState('');
     const [emailInput, setEmailInput] = useState('');
     const [confirmEmailInput, setConfirmEmailInput] = useState('');
@@ -31,6 +41,13 @@ const Cadastro = () => {
 
     const navigate = useNavigate();
 
+<<<<<<< HEAD
+=======
+    const root = document.getElementById('root');
+    const modals = new Modals();
+   /* const loading = new modals.htmlLoading(root);*/
+
+>>>>>>> origin/games
     const handleInputChange = (event, setInput) => {
         setInput(event.target.value);
     };
@@ -78,7 +95,13 @@ const Cadastro = () => {
                 setIdadePopup(false);
             }, 3000);
         } else {
+<<<<<<< HEAD
             navigate('/');
+=======
+            e.preventDefault();
+            creatUser();
+            
+>>>>>>> origin/games
         }
     };
 
@@ -96,6 +119,55 @@ const Cadastro = () => {
         setTermsBox(false);
     }
 
+<<<<<<< HEAD
+=======
+    const creatUser = async () => {
+
+        await api.post('./api/users', {
+            name: nomeInput + ' ' + sobrenomeInput,
+            user_name: nomeUserInput,
+            password: senhaInput,
+            mail: emailInput,
+            birth_date: anoInput + '-' + mesInput + '-' + diaInput 
+        }).then(function (response) {
+            console.log(response);
+
+            if (root) {
+                modals.htmlDialog(
+                    root,
+                    'Sua conta foi criada com sucesso!',
+                    modals.msgboxButtons.okOnly,
+                    modals.msgboxIcons.check,
+                    'Mensagem!',
+                    {
+                        ok: (evt) => {
+                            navigate('/');
+                        }
+                    });
+            }
+                       
+        }).catch(function (error) {
+            console.log(error);
+
+            if (root) {
+                modals.htmlDialog(
+                    root,
+                    'Não foi possível criar a conta!',
+                    modals.msgboxButtons.okOnly,
+                    modals.msgboxIcons.critical,
+                    'Mensagem!',
+                    {
+                        ok: (evt) => {
+
+                        }
+                    });
+            }
+
+        });
+
+    }
+
+>>>>>>> origin/games
     return (
         <div>
             <Navbar hideSearchbar={true} />
@@ -121,6 +193,7 @@ const Cadastro = () => {
                                 <p className='labelCadastro'>Data de nascimento</p>
                                 <div className="cadastro__select-data-container">
                                     <input className='inputCadastro inputData inputDia' placeholder='1' type="number" name='dia' value={diaInput} onChange={(e) => handleInputChange(e, setDiaInput)} ></input>
+<<<<<<< HEAD
                                     <select className='inputCadastro inputData inputMes' placeholder='Jan' name="mes" id="mes">
                                         <option value="Janeiro">Jan</option>
                                         <option value="Fevereiro">Fev</option>
@@ -134,6 +207,21 @@ const Cadastro = () => {
                                         <option value="Outubro">Out</option>
                                         <option value="Novembro">Nov</option>
                                         <option value="Dezembro">Dez</option>
+=======
+                                    <select className='inputCadastro inputData inputMes' placeholder='Jan' name="mes" id="mes" value={mesInput} onChange={(e) => handleInputChange(e, setMesInput)}>
+                                        <option value="1">Jan</option>
+                                        <option value="2">Fev</option>
+                                        <option value="3">Mar</option>
+                                        <option value="4">Abr</option>
+                                        <option value="5">Mai</option>
+                                        <option value="6">Jun</option>
+                                        <option value="7">Jul</option>
+                                        <option value="8">Ago</option>
+                                        <option value="9">Set</option>
+                                        <option value="10">Out</option>
+                                        <option value="11">Nov</option>
+                                        <option value="12">Dez</option>
+>>>>>>> origin/games
                                     </select>
                                     <input className='inputCadastro inputData inputAno lastInput' placeholder='2023' type="number" name='ano' value={anoInput} onChange={(e) => handleInputChange(e, setAnoInput)} ></input>
                                 </div>

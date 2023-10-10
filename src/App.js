@@ -10,12 +10,20 @@ import RecuperarSenha from './RecuperarSenha';
 import RedefinirSenha from './RedefinirSenha';
 import Jogo from './Jogo'
 import Pesquisa from './Pesquisa'
+<<<<<<< HEAD
 
+=======
+import Api from './services/Api';
+>>>>>>> origin/games
 function App() {
   return (
     <>
       <Routes>
+<<<<<<< HEAD
         <Route path="/perfil" element={<Perfil />} />
+=======
+        <Route path="/perfil/" element={<Perfil />} />
+>>>>>>> origin/games
         <Route path="/home" element={<Home />} />
         <Route path="*" element={<div>ERROR</div>} />
         <Route path="/" element={<Login />} />
@@ -24,6 +32,10 @@ function App() {
         <Route path="/redefinir-senha" element={<RedefinirSenha />} />
         <Route path="/jogo" element={<Jogo />} />
         <Route path="/pesquisa" element={<Pesquisa />} />
+<<<<<<< HEAD
+=======
+        <Route path="/user" element={<Api/>} />
+>>>>>>> origin/games
       </Routes>
     </>
   );

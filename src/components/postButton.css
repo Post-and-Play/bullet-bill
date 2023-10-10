@@ -34,7 +34,6 @@
 }
 
 .postBox__container {
-    z-index: 1;
     position: fixed;
     top: 0;
     left: 0;
@@ -42,7 +41,7 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(3px);
-    z-index: 1;
+    z-index: 99;
 }
 
 .postBox {

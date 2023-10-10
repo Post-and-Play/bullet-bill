@@ -7,7 +7,6 @@ import CSGO from './icons/Render background/Imagens/icon/icon--CSGO.png'
 import EldenRing from './icons/Render background/Imagens/icon/icon--EldenRing.png'
 import Osu from './icons/Render background/Imagens/icon/icon--Osu.png'
 import Skyrim from './icons/Render background/Imagens/icon/icon--Skryim.png'
- 
 import Cleitin from './image/perfil-cleitin.png';
 import Atreus from './image/perfil-atreus.png';
 import Kratus from './image/perfil-kratus.png';
@@ -15,7 +14,8 @@ import Adalberto from './image/perfil-adalberto.png';
 import Cleber from './image/perfil-cleber.png';
 import Gabriel from './image/perfil-gabriel.png';
 
-import React, { useRef, useState } from 'react'; 
+import React, { useRef, useState, useEffect } from 'react'; // Importe o useEffect aqui
+
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,10 +25,16 @@ import PostButton from './components/postButton';
 import Navbar from './components/navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { Modals } from './components/Modals';
 
-import { getAuth } from './services/Auth';
+import { getAuth, getUser } from './services/Auth';
+import api from './services/Api'
 
 const Home = () => {
+
+    const [reviews, setReviews] = useState([]);
+    const [games, setGames] = useState([]);
+    const [userId, setUserId] = useState(null);
 
     const sliderRef = useRef(null);
     const navigate = useNavigate();
@@ -75,6 +81,112 @@ const Home = () => {
         setLiked(!liked);
     };
 
+    const getGames = async () => {
+
+        try {
+            const response = await api.get('./api/games/search');
+            if (response.data) {
+                setGames(response.data);
+            }
+            else {
+                setGames([]);
+            }
+        } catch (err) {
+            setGames([]);
+        }
+
+    }
+
+    const coresDasNotas = [
+        "#A70000",
+        "#AF1C00",
+        "#B83500",
+        "#C04D00",
+        "#C86500",
+        "#D07C00",
+        "#D89400",
+        "#E0AB00",
+        "#E8C300",
+        "#F0DA00",
+        "#F9F200",
+        "#FFFC00",
+        "#FFFC00",
+        "#C4FA00",
+        "#C4FA00",
+        "#88F800",
+        "#6AE700",
+        "#4CE600",
+        "#2EE500",
+        "#10D400",
+        "#0094DC"
+      ];
+      const getCoresDasNotas = (nota) => {
+        // Calcula o índice arredondado com base na nota
+        const indice = Math.round(nota * 2);
+    
+        // Retorna a cor correspondente no array de cores
+        return coresDasNotas[indice];
+      };      
+
+
+
+    const getReviews = async () => {
+        try {
+
+            const response = await api.get('./api/reviews');
+            if (response.data) {
+                const mappedReviews = await Promise.all(
+                    response.data.map(async (reviews) => {
+                        const userResponse = await api.get(`/api/users?id=${reviews.user_id}`);
+                        const gameResponse = await api.get(`/api/games?id=${reviews.game_id}`);
+                        console.log(userResponse)
+                        console.log(gameResponse)
+                        return {
+                            ...reviews,
+                            userPhoto: userResponse.data.photo_adr,
+                            username: userResponse.data.name,
+                            gameName: gameResponse.data.name,
+
+                        };
+                    })
+                );
+                setReviews(mappedReviews);
+            } else {
+                setReviews([]);
+            }
+        } catch (err) {
+            setReviews([]);
+        }
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const user = await getUser();
+            if (user) {
+                const response = await api.get(`/api/users?id=${user.id}`);
+                if (response.data.id) {
+                    setUserId(response.data.id)
+                }
+            }
+        };
+
+        fetchData(); // Chama a função fetchData quando o componente for montado
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await getGames();
+        };
+        fetchData(); // Chama a função fetchData quando o componente for montado
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await getReviews();
+        };
+        fetchData(); // Chama a função fetchData quando o componente for montado
+    }, []);
+
     return (
         <div onLoad={() => getAuth()}>
             <Navbar />
@@ -99,126 +211,42 @@ const Home = () => {
             </div>
             <div className="custom-container">
                 <div className="container__card-post">
-                    <div className="card-post">
-                        <div className="container__foto-content">
-                            <div className="card-post__foto-container">
-                                <a href="#">
-                                    <img src={Cleitin} alt="Foto perfil" className='card-post__foto' />
-                                </a>
+                    {reviews.map((review) => (
+                        <div className="card-post" key={review.id}>
+                            <div className="container__foto-content">
+                                <div className="card-post__foto-container">
+                                    <a href={`perfil?id=${review.user_id}`}>
+                                        <img src={review.userPhoto} alt="Foto perfil" className="card-post__foto" />
+                                    </a>
+                                </div>
+                                <div className="card-post__content-container">
+                                    <span className="card-post__user card-post__content">{review.username}</span>
+                                    <a href={`jogo?id=${review.game_id}`} className="card-post__game card-post__content">{review.gameName}</a>
+                                    <div className="card-post__nota card-post__content" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
+                                    {review.grade}
+                                </div>
+                                </div>
                             </div>
-                            <div className="card-post__content-container">
-                                <span className='card-post__user card-post__content'>Cleitin</span>
-                                <span className='card-post__game card-post__content'>Elden Ring</span>
-                                <div className="card-post__nota card-post__content">10</div>
+                            <div className="card-post__descricao-container">
+                                <div className="card-post__descricao">
+                                    <div className="card-post__descricao">
+                                        <p>{review.opinion}</p>
+                                    </div>
+                                    <div>
+                                        {review.image_adr && (
+                                            <img src={review.image_adr} alt="Foto perfil" className="card-post__foto-opiniao" />
+                                        )}
+                                    </div>
+                                </div>
                             </div>
+                            <button className="post-card__like-button" onClick={handleLike}>
+                                <FontAwesomeIcon
+                                    icon={faHeart}
+                                    className={`post-card__heart-icon ${liked ? 'filled' : ''}`}
+                                />
+                            </button>
                         </div>
-                        <div className="card-post__descricrao">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
-                        </div>
-                        <button className="post-card__like-button" onClick={handleLike}>
-                            <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
-                        </button>
-                    </div>
-                    <div className="card-post">
-                        <div className="container__foto-content">
-                            <div className="card-post__foto-container">
-                                <a href="#">
-                                    <img src={Atreus} alt="Foto Perfil" className='card-post__foto' />
-                                </a>
-                            </div>
-                            <div className="card-post__content-container">
-                                <span className='card-post__user card-post__content'>Atreus</span>
-                                <span className='card-post__game card-post__content'>League of Legends</span>
-                                <div className="card-post__nota card-post__content">10</div>
-                            </div>
-                        </div>
-                        <div className="card-post__descricrao">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
-                        </div>
-                        <button className="post-card__like-button" onClick={handleLike}>
-                            <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
-                        </button>
-                    </div>
-                    <div className="card-post">
-                        <div className="container__foto-content">
-                            <div className="card-post__foto-container">
-                                <a href="#">
-                                    <img src={Kratus} alt="Foto Perfil" className='card-post__foto' />
-                                </a>
-                            </div>
-                            <div className="card-post__content-container">
-                                <span className='card-post__user card-post__content'>Kratus</span>
-                                <span className='card-post__game card-post__content'>God of War</span>
-                                <div className="card-post__nota card-post__content">10</div>
-                            </div>
-                        </div>
-                        <div className="card-post__descricrao">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
-                        </div>
-                        <button className="post-card__like-button" onClick={handleLike}>
-                            <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
-                        </button>
-                    </div>
-                    <div className="card-post">
-                        <div className="container__foto-content">
-                            <div className="card-post__foto-container">
-                                <a href="#">
-                                    <img src={Adalberto} alt="Foto Perfil" className='card-post__foto' />
-                                </a>
-                            </div>
-                            <div className="card-post__content-container">
-                                <span className='card-post__user card-post__content'>Adalberto</span>
-                                <span className='card-post__game card-post__content'>The Last Of Us</span>
-                                <div className="card-post__nota card-post__content">10</div>
-                            </div>
-                        </div>
-                        <div className="card-post__descricrao">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
-                        </div>
-                        <button className="post-card__like-button" onClick={handleLike}>
-                            <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
-                        </button>
-                    </div>
-                    <div className="card-post">
-                        <div className="container__foto-content">
-                            <div className="card-post__foto-container">
-                                <a href="#">
-                                    <img src={Cleber} alt="Foto Perfil" className='card-post__foto' />
-                                </a>
-                            </div>
-                            <div className="card-post__content-container">
-                                <span className='card-post__user card-post__content'>Cleber</span>
-                                <span className='card-post__game card-post__content'>Hitman 3</span>
-                                <div className="card-post__nota card-post__content">10</div>
-                            </div>
-                        </div>
-                        <div className="card-post__descricrao">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
-                        </div>
-                        <button className="post-card__like-button" onClick={handleLike}>
-                            <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
-                        </button>
-                    </div>
-                    <div className="card-post">
-                        <div className="container__foto-content">
-                            <div className="card-post__foto-container">
-                                <a href="#">
-                                    <img src={Gabriel} alt="Foto Perfil" className='card-post__foto' />
-                                </a>
-                            </div>
-                            <div className="card-post__content-container">
-                                <span className='card-post__user card-post__content'>Gabriel</span>
-                                <span className='card-post__game card-post__content'>The Witcher 3</span>
-                                <div className="card-post__nota card-post__content">10</div>
-                            </div>
-                        </div>
-                        <div className="card-post__descricrao">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores eveniet atque perferendis laudantium officiis libero vero molestias facilis doloribus, aliquid corporis perspiciatis blanditiis soluta, quasi repellendus ad. Adipisci, ipsa facere! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident porro maiores distinctio eveniet repellendus, dolorem quae incidunt quis laboriosam dolore. Provident labore optio molestias magnam commodi deserunt in ex voluptatem.</p>
-                        </div>
-                        <button className="post-card__like-button" onClick={handleLike}>
-                            <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${liked ? 'filled' : ''}`} />
-                        </button>
-                    </div>
+                    ))}
                     <PostButton />
                 </div>
             </div>

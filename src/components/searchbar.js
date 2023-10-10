@@ -48,7 +48,6 @@ const SearchBar = () => {
 
 
   getCurrentUser()
-  getCurrentUser()
 
   const handleProfileClick = (profile) => {
     // Redirecionar o usuário para o perfil do usuário clicado

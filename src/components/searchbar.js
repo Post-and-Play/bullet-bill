@@ -20,7 +20,19 @@ const SearchBar = () => {
   const navigate = useNavigate();
 
   const getCurrentUser = async () => {
+  const getCurrentUser = async () => {
 
+    let user = await getUser();
+    if (user) {
+      const response = await api.get('./api/users?id=' + user.id);
+      if (response.data.id) {
+
+        setName(response.data.name);
+        setProfileImage(response.data.photo_adr);
+
+      }
+    }
+  }
     let user = await getUser();
     if (user) {
       const response = await api.get('./api/users?id=' + user.id);
@@ -35,6 +47,7 @@ const SearchBar = () => {
 
 
 
+  getCurrentUser()
   getCurrentUser()
 
   const handleProfileClick = (profile) => {

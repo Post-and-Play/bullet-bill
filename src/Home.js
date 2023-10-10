@@ -16,6 +16,8 @@ import Gabriel from './image/perfil-gabriel.png';
 
 import React, { useRef, useState, useEffect } from 'react'; // Importe o useEffect aqui
 
+import React, { useRef, useState, useEffect } from 'react'; // Importe o useEffect aqui
+
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,11 +28,18 @@ import Navbar from './components/navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Modals } from './components/Modals';
+import { Modals } from './components/Modals';
 
+import { getAuth, getUser } from './services/Auth';
+import api from './services/Api'
 import { getAuth, getUser } from './services/Auth';
 import api from './services/Api'
 
 const Home = () => {
+
+    const [reviews, setReviews] = useState([]);
+    const [games, setGames] = useState([]);
+    const [userId, setUserId] = useState(null);
 
     const [reviews, setReviews] = useState([]);
     const [games, setGames] = useState([]);
@@ -245,7 +254,26 @@ const Home = () => {
                                     className={`post-card__heart-icon ${liked ? 'filled' : ''}`}
                                 />
                             </button>
+                            <div className="card-post__descricao-container">
+                                <div className="card-post__descricao">
+                                    <div className="card-post__descricao">
+                                        <p>{review.opinion}</p>
+                                    </div>
+                                    <div>
+                                        {review.image_adr && (
+                                            <img src={review.image_adr} alt="Foto perfil" className="card-post__foto-opiniao" />
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                            <button className="post-card__like-button" onClick={handleLike}>
+                                <FontAwesomeIcon
+                                    icon={faHeart}
+                                    className={`post-card__heart-icon ${liked ? 'filled' : ''}`}
+                                />
+                            </button>
                         </div>
+                    ))}
                     ))}
                     <PostButton />
                 </div>

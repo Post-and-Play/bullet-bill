@@ -104,6 +104,7 @@
     font-size: 14px;
     margin-left: 15px;
     text-decoration: none;
+    text-decoration: none;
 }
 
 .card-post__nota {
@@ -145,10 +146,19 @@
 }
 
 .card-post__descricao {
+.card-post__descricao-container {
+    display: flex;
+    flex-direction: row;
+    /* width: 100%; */
+    height: 10.625rem;
+}
+
+.card-post__descricao {
     margin-top: 8px;
     background-color: #5E4485;
     box-sizing: border-box;
     padding: 15px;
+    /* display: flex; */
     /* display: flex; */
     overflow: auto;
     text-overflow: ellipsis;
@@ -158,20 +168,25 @@
 }
 
 .card-post__descricao p {
+.card-post__descricao p {
     margin-bottom: 0;
+    width: 100%;
     width: 100%;
 }
 
+.card-post__descricao::-webkit-scrollbar {
 .card-post__descricao::-webkit-scrollbar {
     width: 8px;
     /* Largura da barra de rolagem */
 }
 
 .card-post__descricao::-webkit-scrollbar-track {
+.card-post__descricao::-webkit-scrollbar-track {
     background: transparent;
     /* Cor de fundo da barra de rolagem */
 }
 
+.card-post__descricao::-webkit-scrollbar-thumb {
 .card-post__descricao::-webkit-scrollbar-thumb {
     background: #4a3170;
     /* Cor da barra de rolagem */
@@ -180,14 +195,24 @@
 }
 
 .card-post__descricao::-webkit-scrollbar-thumb:hover {
+.card-post__descricao::-webkit-scrollbar-thumb:hover {
     background: #555;
     /* Cor da barra de rolagem ao passar o mouse */
 }
 
 .card-post,
 .card-post__descricao {
+.card-post__descricao {
     color: #fff;
     border-radius: 5px;
+}
+
+.card-post__foto-opiniao {
+    max-height: 6.25rem;
+    max-width: 6.25rem;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.027));
+    border-radius: 5px;
+    padding: 15px;
 }
 
 .card-post__foto-opiniao {

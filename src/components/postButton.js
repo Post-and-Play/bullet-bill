@@ -1,6 +1,7 @@
 import '../components/postButton.css'
 
 import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import sharpSendIcon from '@iconify-icons/ic/sharp-send';
 import attachmentIcon from '@iconify-icons/ic/attachment';
@@ -9,16 +10,49 @@ import { toast } from 'react-toastify';
 
 import api from '../services/Api';
 import { getUser } from "../services/Auth";
+import { toast } from 'react-toastify';
+
+import api from '../services/Api';
+import { getUser } from "../services/Auth";
 
 
 const PostButton = () => {
+    const [games, setGames] = useState([]);
     const [games, setGames] = useState([]);
     const [postBox, setPostBox] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const [selectedNota, setSelectedNota] = useState(null);
     const [selectedColor, setSelectedColor] = useState('');
     const [opiniao, setOpiniao] = useState('');
+    const [selectedNota, setSelectedNota] = useState(null);
+    const [selectedColor, setSelectedColor] = useState('');
+    const [opiniao, setOpiniao] = useState('');
     const [file, setFile] = useState(null);
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const user = await getUser();
+                if (!user) {
+                    return;
+                } else {
+                    const response = await api.get(`/api/users?id=${user.id}`);
+                    if (response.data.id) {
+                        setUserId(user.id);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao buscar dados do usuário:', error);
+            }
+        };
+
+        fetchData(); // Chama a função fetchData quando o componente for montado
+    }, []);
+
+
+
     const [isFormValid, setIsFormValid] = useState(false);
     const [userId, setUserId] = useState(null);
 
@@ -63,6 +97,11 @@ const PostButton = () => {
         const selectedFile = event.target.files[0];
         setFile(selectedFile);
 
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0];
+        setFile(selectedFile);
+
+        if (selectedFile) {
         if (selectedFile) {
             toast.success('Imagem adicionada!', { position: toast.POSITION.TOP_RIGHT });
         }
@@ -254,12 +293,22 @@ const PostButton = () => {
                                     {game.name} {/* Substitua 'nome' pelo campo real que contém o nome do jogo */}
                                 </option>
                             ))}
+                            <option className='postBox__selectJogo-placeholder' value="" disabled hidden>Escolha um jogo</option>
+                            {games.map((game) => (
+                                <option key={game.id} value={game.id}>
+                                    {game.name} {/* Substitua 'nome' pelo campo real que contém o nome do jogo */}
+                                </option>
+                            ))}
                         </select>
                         <div className="postBox__avaliacao">
                             <div className="txtAvaliacao__row">
                                 <p>Avaliação</p>
                             </div>
                             <div className="postBox__nota-container">
+                                {valoresNotas.map((valoresNotas, index) => (
+                                    <div className={`postBox__nota ${valoresNotas === selectedNota ? 'selected' : ''}`}
+                                        key={valoresNotas}
+                                        onClick={(event) => handleNotaClick(valoresNotas, event)}>
                                 {valoresNotas.map((valoresNotas, index) => (
                                     <div className={`postBox__nota ${valoresNotas === selectedNota ? 'selected' : ''}`}
                                         key={valoresNotas}
@@ -272,8 +321,11 @@ const PostButton = () => {
                         <div className="postBox__opiniao-container">
                             <div className="postBox__opiniao">
                                 <textarea className="postBox__opiniao-textarea" value={opiniao} placeholder='Digite a sua opinião' onChange={(event) => setOpiniao(event.target.value)} />
+                                <textarea className="postBox__opiniao-textarea" value={opiniao} placeholder='Digite a sua opinião' onChange={(event) => setOpiniao(event.target.value)} />
                                 <div className="postBox__opiniao-image">
                                     {file && <img src={URL.createObjectURL(file)} alt="Imagem anexada" />}
+                                </div>
+                                <div className="postBox__opiniao-icon">
                                 </div>
                                 <div className="postBox__opiniao-icon">
                                     <label htmlFor="file">
@@ -288,8 +340,10 @@ const PostButton = () => {
                                         className="postBox__icon"
                                     />
                                 </div>
+                                </div>
                             </div>
                         </div>
+                        <button className='postBox__button' disabled={!isFormValid} onClick={handlePost}>Postar</button>
                         <button className='postBox__button' disabled={!isFormValid} onClick={handlePost}>Postar</button>
                     </div>
                 </div>

@@ -293,10 +293,6 @@ html {
         height: auto;
     }
 
-    .perfil-info__container {
-        /* height: auto; */
-    }
-
     .perfil-info__container,
     .perfil-post__container {
         width: 100%;

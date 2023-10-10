@@ -9,21 +9,15 @@ import Navbar from './components/navbar';
 // i
 import CloseIcon from '../src/icons/close.svg';
 
-<<<<<<< HEAD
-=======
 import api from './services/Api';
 import { Modals } from './components/Modals';
 
->>>>>>> origin/games
 const Cadastro = () => {
     const [nomeInput, setNomeInput] = useState('');
     const [sobrenomeInput, setSobrenomeInput] = useState('');
     const [nomeUserInput, setNomeUserInput] = useState('');
     const [diaInput, setDiaInput] = useState('');
-<<<<<<< HEAD
-=======
     const [mesInput, setMesInput] = useState('');
->>>>>>> origin/games
     const [anoInput, setAnoInput] = useState('');
     const [emailInput, setEmailInput] = useState('');
     const [confirmEmailInput, setConfirmEmailInput] = useState('');
@@ -41,13 +35,10 @@ const Cadastro = () => {
 
     const navigate = useNavigate();
 
-<<<<<<< HEAD
-=======
     const root = document.getElementById('root');
     const modals = new Modals();
    /* const loading = new modals.htmlLoading(root);*/
 
->>>>>>> origin/games
     const handleInputChange = (event, setInput) => {
         setInput(event.target.value);
     };
@@ -95,13 +86,8 @@ const Cadastro = () => {
                 setIdadePopup(false);
             }, 3000);
         } else {
-<<<<<<< HEAD
-            navigate('/');
-=======
             e.preventDefault();
             creatUser();
-            
->>>>>>> origin/games
         }
     };
 
@@ -119,8 +105,7 @@ const Cadastro = () => {
         setTermsBox(false);
     }
 
-<<<<<<< HEAD
-=======
+
     const creatUser = async () => {
 
         await api.post('./api/users', {
@@ -167,7 +152,6 @@ const Cadastro = () => {
 
     }
 
->>>>>>> origin/games
     return (
         <div>
             <Navbar hideSearchbar={true} />
@@ -193,21 +177,6 @@ const Cadastro = () => {
                                 <p className='labelCadastro'>Data de nascimento</p>
                                 <div className="cadastro__select-data-container">
                                     <input className='inputCadastro inputData inputDia' placeholder='1' type="number" name='dia' value={diaInput} onChange={(e) => handleInputChange(e, setDiaInput)} ></input>
-<<<<<<< HEAD
-                                    <select className='inputCadastro inputData inputMes' placeholder='Jan' name="mes" id="mes">
-                                        <option value="Janeiro">Jan</option>
-                                        <option value="Fevereiro">Fev</option>
-                                        <option value="Março">Mar</option>
-                                        <option value="Abril">Abr</option>
-                                        <option value="Maio">Mai</option>
-                                        <option value="Junho">Jun</option>
-                                        <option value="Julho">Jul</option>
-                                        <option value="Agosto">Ago</option>
-                                        <option value="Setembro">Set</option>
-                                        <option value="Outubro">Out</option>
-                                        <option value="Novembro">Nov</option>
-                                        <option value="Dezembro">Dez</option>
-=======
                                     <select className='inputCadastro inputData inputMes' placeholder='Jan' name="mes" id="mes" value={mesInput} onChange={(e) => handleInputChange(e, setMesInput)}>
                                         <option value="1">Jan</option>
                                         <option value="2">Fev</option>
@@ -221,7 +190,6 @@ const Cadastro = () => {
                                         <option value="10">Out</option>
                                         <option value="11">Nov</option>
                                         <option value="12">Dez</option>
->>>>>>> origin/games
                                     </select>
                                     <input className='inputCadastro inputData inputAno lastInput' placeholder='2023' type="number" name='ano' value={anoInput} onChange={(e) => handleInputChange(e, setAnoInput)} ></input>
                                 </div>

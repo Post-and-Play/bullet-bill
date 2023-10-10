@@ -15,14 +15,9 @@ import Adalberto from './image/perfil-adalberto.png';
 import Cleber from './image/perfil-cleber.png';
 import Gabriel from './image/perfil-gabriel.png';
 
-<<<<<<< HEAD
-import React, { useRef, useState } from 'react';
-import Slider from 'react-slick';
-=======
 import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
->>>>>>> origin/games
 
 import { Icon } from '@iconify/react';
 
@@ -31,18 +26,17 @@ import Navbar from './components/navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
-<<<<<<< HEAD
-
-const Home = () => {
-    const sliderRef = useRef(null);
-=======
+import { Modals } from './components/Modals';
 import { getAuth } from './services/Auth';
 
 const Home = () => {
 
+    const root = document.getElementById('root');
+    const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
+
     const sliderRef = useRef(null);
     const navigate = useNavigate();
->>>>>>> origin/games
 
     const settings = {
         infinite: true,
@@ -86,17 +80,15 @@ const Home = () => {
         setLiked(!liked);
     };
 
-<<<<<<< HEAD
-=======
     useEffect(() => {
         const fetchData = async () => {
-            await getAuth();     
+            loading.show()
+            await getAuth();  
+            loading.close()        
         };
         fetchData(); // Chama a função fetchData quando o componente for montado
     }, []);
 
-
->>>>>>> origin/games
     return (
         <div>
             <Navbar />

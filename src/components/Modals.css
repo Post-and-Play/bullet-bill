@@ -78,7 +78,18 @@
     display: flex;
     flex-direction: column;
 }
+.loading {
+    display: flex;
+    width: 130px;
+    height: 96px;
+    margin: 10px auto;
+    align-items: center;
+}
 
+.loading img {
+    max-width: 100% !important;
+    height: auto !important;
+}
 
 
 /* Add Animation */

@@ -11,7 +11,7 @@
 import axios from 'axios';
 import { getUser } from "./Auth";
 
-const test = true;
+const test = false;
 var apiUrl = test ? process.env.REACT_APP_API_TEST : process.env.REACT_APP_API;
 
 //console.log('test: ' + test);

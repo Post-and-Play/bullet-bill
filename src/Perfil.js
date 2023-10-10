@@ -1,10 +1,7 @@
 import './Perfil.css'
 
-import React, { useState } from 'react';
-<<<<<<< HEAD
-=======
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
->>>>>>> origin/games
 import Steam from './icons/steam.png'
 import Discord from './icons/discord.png'
 import EpicGames from './icons/epic-games.png'
@@ -22,28 +19,30 @@ import FotoPerfil from './image/perfil-cleber.png'
 import Stray from './icons/Render background/icon-Stray.png'
 import Valorant from './icons/Render background/icon - valorant.png'
 import NeonWhite from './icons/Render background/icon - Neon White.png'
-<<<<<<< HEAD
-=======
+
 import api from './services/Api';
 import { getUser } from './services/Auth';
 import { Modals } from './components/Modals';
->>>>>>> origin/games
 
 import { FaUserPlus, FaCheck } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const Perfil = () => {
-<<<<<<< HEAD
-    const [following, setFollowing] = useState(false);
-    const [liked, setLiked] = useState(false);
+
+    const root = document.getElementById('root');
+    const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
+
+    //const [following, setFollowing] = useState(false);
+    //const [liked, setLiked] = useState(false);
     const isPerfilPessoal = false;  //false = outro user, true = user pessoal
     const spanValueSteam = 'Rodolfinho08';
     const spanValueDiscord = 'Dolfi#2917';
     const spanValueEpic = 'RodolfinhoGamers';
     const spanValueTwitch = 'rOdOL25k';
     const spanValueGithub = 'DolfDev';
-=======
+
     const [following, setFollowing] = useState('');
     const [liked, setLiked] = useState('');
     const [name ,setName]= useState ('');
@@ -52,7 +51,6 @@ const Perfil = () => {
     const [followed, setFollowed] = useState('');
     const [description, setDescription] = useState('');
 
-    const isPerfilPessoal = false;  //false = outro user, true = user pessoal
 
     const [profileImage, setProfileImage] = useState(null);
     const [bannerImage, setBannerImage] = useState(null);
@@ -85,8 +83,6 @@ const Perfil = () => {
         }
     }
     
-
->>>>>>> origin/games
     const handleFollow = () => {
         setFollowing(!following);
     };
@@ -96,45 +92,32 @@ const Perfil = () => {
         setLiked(!liked);
     };
 
-<<<<<<< HEAD
-=======
-    // const handleUser_nameChange = (event) => {
-    //     setUsername(event.target.value);
-    // };
+    useEffect(() => {
+        const fetchData = async () => {
+            loading.show()
+            await getCurrentUser();
+            loading.close()
+        }
+        fetchData();
+    }, [])
 
 
-    getCurrentUser()
->>>>>>> origin/games
     return (
         <div className='perfil__page-container'>
             <Navbar />
             <header className="perfil-banner__container">
-
-<<<<<<< HEAD
-                <img src={Banner} alt="Banner usuário" className='perfil-banner__banner' />
-                <div className="perfil-banner__foto">
-                    <img src={FotoPerfil} alt="Foto perfil" className='perfil__foto' />
-                </div>
-                <ConfigButton />
-=======
                 <img src={bannerImage} alt="Banner usuário" className='perfil-banner__banner' />
                 <div className="perfil-banner__foto">
                     <img src={profileImage} alt="Foto perfil" className='perfil__foto' />
                 </div>
-                <ConfigButton >
-                </ConfigButton>
->>>>>>> origin/games
+                <ConfigButton />
             </header>
 
             <div className="perfil-info-post__container">
                 <div className="perfil-info__container">
                     <section className="perfil-info__nome-container">
                         <div className="perfil-info__follow-container">
-<<<<<<< HEAD
-                            <h1>Cleber</h1>
-=======
                             <h1>{name}</h1>
->>>>>>> origin/games
                             {!isPerfilPessoal && (
                                 <button
                                     className={`perfil-info__follow-button ${following ? 'following' : ''}`}
@@ -150,48 +133,14 @@ const Perfil = () => {
                             )}
                         </div>
                         <div className="perfil-info__follow-container">
-<<<<<<< HEAD
-                            <p className='perfil-info__folllow'>97 seguidores</p>
-                            <p className='perfil-info__folllow'>552 seguindo</p>
-=======
                             <p className='perfil-info__folllow'>{followed} seguidores</p>
                             <p className='perfil-info__folllow'>{following} seguindo</p>
->>>>>>> origin/games
                         </div>
 
                     </section>
                     <section className="perfil-info__info-container">
                         <div className="perfil-info__info perfil-info__plataformas">
                             <div>
-<<<<<<< HEAD
-                                <a href={`https://steamcommunity.com/id/${spanValueSteam}`}>
-                                    <img src={Steam} alt="steam" />
-                                    <span>Cleber_Fire</span>
-                                </a>
-                            </div>
-                            <div>
-                                <a href={`https://discordapp.com/users/${spanValueDiscord}`}>
-                                    <img src={Discord} alt="discord" />
-                                    <span>CleberBow#1322</span>
-                                </a>
-                            </div>
-                            <div>
-                                <a href={`https://www.epicgames.com/id/${spanValueEpic}`}>
-                                    <img src={EpicGames} alt="epic" />
-                                    <span>CleberFireXx</span>
-                                </a>
-                            </div>
-                            <div>
-                                <a href={`https://www.twitch.tv/${spanValueTwitch}`}>
-                                    <img src={Twitch} alt="twitch" />
-                                    <span>cLebinhoBowXX</span>
-                                </a>
-                            </div>
-                            <div>
-                                <a href={`https://github.com/${spanValueGithub}`}>
-                                    <img src={Github} alt="github" />
-                                    <span>CleberV</span>
-=======
                                 <a href={`https://steamcommunity.com/id/${steamNick}`}>
                                     <img src={Steam} alt="steam" />
                                     <span>{steamNick}</span>
@@ -219,17 +168,12 @@ const Perfil = () => {
                                 <a href={`https://github.com/${githubNick}`}>
                                     <img src={Github} alt="github" />
                                     <span>{githubNick}</span>
->>>>>>> origin/games
                                 </a>
                             </div>
                         </div>
                         <div className="perfil-info__info perfil-info__descricao">
                             <h2>Descrição</h2>
-<<<<<<< HEAD
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit corporis quaerat veniam cum, debitis aliquam cumque mollitia aspernatur. Atque enim sit at rerum vitae placeat eveniet omnis aliquam dolorum hic. Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, in minima illo dignissimos, natus commodi aliquam perspiciatis laudantium similique ratione adipisci nostrum delectus aliquid at nam impedit possimus. Inventore, blanditiis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque magni rem dolor et, neque quod libero saepe, repellat ad id velit vel inventore voluptatem facilis eligendi adipisci nesciunt illum? Harum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab est veniam, omnis ducimus, delectus soluta ipsum quidem architecto eligendi laborum illum voluptas enim explicabo vero, praesentium ex aliquid at cum! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores saepe ullam, iste deserunt totam magni impedit laborum doloribus laboriosam ipsam in illo eius. Ad quae quis similique rem nam nemo! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil iste laboriosam minima voluptatem. Autem voluptas, ut sit voluptatum perspiciatis blanditiis hic deleniti sunt reiciendis consequuntur beatae sed inventore ducimus aliquid! Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat ipsam, autem corrupti magni eius blanditiis et ea in natus eveniet itaque, ab, iure suscipit mollitia inventore? Quisquam ex optio maiores.</p>
-=======
                             <p>{description}</p>
->>>>>>> origin/games
                         </div>
                     </section>
                 </div>

@@ -19,14 +19,7 @@ import PostButton from './components/postButton'
 import { Icon } from '@iconify/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-// import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
 
-<<<<<<< HEAD
-import React, { useRef, useState } from 'react';
-import Slider from 'react-slick';
-
-const Jogo = () => {
-=======
 import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
 
@@ -66,7 +59,6 @@ const Jogo = () => {
         }
     }
 
->>>>>>> origin/games
     const sliderRef = useRef(null);
 
     const settings = {
@@ -107,8 +99,7 @@ const Jogo = () => {
         setLiked(!liked);
     };
 
-<<<<<<< HEAD
-=======
+
     const getCurrentGame = async () => {
         try {
 
@@ -165,61 +156,38 @@ const Jogo = () => {
         fetchData(); // Chama a função fetchData quando o componente for montado
     }, []);
 
->>>>>>> origin/games
+
     return (
         <div>
             <Navbar />
             <div className="jogo__banner-container">
-<<<<<<< HEAD
-                <img src={UnoBanner} alt="Banner" className='jogo__banner' />
-                <div className="jogo__info-container">
-                    <div className="jogo__info-img-container">
-                        <div className="jogo__info-img">
-                            <img src={UnoPerfil} alt="Foto jogo" />
-=======
                 <img src={coverAdr} alt="Banner" className='jogo__banner' />
                 <div className="jogo__banner_gradient"></div>
                 <div className="jogo__info-container">
                     <div className="jogo__info-img-container">
                         <div className="jogo__info-img">
                             <img src={topAdr} alt="Foto jogo" />
->>>>>>> origin/games
                         </div>
                         <div className="jogo__info-jogo-container">
                             <div className="jogo__info-titulo-container">
                                 <div className="jogo__info-titulo">
-<<<<<<< HEAD
-                                    <h1 className='jogo__titulo'>Uno</h1>
-=======
                                     <h1 className='jogo__titulo'>{name}</h1>
->>>>>>> origin/games
                                     <div className="jogo__nota-jogo">
                                         <span>5.2</span>
                                     </div>
                                 </div>
                             </div>
                             <div className="jogo__categoria-container">
-<<<<<<< HEAD
-                                <div className="jogo__categoria">Party</div>
-                                <div className="jogo__categoria">Estratégia</div>
-=======
                                 {genderArray.map((genders, index) => (
                                     <div key={index} className="pesquisa__categoria">
                                         {genders}
                                     </div>
                                 ))}
-                                {/*<div className="jogo__categoria">Party</div>*/}
-                                {/*<div className="jogo__categoria">Estratégia</div>*/}
->>>>>>> origin/games
                             </div>
                             <div className="jogo__rank-container">
                                 <div className="jogo__rank">
                                     <Icon icon="solar:ranking-linear" className='jogo__rank-icon' />
-<<<<<<< HEAD
-                                    <span className='jogo__rank-ranking'>Ranking: #50</span>
-=======
                                     <span className='jogo__rank-ranking'>Ranking: #{rating}</span>
->>>>>>> origin/games
                                 </div>
                             </div>
                         </div>
@@ -227,11 +195,7 @@ const Jogo = () => {
                     <div className="jogo__sinopse-container">
                         <div className="jogo__sinopse">
                             <Icon icon="mingcute:quote-left-fill" className='jogo__sinopse-quoteIcon quoteIcon-left' />
-<<<<<<< HEAD
-                            <p className='jogo__sinopse-texto'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam autem laborum expedita ab veniam sapiente consequatur vero sed vel sit ipsa quas fugiat, nemo officia, sunt aspernatur animi blanditiis atque. Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti eligendi odio optio nihil quis? Voluptatibus, laborum sapiente perspiciatis repellat ea voluptatem impedit illo laudantium repellendus. Illum aspernatur delectus iste rem!</p>
-=======
                             <p className='jogo__sinopse-texto'>{description}</p>
->>>>>>> origin/games
                             <Icon icon="mingcute:quote-right-fill" className='jogo__sinopse-quoteIcon quoteIcon-right' />
                         </div>
                     </div>

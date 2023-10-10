@@ -19,8 +19,11 @@ import { useNavigate } from 'react-router-dom';
 const Pesquisa = () => {
 
     const [games, setGames] = useState([]);
+
     const root = document.getElementById('root');
     const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
+
     const navigate = useNavigate();
        
     const getCurrentGame = async (event) => {
@@ -94,7 +97,9 @@ const Pesquisa = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            loading.show();
             await getGames();
+            loading.close();
         };
         fetchData(); // Chama a função fetchData quando o componente for montado
     }, []);

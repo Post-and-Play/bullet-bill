@@ -22,7 +22,12 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
 
 import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
+
+import api from './services/Api'
+import { getUser } from './services/Auth';
+import { Modals } from './components/Modals';
 
 import api from './services/Api'
 import { getUser } from './services/Auth';
@@ -306,14 +311,18 @@ const Jogo = () => {
             <div className="jogo__banner-container">
                 <img src={coverAdr} alt="Banner" className='jogo__banner' />
                 <div className="jogo__banner_gradient"></div>
+                <img src={coverAdr} alt="Banner" className='jogo__banner' />
+                <div className="jogo__banner_gradient"></div>
                 <div className="jogo__info-container">
                     <div className="jogo__info-img-container">
                         <div className="jogo__info-img">
+                            <img src={topAdr} alt="Foto jogo" />
                             <img src={topAdr} alt="Foto jogo" />
                         </div>
                         <div className="jogo__info-jogo-container">
                             <div className="jogo__info-titulo-container">
                                 <div className="jogo__info-titulo">
+                                    <h1 className='jogo__titulo'>{name}</h1>
                                     <h1 className='jogo__titulo'>{name}</h1>
                                     <div className="jogo__nota-jogo">
                                         <span>{rating}</span>
@@ -341,8 +350,10 @@ const Jogo = () => {
                         <div className="jogo__sinopse">
                             <Icon icon="mingcute:quote-left-fill" className='jogo__sinopse-quoteIcon quoteIcon-left' />
                             <p className='jogo__sinopse-texto'>{description}</p>
+                            <p className='jogo__sinopse-texto'>{description}</p>
                             <Icon icon="mingcute:quote-right-fill" className='jogo__sinopse-quoteIcon quoteIcon-right' />
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -393,8 +404,14 @@ const Jogo = () => {
                                 <FontAwesomeIcon icon={faHeart} className={`post-cardheart-icon ${review.userLiked ? 'filled' : ''}`} />
                                 <span className='post-cardlike-likes'>{review.likes}</span>
                             </button>
+                        <div className="post-cardlike-button-container">
+                            <button className="post-cardlike-button" onClick={() => handleLike(review)}>
+                                <FontAwesomeIcon icon={faHeart} className={`post-cardheart-icon ${review.userLiked ? 'filled' : ''}`} />
+                                <span className='post-cardlike-likes'>{review.likes}</span>
+                            </button>
                         </div>
                     </div>
+                ))}
                 ))}
             </div>
             <PostButton />

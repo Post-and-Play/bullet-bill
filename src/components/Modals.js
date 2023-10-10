@@ -15,7 +15,7 @@ import check from '../image/check.png';
 import critical from '../image/critical.png';
 import warning from '../image/warning.png';
 import question from '../image/question.png';
-import Loading from '../image/loading.webp';
+import Loading from '../image/loading.svg';
 
 
 //Classe para criar modals na página

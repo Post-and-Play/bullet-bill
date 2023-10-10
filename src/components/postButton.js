@@ -161,6 +161,7 @@ const PostButton = () => {
                 toast.success('Postagem realizada com sucesso!', { position: toast.POSITION.TOP_RIGHT });
                 // Limpar o formulário ou fazer outras ações necessárias após a postagem
                 resetForm();
+                window.location.reload();
             } else {
                 // Lidar com erros de postagem
                 toast.error('Ocorreu um erro ao postar. Tente novamente mais tarde.', { position: toast.POSITION.TOP_RIGHT });

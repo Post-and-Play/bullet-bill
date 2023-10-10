@@ -241,7 +241,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: #f9f9f9;
+    text-shadow: 0px 0px 4px #060606a1;
+    
+}
+
+.jogo__post-descricao-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+}
+
+.jogo__post-descricao {
+    width: 100%;
+    height: auto;
+    word-wrap: break-word;
+}
+
+img.jogo__post-foto-opiniao {
+    max-height: 10rem;
+    max-width: 10rem;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.103));
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.post-cardlike-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
 }
 
 .jogo__post-descricao-container {

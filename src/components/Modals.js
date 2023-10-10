@@ -603,7 +603,7 @@ export class Waiter {
             return 0;
         }
 
-        me.go = function () {
+        me.go = function () { 
             me.flag = false;
         }
 

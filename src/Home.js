@@ -97,6 +97,39 @@ const Home = () => {
 
     }
 
+    const coresDasNotas = [
+        "#A70000",
+        "#AF1C00",
+        "#B83500",
+        "#C04D00",
+        "#C86500",
+        "#D07C00",
+        "#D89400",
+        "#E0AB00",
+        "#E8C300",
+        "#F0DA00",
+        "#F9F200",
+        "#FFFC00",
+        "#FFFC00",
+        "#C4FA00",
+        "#C4FA00",
+        "#88F800",
+        "#6AE700",
+        "#4CE600",
+        "#2EE500",
+        "#10D400",
+        "#0094DC"
+      ];
+      const getCoresDasNotas = (nota) => {
+        // Calcula o índice arredondado com base na nota
+        const indice = Math.round(nota * 2);
+    
+        // Retorna a cor correspondente no array de cores
+        return coresDasNotas[indice];
+      };      
+
+
+
     const getReviews = async () => {
         try {
 
@@ -182,14 +215,16 @@ const Home = () => {
                         <div className="card-post" key={review.id}>
                             <div className="container__foto-content">
                                 <div className="card-post__foto-container">
-                                    <a href="#">
+                                    <a href={`perfil?id=${review.user_id}`}>
                                         <img src={review.userPhoto} alt="Foto perfil" className="card-post__foto" />
                                     </a>
                                 </div>
                                 <div className="card-post__content-container">
                                     <span className="card-post__user card-post__content">{review.username}</span>
                                     <a href={`jogo?id=${review.game_id}`} className="card-post__game card-post__content">{review.gameName}</a>
-                                    <div className="card-post__nota card-post__content">{review.grade}</div>
+                                    <div className="card-post__nota card-post__content" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
+                                    {review.grade}
+                                </div>
                                 </div>
                             </div>
                             <div className="card-post__descricao-container">

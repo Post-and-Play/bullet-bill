@@ -9,6 +9,7 @@ import searchIcon from "@iconify-icons/ic/baseline-search";
 import api from '../services/Api';
 import { getUser } from '../services/Auth';
 import { Modals } from './Modals';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,6 +17,7 @@ const SearchBar = () => {
   const [profile, setProfile] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
   const [name, setName] = useState('');
+  const navigate = useNavigate();
 
   const getCurrentUser = async () => {
 
@@ -60,7 +62,7 @@ const SearchBar = () => {
         setSearchResults([]);
       }
     } else {
-      setSearchResults([]);
+      navigate('/pesquisa');
     }
   };
 

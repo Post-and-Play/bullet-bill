@@ -37,6 +37,7 @@ const Jogo = () => {
     const modals = new Modals();
 
     const [reviews, setReviews] = useState([]);
+    const [review, setReview] = useState([]);
     const [name, setName] = useState('');
     const [genders, setGenders] = useState('');
     const [description, setDescription] = useState('');
@@ -48,6 +49,7 @@ const Jogo = () => {
     const [userId, setUserId] = useState('');
     const [reviewId, setReviewId] = useState(initialGameId);
     const [reviewLikes, setReviewLikes] = useState({});
+    const [reviewCount, setReviewCount] = useState([]);
 
     if (!gameId) {
         if (root) {
@@ -90,6 +92,38 @@ const Jogo = () => {
         FotoPerfil
     ];
 
+    const coresDasNotas = [
+        "#A70000",
+        "#AF1C00",
+        "#B83500",
+        "#C04D00",
+        "#C86500",
+        "#D07C00",
+        "#D89400",
+        "#E0AB00",
+        "#E8C300",
+        "#F0DA00",
+        "#F9F200",
+        "#FFFC00",
+        "#FFFC00",
+        "#C4FA00",
+        "#C4FA00",
+        "#88F800",
+        "#6AE700",
+        "#4CE600",
+        "#2EE500",
+        "#10D400",
+        "#0094DC"
+      ];
+      const getCoresDasNotas = (nota) => {
+        // Calcula o índice arredondado com base na nota
+        const indice = Math.round(nota * 2);
+    
+        // Retorna a cor correspondente no array de cores
+        return coresDasNotas[indice];
+      };      
+
+
     const getCurrentUser = async () => {
 
         let user = await getUser();
@@ -131,7 +165,7 @@ const Jogo = () => {
                     })
                 );
 
-
+                setReviewCount(mappedReviews.length)       
                 setReviews(mappedReviews);
 
                 // Atualize o estado de likes com base nas revisões obtidas
@@ -282,14 +316,14 @@ const Jogo = () => {
                                 <div className="jogo__info-titulo">
                                     <h1 className='jogo__titulo'>{name}</h1>
                                     <div className="jogo__nota-jogo">
-                                        <span>5.2</span>
+                                        <span>{rating}</span>
                                     </div>
                                 </div>
                             </div>
                             <div className="jogo__categoria-container">
-                                {genderArray.map((genders, index) => (
-                                    <div key={index} className="pesquisa__categoria">
-                                        {genders}
+                                {genderArray.map((g, i) => (
+                                    <div key={i} className="pesquisa__categoria">
+                                        {g}
                                     </div>
                                 ))}
                                 {/*<div className="jogo__categoria">Party</div>*/}
@@ -298,7 +332,7 @@ const Jogo = () => {
                             <div className="jogo__rank-container">
                                 <div className="jogo__rank">
                                     <Icon icon="solar:ranking-linear" className='jogo__rank-icon' />
-                                    <span className='jogo__rank-ranking'>Ranking: #{rating}</span>
+                                    <span className='jogo__rank-ranking'>{reviewCount} Reviews</span>
                                 </div>
                             </div>
                         </div>
@@ -337,7 +371,9 @@ const Jogo = () => {
                             </a>
                             <div className="jogo__post-info-user">
                                 <p className="jogo__post-nomeUser">{review.username}</p>
-                                <div className="jogo__post-nota">{review.grade}</div>
+                                <div className="jogo__post-nota" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
+                                    {review.grade}
+                                </div>
                             </div>
                         </div>
                         <div className="jogo__post-descricao-container">

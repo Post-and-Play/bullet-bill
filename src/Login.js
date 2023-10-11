@@ -1,13 +1,11 @@
-import '../src/Login.css'
 
+
+import '../src/Login.css';
 import Navbar from './components/navbar';
-
 import Ilustration from './image/ilustration.png';
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
 import { login, getAuth } from './services/Auth';
 
 const Login = () => {

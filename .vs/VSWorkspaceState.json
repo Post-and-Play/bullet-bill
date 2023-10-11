@@ -2,10 +2,6 @@
   "ExpandedNodes": [
     ""
   ],
-<<<<<<< HEAD
-  "SelectedNode": "\\src",
-=======
-  "SelectedNode": "\\.env.example",
->>>>>>> d2946011d7d8e27d1b7800687a5e557e7644cf0f
+  "SelectedNode": "\\node_modules",
   "PreviewInSolutionExplorer": false
 }

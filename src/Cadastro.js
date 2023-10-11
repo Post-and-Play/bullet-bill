@@ -88,6 +88,7 @@ const Cadastro = () => {
         } else {
             e.preventDefault();
             creatUser();
+            
         }
     };
 
@@ -104,7 +105,6 @@ const Cadastro = () => {
     const handleClose = () => {
         setTermsBox(false);
     }
-
 
     const creatUser = async () => {
 

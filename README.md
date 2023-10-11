@@ -1,70 +1,138 @@
-# Getting Started with Create React App
+# C�digo de integra��o com o Backend e Dialogs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Utilizamos a biblioteca "axios" para realizar a comunica��o com o backend. As requisi��es podem ser definidas com seu 
+respectivo m�todo, sendo: GET, POST, PUT ou DELETE.
+Foram adicionados os arquivos e pastas:
 
-## Available Scripts
+### cont�m o c�digo do mecanismo de comunica��o com o Backend e o c�digo com fun��es de autoriza��o e valida��o do usu�rio
+ - Pasta src/services
+	- Api.js
+	- Auth.js
 
-In the project directory, you can run:
+### c�digo para cria��o de forms modals, para facilitar o envio de notifica��es para o usu�rio atrav�s de dialogs.
+ - src/components
+	- Modals.js
+	- Modals.css
 
-### `npm start`
+### arquivos de m�dia para composi��o dos dialogs
+ - src/image
+	- check.png
+	- critical.png
+	- question.png
+	- warning.png
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Exemplo de chamada ao backend
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Para realizar chamadas em alguma p�gina do frontend, primeiro deve-se realizar a iporta��o:
 
-### `npm test`
+``` javascript
+import api from './services/Api';
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Exempo de rqeuisi��o POST ( Quando envia dados )
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```javascript
+async function(){
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    //Deve usar uma fun��o ass�ncrona
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    await api.post('./api/users', {
+            name: nomeInput + ' ' + sobrenomeInput,
+            user_name: nomeUserInput,
+            password: senhaInput,
+            mail: emailInput,
+            birth_date: anoInput + '-' + mesInput + '-' + diaInput 
+        }).then(function (response) {
+            console.log(response);
 
-### `npm run eject`
+            if (root) {
+                modals.htmlDialog(
+                    root,
+                    'Sua conta foi criada com sucesso!',
+                    modals.msgboxButtons.okOnly,
+                    modals.msgboxIcons.check,
+                    'Mensagem!',
+                    {
+                        ok: (evt) => {
+                            navigate('/');
+                        }
+                    });
+            }
+                       
+        }).catch(function (error) {
+            console.log(error);
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+            if (root) {
+                modals.htmlDialog(
+                    root,
+                    'N�o foi poss�vel criar a conta!',
+                    modals.msgboxButtons.okOnly,
+                    modals.msgboxIcons.critical,
+                    'Mensagem!',
+                    {
+                        ok: (evt) => {
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+                        }
+                    });
+            }
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+        });
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+}
+```
+# Fun��o de autoriza��o do usu�rio
 
-## Learn More
+Para verificar se o usu�rio est� logado e autorizado para acessa, deve-se chamar as fun��es do pacote Auth.js
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+``` javascript
+import { getAuth } from './services/Auth';
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+A fun��o getAuth verifica se o usu�rio est� com uma sess�o ativa atrav�s do token de valida��o fornecido ao realizar login.
+Geralmente podemos realiazar a verifica��o em qualquer momento. Veja um exemplo inserido no carregamento da p�gina:
 
-### Code Splitting
+```javascript
+onLoad={() => getAuth()}
+```
+Se o usu�rio n�o estiver validado a fun��o for�a o retorno para a tela de login.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# criar dialogs boxes com mensagens
 
-### Making a Progressive Web App
+O pacote Modals.js fornece 3 modelos de Dialogs. 
+1 - Modal personalizado, que permite incluir v�rios bot�es e conte�dos din�micos no carregamento
+2 - Dialogobox de mensagem, com opcionais de tipo de mensagens: Sucesso, Pergunta, Aten��o e Erro
+3 - Modal de carregamento ( spinner )
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Para criar uma mensgem:
 
-### Advanced Configuration
+```javascript
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+ import { Modals } from './components/Modals';
 
-### Deployment
+ // Busca o elemento root da p�gina
+ const root = document.getElementById('root');
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+ // Cria uma inst�ncia da classe Modals.
+ const modals = new Modals();
 
-### `npm run build` fails to minify
+ // Verifica se o elemento roo existe
+ if (root) {
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+        // Chama a fun��o de msgbox
+        modals.htmlDialog(
+            root,
+            'Sua mensagem!',
+            modals.msgboxButtons.okOnly,
+            modals.msgboxIcons.check,
+            'Mensagem!',
+            {
+                ok: (evt) => {
+                    navigate('/');
+                }
+            });
+    }
+
+```

@@ -1,6 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
-
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../components/profileIcon.css';
 
@@ -9,6 +7,7 @@ import { logout } from '../services/Auth';
 import api from '../services/Api';
 import { getUser } from '../services/Auth';
 import { Modals } from '../components/Modals';
+import { Icon } from '@iconify/react';
 
 
 const ProfileMenu = () => {
@@ -17,33 +16,30 @@ const ProfileMenu = () => {
 
 
 
-  const getCurrentUser = async() => {
+  const getCurrentUser = async () => {
 
     let user = await getUser();
     if (user) {
-        const response = await api.get('./api/users?id=' + user.id);
-        if (response.data.id){
+      const response = await api.get('./api/users?id=' + user.id);
+      if (response.data.id) {
 
-            setProfileImage(response.data.photo_adr);
+        setProfileImage(response.data.photo_adr);
 
-        }
       }
-
+    }
   }
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await getCurrentUser();
-        };
-        fetchData(); // Chama a função fetchData quando o componente for montado
-    }, []);
-
+  getCurrentUser()
   return (
     <div className="navbar-profileicon">
+      <a href="favoritos">
+        <Icon icon="ri:heart-line" color="#b0afe6" width="45" height="45" hFlip={true} />
+      </a>
+
       <img
         src={profileImage}
         alt="Foto de Perfil"
@@ -55,6 +51,9 @@ const ProfileMenu = () => {
         <ul className="profile__menu">
           <li>
             <Link to="/perfil" className="menu__link">Ver Perfil</Link>
+          </li>
+          <li>
+            <Link to="/indicar-jogo" className="menu__link">Indicar um jogo</Link>
           </li>
           <li onClick={() => { logout(); window.location.assign('/'); }}>
             <p className="menu__link">Sair</p>

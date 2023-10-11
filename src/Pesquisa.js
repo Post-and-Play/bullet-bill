@@ -18,16 +18,15 @@ import { useNavigate } from 'react-router-dom';
 
 const Pesquisa = () => {
 
-    const [games, setGames] = useState([]);
-
     const root = document.getElementById('root');
     const modals = new Modals();
     const loading = new modals.htmlLoading(root);
 
+    const [games, setGames] = useState([]);
     const navigate = useNavigate();
        
     const getCurrentGame = async (event) => {
-
+        event.preventDefault();
         try {
 
             //console.log('element...html: ' + event.target);

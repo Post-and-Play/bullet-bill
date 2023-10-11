@@ -13,7 +13,6 @@ const Login = () => {
     const [emailInput, setEmailInput] = useState('');
     const [senhaInput, setSenhaInput] = useState('');
     const [conectadoInput, setConectadoInput] = useState(false);
-
     const [camposObrigatoriosPopup, setCamposObrigatoriosPopup] = useState(false);
 
     const navigate = useNavigate();
@@ -21,7 +20,6 @@ const Login = () => {
     const handleInputChange = (event, setInput) => {
         setInput(event.target.value);
     };
-
 
     const handleButtonClick = (e) => {
         if (emailInput.trim() === '' || senhaInput.trim() === '') {
@@ -35,7 +33,6 @@ const Login = () => {
             login(emailInput, senhaInput, conectadoInput);            
         }
     };
-
 
     return (
         <div>

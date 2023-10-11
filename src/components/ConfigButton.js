@@ -7,6 +7,9 @@ import api from '../services/Api';
 import { getUser } from '../services/Auth';
 import { Modals } from '../components/Modals';
 import { useNavigate } from 'react-router-dom';
+// import Fotoperfil from '../image/fotosperfil';
+// import banner from '../image/fotosbanner';
+import axios from 'axios';
 
 const ConfigButton = () => {
   const [user, setUser] = useState({});
@@ -28,7 +31,7 @@ const ConfigButton = () => {
   const [bannerImage, setBannerImage] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [userIdOrNick, setUserIdOrNick] = useState(null); 
+  const [userIdOrNick, setUserIdOrNick] = useState(null);
   const [base64Image, setBase64Image] = useState('');
 
 
@@ -52,7 +55,7 @@ const ConfigButton = () => {
           setEpicGamesNick(response.data.epic_user);
           setSteamNick(response.data.steam_user);
           setGithubNick(response.data.github_user);
-          
+
         }
       }
     };
@@ -60,7 +63,7 @@ const ConfigButton = () => {
     fetchData(); // Chama a função fetchData quando o componente for montado
   }, []);
 
-       // Crie um objeto com os dados atualizados do perfil
+  // Crie um objeto com os dados atualizados do perfil
   const updateProfile = async () => {
     try {
       const user = await getUser();
@@ -70,8 +73,8 @@ const ConfigButton = () => {
 
       // Crie um objeto com os dados atualizados do perfil
       const updatedUserData = {
-        photo_adr:profileImage,
-        top_adr:bannerImage,
+        photo_adr: profileImage,
+        top_adr: bannerImage,
         id: user.id,
         name,
         user_name,
@@ -215,35 +218,35 @@ const ConfigButton = () => {
 
   const handleProfileChange = (e) => {
     const file = e.target.files[0]; // Obtenha o arquivo selecionado
-  
+
     if (file) {
       const reader = new FileReader();
-  
+
       reader.onloadend = () => {
         // Quando a leitura estiver concluída, o resultado será armazenado em event.target.result
         const base64String = reader.result;
         setProfileImage(base64String); // Adicione a imagem de perfil ao array
       };
-  
+
       reader.readAsDataURL(file); // Inicie a leitura do arquivo como base64
     }
   };
-  
+
   const handleBannerChange = (e) => {
     const file = e.target.files[0]; // Obtenha o arquivo selecionado
-  
+
     if (file) {
       const reader = new FileReader();
-  
+
       reader.onloadend = () => {
         // Quando a leitura estiver concluída, o resultado será armazenado em event.target.result
         const base64String = reader.result;
         setBannerImage(base64String); // Adicione a imagem de fundo ao array
       };
-  
+
       reader.readAsDataURL(file); // Inicie a leitura do arquivo como base64
     }
-  };  
+  };
 
   return (
     <div>
@@ -314,44 +317,44 @@ const ConfigButton = () => {
                 </div>
 
                 <div className="configBox__form">
-                <div className="profileImageContainer">
-                <div className="imageLabel">Imagem de perfil</div>
-                <div className="profileImageWrapper">
-                  {profileImage ? (
-                    <img className="profileImage" src={base64Image} alt="Imagem de perfil" />
-                  ) : (
-                    <label htmlFor="profileImageUpload" className="upload-icon-placeholder">
-                      <Icon icon="ph:pencil" size={24} />
-                      <input
-                        id="profileImageUpload"
-                        type="file"
-                        className="fileInput"
-                        accept="image/*"
-                        onChange={handleProfileChange}
-                      />
-                    </label>
-                  )}
-                </div>
-              </div>
-              <div className="bannerImageContainer">
-                <div className="imageLabel">Imagem de fundo</div>
-                <div className="bannerImageWrapper">
-                  {bannerImage ? (
-                    <img className="bannerImage" src={bannerImage} alt="Imagem de fundo" />
-                  ) : (
-                    <label htmlFor="bannerImageUpload" className="upload-icon-placeholder">
-                      <Icon icon="ph:pencil" size={24} />
-                      <input
-                        id="bannerImageUpload"
-                        type="file"
-                        className="fileInput"
-                        accept="image/*"
-                        onChange={handleBannerChange}
-                      />
-                    </label>
-                  )}
-                </div>
-              </div>
+                  <div className="profileImageContainer">
+                    <div className="imageLabel">Imagem de perfil</div>
+                    <div className="profileImageWrapper">
+                      {profileImage ? (
+                        <img className="profileImage" src={profileImage} alt="Imagem de perfil" />
+                      ) : (
+                        <label htmlFor="profileImageUpload" className="upload-icon-placeholder">
+                          <Icon icon="ph:pencil" size={24} />
+                          <input
+                            id="profileImageUpload"
+                            type="file"
+                            className="fileInput"
+                            accept="image/*"
+                            onChange={handleProfileChange}
+                          />
+                        </label>
+                      )}
+                    </div>
+                  </div>
+                  <div className="bannerImageContainer">
+                    <div className="imageLabel">Imagem de fundo</div>
+                    <div className="bannerImageWrapper">
+                      {bannerImage ? (
+                        <img className="bannerImage" src={bannerImage} alt="Imagem de fundo" />
+                      ) : (
+                        <label htmlFor="bannerImageUpload" className="upload-icon-placeholder">
+                          <Icon icon="ph:pencil" size={24} />
+                          <input
+                            id="bannerImageUpload"
+                            type="file"
+                            className="fileInput"
+                            accept="image/*"
+                            onChange={handleBannerChange}
+                          />
+                        </label>
+                      )}
+                    </div>
+                  </div>
 
                   <div>
                     <label htmlFor="name">Nome:</label>
@@ -380,6 +383,7 @@ const ConfigButton = () => {
                     <MdArrowForward className="arrow-icon" onClick={handleNextForm} />
                   </IconContext.Provider>
                 </div>
+
                 <button className="configBox__button" onClick={handleSubmit1}>
                   Atualizar Perfil
                 </button>
@@ -393,4 +397,3 @@ const ConfigButton = () => {
 };
 
 export default ConfigButton;
-

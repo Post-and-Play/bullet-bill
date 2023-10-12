@@ -254,7 +254,7 @@ const Home = () => {
                             </button>
                         </div>
                     ))}
-                    <PostButton />
+                    <PostButton currentUser={currentUser} />
                 </div>
             </div>
         </div>

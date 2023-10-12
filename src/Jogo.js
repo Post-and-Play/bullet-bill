@@ -34,6 +34,7 @@ const Jogo = () => {
     const search = window.location.search;
     const params = new URLSearchParams(search);
     const initialGameId = params.get('id');
+
     const root = document.getElementById('root');
     const modals = new Modals();
     const loading = new modals.htmlLoading(root);
@@ -65,7 +66,7 @@ const Jogo = () => {
                 'Mensagem!',
                 {
                     ok: (evt) => {
-                        return;
+                        navigate('/home');
                     }
                 });
         }
@@ -239,6 +240,8 @@ const Jogo = () => {
                 setRating(response.data.rating);
                 setReviews(response.data.reviews);
                 setGenderArray(genders.split(',').map((genders) => genders.trim()));
+                await getReviews(response.data.id);
+                await getCurrentUser();
             }
             else {
                 if (root) {
@@ -280,9 +283,6 @@ const Jogo = () => {
             // Defina o ID do jogo com base em como você está obtendo o ID do jogo da página atual
             // Exemplo: const gameId = obterIDDoJogoDaPagina(); 
             loading.show();
-            setGameId(initialGameId);
-            await getReviews(initialGameId);
-            await getCurrentUser();
             await getCurrentGame();
             loading.close();
         }
@@ -330,7 +330,6 @@ const Jogo = () => {
                         <div className="jogo__sinopse">
                             <Icon icon="mingcute:quote-left-fill" className='jogo__sinopse-quoteIcon quoteIcon-left' />
                             <p className='jogo__sinopse-texto'>{description}</p>
-                            <p className='jogo__sinopse-texto'>{description}</p>
                             <Icon icon="mingcute:quote-right-fill" className='jogo__sinopse-quoteIcon quoteIcon-right' />
                         </div>
                     </div>
@@ -356,7 +355,7 @@ const Jogo = () => {
                 {Array.isArray(reviews) && reviews.map((review) => (
                     <div className="jogo__post" key={review.id}>
                         <div className="jogo__post-info-perfil-container">
-                            <a href="#" className="jogo__post-foto-user">
+                            <a href={`/perfil?id=${review.user_id}`} className="jogo__post-foto-user">
                                 <img src={review.userPhoto} alt="Foto perfil" className="jogo__post-foto-user" />
                             </a>
                             <div className="jogo__post-info-user">
@@ -388,7 +387,7 @@ const Jogo = () => {
                     </div>
                 ))}
             </div>
-            <PostButton />
+            <PostButton currentUser={currentUser} />
         </div>
     )
 }

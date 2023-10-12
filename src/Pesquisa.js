@@ -142,7 +142,7 @@ const Pesquisa = () => {
                     ))
                 }
             </div>
-            <PostButton />
+            <PostButton currentUser={currentUser} />
         </div>
     )
 }

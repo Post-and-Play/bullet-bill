@@ -23,6 +23,7 @@ const Perfil = () => {
 
     const search = window.location.search;
     const params = new URLSearchParams(search);
+    const initialUserId = params.get('id');
 
     const [currentUser, setCurrentUser] = useState();
     const [following, setFollowing] = useState('');
@@ -39,31 +40,66 @@ const Perfil = () => {
     const [githubNick, setGithubNick] = useState('');
     const [discordNick, setDiscordNick] = useState('');
     const [posts, setPosts] = useState([]);
-    const initialUserId = params.get('id');
+
     const [userId, setUserId] = useState(initialUserId);
     const navigate = useNavigate();
 
     const getCurrentUser = async () => {
         let user = await getAuth();
         if (user) {
+
             setCurrentUser(user);
-            setName(user.name);
-            setFollowed(user.followed);
-            setFollowing(user.following);
-            setDescription(user.description);
-            setTwitchNick(user.twitch_user);
-            setDiscordNick(user.discord_user);
-            setEpicGamesNick(user.epic_user);
-            setSteamNick(user.steam_user);
-            setGithubNick(user.github_user);
-            setProfileImage(user.photo_adr);
-            setBannerImage(user.top_adr);
-            setUserId(user.id);
-            await getPosts(user.id);
+
+            if (userId) {
+                let userPerfil = await getUserData();
+                if (userPerfil) {
+                    setName(userPerfil.name);
+                    setFollowed(userPerfil.followed);
+                    setFollowing(userPerfil.following);
+                    setDescription(userPerfil.description);
+                    setTwitchNick(userPerfil.twitch_userPerfil);
+                    setDiscordNick(userPerfil.discord_userPerfil);
+                    setEpicGamesNick(userPerfil.epic_userPerfil);
+                    setSteamNick(userPerfil.steam_userPerfil);
+                    setGithubNick(userPerfil.github_userPerfil);
+                    setProfileImage(userPerfil.photo_adr);
+                    setBannerImage(userPerfil.top_adr);
+                    await getPosts(userPerfil.id);
+                }
+            } else {
+                setUserId(null);
+                setName(user.name);
+                setFollowed(user.followed);
+                setFollowing(user.following);
+                setDescription(user.description);
+                setTwitchNick(user.twitch_user);
+                setDiscordNick(user.discord_user);
+                setEpicGamesNick(user.epic_user);
+                setSteamNick(user.steam_user);
+                setGithubNick(user.github_user);
+                setProfileImage(user.photo_adr);
+                setBannerImage(user.top_adr);
+                await getPosts(user.id);
+            }
+            
+           
         } else {
-            navigate('/');
+            navigate('/home');
         }
       };
+
+    const getUserData = async () => {
+        try {
+            const response = await api.get(`/api/users?id=${userId}`);
+            if (response.data.id) {
+                return response.data;
+            }
+            return null
+        } catch (err) {
+            console.log(err.message);
+            return null
+        }
+    }
 
       const coresDasNotas = [
         "#A70000",
@@ -154,7 +190,7 @@ const Perfil = () => {
                 <div className="perfil-banner__foto">
                   <img src={profileImage} alt="Foto perfil" className="perfil__foto" />
                 </div>
-                <ConfigButton currentUser={currentUser} />
+              {!userId ? <ConfigButton currentUser={currentUser} /> : <br />}
           </header>
           <div className="perfil-info-post__container">
             <div className="perfil-info__container">
@@ -220,12 +256,12 @@ const Perfil = () => {
                 <article key={post.id} className="perfil-post__post">
                   <div className="perfil-post-container__foto-content">
                     <div className="perfil-post-card-post__foto-container">
-                      <a href="">
+                      <a href={`/jogo?id=${post.game_id}`}>
                         <img src={post.gamePhoto} alt="Foto jogo" className="perfil-post-card__foto" />
                       </a>
                     </div>
                     <div className="perfil-post-card__content-container">
-                      <a href={`jogo?id=${post.game_id}`} className="perfil-post-card__game perfil-post__content">{post.gameName}</a>
+                      <a href={`/jogo?id=${post.game_id}`} className="perfil-post-card__game perfil-post__content">{post.gameName}</a>
                       <div className="perfil-post-card__nota perfil-post__content" style={{ backgroundColor: getCoresDasNotas(post.grade) }}>
                       {post.grade}
                     </div>
@@ -242,7 +278,7 @@ const Perfil = () => {
             </div>
           </div>
 
-          <PostButton />
+          <PostButton currentUser={currentUser} />
       </div>
   );
 };

@@ -145,7 +145,7 @@ const Favoritos = () => {
                     )) : (<div className='favorito__hasNot'><h3>Nenhum favorito ainda!</h3></div>)
                 }
             </div>          
-            <PostButton />
+            <PostButton currentUser={currentUser} />
         </div>
 
     )

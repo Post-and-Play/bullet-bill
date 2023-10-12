@@ -379,7 +379,7 @@ export class Modals {
                         inputId: 'mboxOk',
                         containerClass: 'one-col',
                         value: 'Ok',
-                        inputClass: 'btn-default',
+                        inputClass: 'botao btnPrincipal',
                         sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                 }
@@ -388,14 +388,14 @@ export class Modals {
                         inputId: 'mboxOk',
                         containerClass: 'two-col',
                         value: 'Ok',
-                        inputClass: 'btn-default',
+                        inputClass: 'botao btnPrincipal',
                         sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxCancel',
                         containerClass: 'two-col',
                         value: 'Cancelar',
-                        inputClass: 'btn-default',
+                        inputClass: 'botao btnSecundario',
                         sub: actions != undefined ? actions.cancel ? () => { actions.cancel(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                 }
@@ -404,14 +404,14 @@ export class Modals {
                         inputId: 'mboxYes',
                         containerClass: 'two-col',
                         value: 'Sim',
-                        inputClass: 'btn-default',
+                        inputClass: 'botao btnPrincipal',
                         sub: actions != undefined ? actions.yes ? () => { actions.yes(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxNo',
                         containerClass: 'two-col',
                         value: 'Não',
-                        inputClass: 'btn-default',
+                        inputClass: 'botao btnSecundario',
                         sub: actions != undefined ? actions.no ? () => { actions.no(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                 }
@@ -420,21 +420,21 @@ export class Modals {
                         inputId: 'mboxYes',
                         containerClass: 'two-col',
                         value: 'Sim',
-                        inputClass: 'btn-default',
+                        inputClass: 'botao btnPrincipal',
                         sub: actions != undefined ? actions.yes ? () => { actions.yes(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxNo',
                         containerClass: 'two-col',
                         value: 'Não',
-                        inputClass: 'btn-default',
+                        inputClass: 'botao btnSecundario',
                         sub: actions != undefined ? actions.no ? () => { actions.no(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxCancel',
                         containerClass: 'two-col',
                         value: 'Cancelar',
-                        inputClass: 'btn-default',
+                        inputClass: 'botao btnSecundario',
                         sub: actions != undefined ? actions.cancel ? () => { actions.cancel(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                 }
@@ -443,7 +443,7 @@ export class Modals {
                         inputId: 'mboxOk',
                         containerClass: 'one-col',
                         value: 'Ok',
-                        inputClass: 'btn-default',
+                        inputClass: 'botao btnPrincipal',
                         sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                 }
@@ -454,7 +454,7 @@ export class Modals {
                     inputId: 'mboxOk',
                     containerClass: 'one-col',
                     value: 'Ok',
-                    inputClass: 'btn-default',
+                    inputClass: 'botao btnPrincipal',
                     sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                 }, {});
             }

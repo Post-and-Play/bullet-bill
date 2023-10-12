@@ -11,7 +11,7 @@ import { getUser } from '../services/Auth';
 import { Modals } from './Modals';
 import { useNavigate } from 'react-router-dom';
 
-const SearchBar = () => {
+const SearchBar = ({ currentUser }) => {
 
     const root = document.getElementById('root');
     const modals = new Modals();
@@ -23,19 +23,6 @@ const SearchBar = () => {
     const [profileImage, setProfileImage] = useState(null);
     const [name, setName] = useState('');
     const navigate = useNavigate();
-
-    const getCurrentUser = async () => {
-        let user = await getUser();
-        if (user) {
-            const response = await api.get('./api/users?id=' + user.id);
-            if (response.data.id) {
-
-                setName(response.data.name);
-                setProfileImage(response.data.photo_adr);
-
-            }
-        }
-    };
 
     const handleProfileClick = (profile) => {
         // Redirecionar o usuário para o perfil do usuário clicado
@@ -75,13 +62,11 @@ const SearchBar = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            loading.show();
-            await getCurrentUser();
-            loading.close();
+        if (currentUser) {
+            setName(currentUser.name);
+            setProfileImage(currentUser.photo_adr);
         }
-        fetchData();
-    }, []);
+    }, [currentUser]);
 
     return (
         <div className="search-bar__container">

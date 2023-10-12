@@ -11,7 +11,7 @@ import api from '../services/Api';
 import { getUser } from "../services/Auth";
 import { Modals } from './Modals';
 
-const PostButton = () => {
+const PostButton = ({ currentUser }) => {
 
     const root = document.getElementById('root');
     const modals = new Modals();
@@ -28,24 +28,10 @@ const PostButton = () => {
     const [userId, setUserId] = useState(null);
       
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const user = await getUser();
-                if (!user) {
-                    return;
-                } else {
-                    const response = await api.get(`/api/users?id=${user.id}`);
-                    if (response.data.id) {
-                        setUserId(user.id);
-                    }
-                }
-            } catch (error) {
-                console.error('Erro ao buscar dados do usuário:', error);
-            }
-        };
-
-        fetchData(); // Chama a função fetchData quando o componente for montado
-    }, []);
+        if (currentUser) {
+            setUserId(currentUser.id);
+        }
+    }, [currentUser]);
 
 
     const handleClick = () => {
@@ -86,7 +72,7 @@ const PostButton = () => {
                 for (let i = 0; i < notes.length; i++) {
                     let temp = Number(notes[i].getAttribute('data-note'));
                     if (temp <= note) {
-                        notes[i].classList.toggle('checked');
+                        notes[i].classList.add('checked');
                     }
                 }
 
@@ -95,59 +81,6 @@ const PostButton = () => {
             }
         }
     }
-
-    //const coresDasNotas = [
-    //    "#A70000",
-    //    "#AF1C00",
-    //    "#B83500",
-    //    "#C04D00",
-    //    "#C86500",
-    //    "#D07C00",
-    //    "#D89400",
-    //    "#E0AB00",
-    //    "#E8C300",
-    //    "#F0DA00",
-    //    "#F9F200",
-    //    "#FFFC00",
-    //    "#FFFC00",
-    //    "#C4FA00",
-    //    "#C4FA00",
-    //    "#88F800",
-    //    "#6AE700",
-    //    "#4CE600",
-    //    "#2EE500",
-    //    "#10D400",
-    //    "#0094DC"
-    //];
-
-    //const handleNotaClick = (valoresNotas, event) => {
-    //    if (valoresNotas === selectedNota) {
-    //        // Se a nota clicada já estiver selecionada, deselecione-a
-    //        setSelectedNota(null);
-    //        setSelectedColor('');
-    //        event.target.style.backgroundColor = ''; // Limpe a cor de fundo
-    //    } else {
-    //        // Caso contrário, selecione a nova nota e defina a cor correspondente
-    //        setSelectedNota(valoresNotas);
-    //        setSelectedColor(coresDasNotas[(valoresNotas / 0.5)]); // -1 porque o índice do array começa em 0
-
-    //        // Defina a cor do elemento clicado para a cor da nota
-    //        event.target.style.backgroundColor = coresDasNotas[(valoresNotas / 0.5)];
-
-    //        // Desmarque a nota anterior definindo sua cor de fundo como vazia
-    //        if (selectedNota !== null) {
-    //            const previousSelectedNotaElement = document.querySelector(`.postBox__nota.selected`);
-    //            if (previousSelectedNotaElement) {
-    //                previousSelectedNotaElement.style.backgroundColor = '';
-    //            }
-    //        }
-    //    }
-    //};
-
-    const validateOpiniao = () => {
-        return opiniao.trim() !== ''; // Verifique se o campo não está vazio após remover espaços em branco
-    };
-
 
     const handlePost = async () => {
 
@@ -208,7 +141,7 @@ const PostButton = () => {
             // Enviar os dados para a API
             const response = await api.post(`/api/review?id=${postData.game_id}`, postData);
 
-            if (response.status === 200) {
+            if (response.data.id) {
                 // Postagem bem-sucedida
                 //toast.success('Postagem realizada com sucesso!', { position: toast.POSITION.TOP_RIGHT });
                 if (root) {
@@ -280,10 +213,9 @@ const PostButton = () => {
         });
     };
 
-
     useEffect(() => {
         // Verifique se todos os campos obrigatórios estão preenchidos
-        const formIsValid = selectedOption !== '' && selectedNota !== null && validateOpiniao();
+        const formIsValid = selectedOption !== '' && selectedNota !== null && opiniao.trim() !== '';
         setIsFormValid(formIsValid);
     }, [selectedOption, selectedNota, opiniao]);
 
@@ -342,7 +274,7 @@ const PostButton = () => {
                             </div>
                             <div className="postBox__nota-container">
                                 {valoresNotas.map((valoresNotas, index) => (
-                                    <div className={`postBox__nota ${valoresNotas === selectedNota ? 'selected' : ''}`}
+                                    <div className={`postBox__nota`}
                                         key={valoresNotas}
                                         data-note={valoresNotas}
                                         onClick={(event) => handleNotaClick(event)}>
@@ -372,7 +304,7 @@ const PostButton = () => {
                                  </div>
                             </div>
                         </div>
-                        <button className='postBox__button' disabled={!isFormValid} onClick={handlePost}>Postar</button>
+                        <button className='botao postBox__button' disabled={!isFormValid} onClick={handlePost}>Postar</button>
                     </div>
                 </div>
             }

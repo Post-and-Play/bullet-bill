@@ -86,7 +86,7 @@
     height: 350px;
     display: flex;
     flex-direction: column;
-    margin: 30px 50px 30px 0px;
+    margin: 20px;
 }
 
 .card-post__foto {

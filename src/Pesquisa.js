@@ -13,6 +13,7 @@ import PostButton from './components/postButton'
 //import GhostWire from './icons/Render background/icon - Ghostwire Tokyo.png'
 import api from './services/Api';
 import { Modals } from './components/Modals';
+import { getAuth } from './services/Auth';
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
@@ -22,9 +23,19 @@ const Pesquisa = () => {
     const modals = new Modals();
     const loading = new modals.htmlLoading(root);
 
+    const [currentUser, setCurrentUser] = useState();
     const [games, setGames] = useState([]);
     const navigate = useNavigate();
-       
+
+    const getCurrentUser = async () => {
+        let user = await getAuth();
+        if (user) {
+            setCurrentUser(user);
+        } else {
+            navigate('/');
+        }
+    }
+
     const getCurrentGame = async (event) => {
         event.preventDefault();
         try {
@@ -97,6 +108,7 @@ const Pesquisa = () => {
     useEffect(() => {
         const fetchData = async () => {
             loading.show();
+            await getCurrentUser();
             await getGames();
             loading.close();
         };
@@ -105,7 +117,7 @@ const Pesquisa = () => {
     
     return (
         <div>
-            <Navbar />
+            <Navbar currentUser={currentUser} />
             <div id="pesquisa_jogos" className="pesquisa__jogos-container">
                 {
                     games.map((game, index) => (

@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\components",
+    "\\src\\services"
   ],
-  "SelectedNode": "\\node_modules",
+  "SelectedNode": "\\src\\components\\postButton.css",
   "PreviewInSolutionExplorer": false
 }

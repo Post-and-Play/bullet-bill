@@ -25,8 +25,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
 
 import api from './services/Api'
-import { getUser } from './services/Auth';
+import { getAuth } from './services/Auth';
 import { Modals } from './components/Modals';
+import { useNavigate } from 'react-router-dom';
 
 const Jogo = () => {
 
@@ -35,7 +36,9 @@ const Jogo = () => {
     const initialGameId = params.get('id');
     const root = document.getElementById('root');
     const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
 
+    const [currentUser, setCurrentUser] = useState();
     const [reviews, setReviews] = useState([]);
     const [review, setReview] = useState([]);
     const [name, setName] = useState('');
@@ -50,6 +53,7 @@ const Jogo = () => {
     const [reviewId, setReviewId] = useState(initialGameId);
     const [reviewLikes, setReviewLikes] = useState({});
     const [reviewCount, setReviewCount] = useState([]);
+    const navigate = useNavigate();
 
     if (!gameId) {
         if (root) {
@@ -68,6 +72,15 @@ const Jogo = () => {
     }
 
     const sliderRef = useRef(null);
+
+    const getCurrentUser = async () => {
+        let user = await getAuth();
+        if (user) {
+            setCurrentUser(user);
+        } else {
+            navigate('/');
+        }
+    }
 
     const settings = {
         infinite: true,
@@ -114,26 +127,15 @@ const Jogo = () => {
         "#2EE500",
         "#10D400",
         "#0094DC"
-      ];
-      const getCoresDasNotas = (nota) => {
-        // Calcula o índice arredondado com base na nota
-        const indice = Math.round(nota * 2);
+    ];
+
+    const getCoresDasNotas = (nota) => {
+    // Calcula o índice arredondado com base na nota
+    const indice = Math.round(nota * 2);
     
-        // Retorna a cor correspondente no array de cores
-        return coresDasNotas[indice];
-      };      
-
-
-    const getCurrentUser = async () => {
-
-        let user = await getUser();
-        if (user) {
-            const response = await api.get('./api/users?id=' + user.id);
-            if (response.data.id) {
-                setUserId(response.data.id)
-            }
-        }
-    }
+    // Retorna a cor correspondente no array de cores
+    return coresDasNotas[indice];
+    };      
 
     const getReviews = async (gameId) => {
         if (!gameId) {
@@ -193,7 +195,6 @@ const Jogo = () => {
         }
     };
 
-
     const handleLike = async (review) => {
         try {
             // Verifique se o usuário atual já curtiu esta revisão
@@ -224,8 +225,6 @@ const Jogo = () => {
             console.error(`Erro ao curtir o post ${review.id}:`, error);
         }
     };
-
-
 
     const getCurrentGame = async () => {
         try {
@@ -275,34 +274,24 @@ const Jogo = () => {
         }
 
     }
-
+      
     useEffect(() => {
         const fetchData = async () => {
             // Defina o ID do jogo com base em como você está obtendo o ID do jogo da página atual
             // Exemplo: const gameId = obterIDDoJogoDaPagina(); 
+            loading.show();
             setGameId(initialGameId);
             await getReviews(initialGameId);
-        };
-        fetchData();
-    }, [initialGameId]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await getCurrentGame();
-        };
-        fetchData(); // Chama a função fetchData quando o componente for montado
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
             await getCurrentUser();
+            await getCurrentGame();
+            loading.close();
         }
         fetchData();
     }, []);
 
     return (
         <div>
-            <Navbar />
+            <Navbar currentUser={currentUser} />
             <div className="jogo__banner-container">
                 <img src={coverAdr} alt="Banner" className='jogo__banner' />
                 <div className="jogo__banner_gradient"></div>

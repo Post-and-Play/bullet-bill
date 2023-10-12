@@ -17,9 +17,17 @@
     background-color: #795FA1;
     height: auto;
     width: 50%;
+<<<<<<< HEAD
     left: 0;
     right: 0;
     padding: 28px;
+=======
+    /* position: absolute; */
+    left: 0;
+    right: 0;
+    /* margin: 60px auto; */
+    padding: 2.3125rem 0.9375rem;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     border-radius: 0.9375rem;
     color: #fff;
     display: flex;

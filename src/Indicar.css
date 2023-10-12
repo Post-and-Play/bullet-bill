@@ -10,7 +10,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+<<<<<<< HEAD
     padding: 26px;
+=======
+    padding: 20px;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     width: 45%;
     height: 35rem;
     background-color: #795FA1;

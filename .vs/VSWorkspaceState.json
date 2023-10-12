@@ -1,9 +1,15 @@
 {
   "ExpandedNodes": [
+<<<<<<< HEAD
     "",
     "\\src",
     "\\src\\services"
   ],
   "SelectedNode": "\\src\\services\\Api.js",
+=======
+    ""
+  ],
+  "SelectedNode": "\\.env.example",
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
   "PreviewInSolutionExplorer": false
 }

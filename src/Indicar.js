@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Navbar from './components/navbar';
 
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { Modals } from './components/Modals';
 import { getAuth } from './services/Auth';
@@ -16,6 +17,12 @@ const Indicar = () => {
     const modals = new Modals();
     const loading = new modals.htmlLoading(root);
 
+=======
+import React, { useState } from 'react';
+
+const Indicar = () => {
+
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     const navigate = useNavigate();
 
     const [nomeInput, setNomeInput] = useState('');
@@ -25,6 +32,7 @@ const Indicar = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [camposObrigatoriosPopup, setCamposObrigatoriosPopup] = useState(false);
 
+<<<<<<< HEAD
     const getCurrentUser = async () => {
         let user = await getAuth();
         if (user) {
@@ -34,6 +42,8 @@ const Indicar = () => {
         }
     }
 
+=======
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     const handleInputChange = (event, setInput) => {
         setInput(event.target.value);
     };
@@ -46,6 +56,7 @@ const Indicar = () => {
         setIsChecked(!isChecked);
     };
 
+<<<<<<< HEAD
     useEffect(() => {
         const fetchData = async () => {
             loading.show();
@@ -56,6 +67,8 @@ const Indicar = () => {
     }, []);
 
 
+=======
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     const handleSendClick = (e) => {
         if (nomeInput.trim() === '' || nomeEmpresaInput.trim() === '' || descricaoInput.trim() === '' || categoriaInput.trim() === '') {
             e.preventDefault();
@@ -63,6 +76,7 @@ const Indicar = () => {
             setTimeout(() => {
                 setCamposObrigatoriosPopup(false);
             }, 3000);
+<<<<<<< HEAD
         } else {
             e.preventDefault();
             handlePost();
@@ -133,6 +147,19 @@ const Indicar = () => {
     return (
         <div>
             <Navbar currentUser={currentUser} />
+=======
+        } else if (!isChecked) {
+            //dsadsa
+        } else {
+            e.preventDefault();
+            navigate('/jogo');
+        }
+    };
+
+    return (
+        <div>
+            <Navbar />
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
             <form action='/jogo'>
                 <div className="indicar__card-container">
                     <div className="indicar__card">
@@ -153,6 +180,7 @@ const Indicar = () => {
                             <input type="text" value={categoriaInput} name='categoria' id='descricao' className='indicar__input' placeholder='RPG, Terror, Ação' required onChange={(e) => handleInputChange(e, setCategoriaInput)} />
                         </div>
                         <div className="indicar__row">
+<<<<<<< HEAD
                             <label className="container-check indicar__label" >
                                 <input id="checkbox_con" type="checkbox" onChange={handleCheckboxChange} />
                                 <span className="checkmark"></span> Marque essa opção se o jogo for gratuito
@@ -163,6 +191,14 @@ const Indicar = () => {
                         <div className="indicar__btn-container">
                             <button type="submit" className='botao indicar__btn-enviar' onClick={handleSendClick}>Enviar</button>
                             <button type="submit" className='botao indicar__btn-cancelar' onClick={handleBackClick}>Cancelar</button>
+=======
+                            <label htmlFor="categoria" className='indicar__label'>Marque essa opção se o jogo for gratuito</label>
+                            <input type="checkbox" name='categoria' id='descricao' className='indicar__checkbox' checked={isChecked} onChange={handleCheckboxChange} />
+                        </div>
+                        <div className="indicar__btn-container">
+                            <button type="submit" className='indicar__btn-enviar' onClick={handleSendClick}>Enviar</button>
+                            <button type="submit" className='indicar__btn-cancelar' onClick={handleBackClick}>Cancelar</button>
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         </div>
                     </div>
 

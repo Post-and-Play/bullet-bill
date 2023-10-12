@@ -13,6 +13,7 @@ import RedDead from './icons/Render background/icon-Red dead.png'
 import TheDivision from './icons/Render background/icon-The division 2.png'
 import GhostWire from './icons/Render background/icon - Ghostwire Tokyo.png'
 
+<<<<<<< HEAD
 import api from './services/Api';
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -146,6 +147,121 @@ const Favoritos = () => {
                 }
             </div>          
             <PostButton currentUser={currentUser} />
+=======
+import React from 'react'
+
+const Favoritos = () => {
+    return (
+        <div>
+            <Navbar />
+            <div className="favorito__jogos-container">
+                <div className="favorito__jogo">
+                    <Icon className='favorito__jogo-icon' icon="ri:heart-fill" color="#633F9A" width="45" height="45" hFlip={true} />
+                    <a href="" className='favorito__jogo-link'>
+                        <img src={LolFoto} alt="Foto jogo" className='favorito__jogo-foto' />
+                        <div className="`favorito__jogo-info-container`">
+                            <p className='favorito__jogo-titulo'>League of Legends #50</p>
+                            <div className="favorito__categoria-container">
+                                <div className="favorito__categoria">MOBA</div>
+                                <div className="favorito__categoria">Multijogador</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="favorito__jogo">
+                    <Icon className='favorito__jogo-icon' icon="ri:heart-fill" color="#633F9A" width="45" height="45" hFlip={true} />
+                    <a href="" className='favorito__jogo-link'>
+                        <img src={Valorant} alt="Foto jogo" className='favorito__jogo-foto' />
+                        <div className="`favorito__jogo-info-container`">
+                            <p className='favorito__jogo-titulo'>Valorant #138</p>
+                            <div className="favorito__categoria-container">
+                                <div className="favorito__categoria">Tiro</div>
+                                <div className="favorito__categoria">Tático</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="favorito__jogo">
+                    <Icon className='favorito__jogo-icon' icon="ri:heart-fill" color="#633F9A" width="45" height="45" hFlip={true} />
+                    <a href="" className='favorito__jogo-link'>
+                        <img src={ForzaHorizon} alt="Foto jogo" className='favorito__jogo-foto' />
+                        <div className="`favorito__jogo-info-container`">
+                            <p className='favorito__jogo-titulo'>Forza Horizon #84</p>
+                            <div className="favorito__categoria-container">
+                                <div className="favorito__categoria">Corrida</div>
+                                <div className="favorito__categoria">Simulação</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="favorito__jogo">
+                    <Icon className='favorito__jogo-icon' icon="ri:heart-fill" color="#633F9A" width="45" height="45" hFlip={true} />
+                    <a href="" className='favorito__jogo-link'>
+                        <img src={GOW} alt="Foto jogo" className='favorito__jogo-foto' />
+                        <div className="`favorito__jogo-info-container`">
+                            <p className='favorito__jogo-titulo'>God of War #124</p>
+                            <div className="favorito__categoria-container">
+                                <div className="favorito__categoria">Ação-aventura</div>
+                                <div className="favorito__categoria">Jogador Solo</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="favorito__jogo">
+                    <Icon className='favorito__jogo-icon' icon="ri:heart-fill" color="#633F9A" width="45" height="45" hFlip={true} />
+                    <a href="" className='favorito__jogo-link'>
+                        <img src={TLOS} alt="Foto jogo" className='favorito__jogo-foto' />
+                        <div className="`favorito__jogo-info-container`">
+                            <p className='favorito__jogo-titulo'>The Last of Us #22</p>
+                            <div className="favorito__categoria-container">
+                                <div className="favorito__categoria">Aventura</div>
+                                <div className="favorito__categoria">Tiro</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="favorito__jogo">
+                    <Icon className='favorito__jogo-icon' icon="ri:heart-fill" color="#633F9A" width="45" height="45" hFlip={true} />
+                    <a href="" className='favorito__jogo-link'>
+                        <img src={RedDead} alt="Foto jogo" className='favorito__jogo-foto' />
+                        <div className="`favorito__jogo-info-container`">
+                            <p className='favorito__jogo-titulo'>Red Dead Redemption 2 #10</p>
+                            <div className="favorito__categoria-container">
+                                <div className="favorito__categoria">Aventura</div>
+                                <div className="favorito__categoria">Tiro</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="favorito__jogo">
+                    <Icon className='favorito__jogo-icon' icon="ri:heart-fill" color="#633F9A" width="45" height="45" hFlip={true} />
+                    <a href="" className='favorito__jogo-link'>
+                        <img src={TheDivision} alt="Foto jogo" className='favorito__jogo-foto' />
+                        <div className="`favorito__jogo-info-container`">
+                            <p className='favorito__jogo-titulo'>Tom Clancy's - The Division 2 #33</p>
+                            <div className="favorito__categoria-container">
+                                <div className="favorito__categoria">Aventura</div>
+                                <div className="favorito__categoria">Tática</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="favorito__jogo">
+                    <Icon className='favorito__jogo-icon' icon="ri:heart-fill" color="#633F9A" width="45" height="45" hFlip={true} />
+                    <a href="" className='favorito__jogo-link'>
+                        <img src={GhostWire} alt="Foto jogo" className='favorito__jogo-foto' />
+                        <div className="`favorito__jogo-info-container`">
+                            <p className='favorito__jogo-titulo'>Ghostwire Tokyo #97</p>
+                            <div className="favorito__categoria-container">
+                                <div className="favorito__categoria">Ação-aventura</div>
+                                <div className="favorito__categoria">Jogador Solo</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <PostButton />
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
         </div>
 
     )

@@ -97,7 +97,12 @@
     border-radius: 0.9375rem;
     background-color: #633F9A;
     color: #fff;
+<<<<<<< HEAD
     font-weight: 600;
+=======
+    font-weight: 550;
+    font-size: 18pt;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     padding: 0.5rem;
     margin-bottom: 0.5rem;
     outline: none;
@@ -152,7 +157,12 @@
     width: 100%;
     height: 50px !important;
     color: #fff;
+<<<<<<< HEAD
     font-weight: 600;
+=======
+    font-weight: 500;
+    font-size: 18pt;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     padding: 0.5rem;
     border-radius: 0.9375rem;
     margin: 0;
@@ -214,6 +224,7 @@
 }
 
 
+<<<<<<< HEAD
 .destaque_ilustration {
     position: relative;
     width: 480px;
@@ -274,6 +285,8 @@
 }
 
 
+=======
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 
 /* Media Queries */
 /* Tablet */

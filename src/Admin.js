@@ -1,5 +1,6 @@
 import './Admin.css'
 
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './components/navbar';
@@ -15,6 +16,13 @@ const Admin = () => {
     const loading = new modals.htmlLoading(root);
 
     const [currentUser, setCurrentUser] = useState();
+=======
+import React, { useState } from 'react';
+import Navbar from './components/navbar';
+
+const Admin = () => {
+    // Defina um estado para rastrear a opção selecionada
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     const [opcaoSelecionada, setOpcaoSelecionada] = useState(null);
     const [nomeInput, setNomeInput] = useState('');
     const [nomeEmpresaInput, setNomeEmpresaInput] = useState('');
@@ -23,6 +31,7 @@ const Admin = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [activeItem, setActiveItem] = useState(null);
 
+<<<<<<< HEAD
     const navigate = useNavigate();
 
     const getCurrentUser = async () => {
@@ -34,6 +43,8 @@ const Admin = () => {
         }
     }
 
+=======
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
@@ -50,6 +61,7 @@ const Admin = () => {
         setActiveItem(index === activeItem ? null : index);
     };
 
+<<<<<<< HEAD
     useEffect(() => {
         const fetchData = async () => {
             loading.show();
@@ -62,6 +74,11 @@ const Admin = () => {
     return (
         <div>
             <Navbar currentUser={currentUser} />
+=======
+    return (
+        <div>
+            <Navbar />
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
             <div className="admin__container">
                 <div className="admin__content-container">
                     <div className="admin__menu-container">

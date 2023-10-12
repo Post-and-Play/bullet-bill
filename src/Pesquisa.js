@@ -13,12 +13,16 @@ import PostButton from './components/postButton'
 //import GhostWire from './icons/Render background/icon - Ghostwire Tokyo.png'
 import api from './services/Api';
 import { Modals } from './components/Modals';
+<<<<<<< HEAD
 import { getAuth } from './services/Auth';
+=======
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const Pesquisa = () => {
 
+<<<<<<< HEAD
     const root = document.getElementById('root');
     const modals = new Modals();
     const loading = new modals.htmlLoading(root);
@@ -36,6 +40,13 @@ const Pesquisa = () => {
         }
     }
 
+=======
+    const [games, setGames] = useState([]);
+    const root = document.getElementById('root');
+    const modals = new Modals();
+    const navigate = useNavigate();
+       
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     const getCurrentGame = async (event) => {
         event.preventDefault();
         try {
@@ -107,17 +118,25 @@ const Pesquisa = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+<<<<<<< HEAD
             loading.show();
             await getCurrentUser();
             await getGames();
             loading.close();
+=======
+            await getGames();
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
         };
         fetchData(); // Chama a função fetchData quando o componente for montado
     }, []);
     
     return (
         <div>
+<<<<<<< HEAD
             <Navbar currentUser={currentUser} />
+=======
+            <Navbar />
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
             <div id="pesquisa_jogos" className="pesquisa__jogos-container">
                 {
                     games.map((game, index) => (
@@ -142,7 +161,11 @@ const Pesquisa = () => {
                     ))
                 }
             </div>
+<<<<<<< HEAD
             <PostButton currentUser={currentUser} />
+=======
+            <PostButton />
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
         </div>
     )
 }

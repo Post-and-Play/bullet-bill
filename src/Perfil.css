@@ -38,16 +38,27 @@ html {
 
 .perfil__foto {
     position: relative;
+<<<<<<< HEAD
     width: 100%;
    /* width: 24rem;
     height: 24rem;
     left: -4rem;
     top: -9rem;*/
+=======
+    width: 24rem;
+    height: 24rem;
+    left: -4rem;
+    top: -9rem;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 }
 
 .perfil-banner__gearIcon {
     position: absolute;
+<<<<<<< HEAD
 /*    top: 1.25rem;*/
+=======
+    top: 1.25rem;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     left: 1.25rem;
     width: 3.125rem;
     height: 3.125rem;

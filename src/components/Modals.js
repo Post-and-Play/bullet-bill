@@ -15,7 +15,11 @@ import check from '../image/check.png';
 import critical from '../image/critical.png';
 import warning from '../image/warning.png';
 import question from '../image/question.png';
+<<<<<<< HEAD
 import Loading from '../image/loading.svg';
+=======
+import Loading from '../image/loading.webp';
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 
 
 //Classe para criar modals na página
@@ -379,7 +383,11 @@ export class Modals {
                         inputId: 'mboxOk',
                         containerClass: 'one-col',
                         value: 'Ok',
+<<<<<<< HEAD
                         inputClass: 'botao btnPrincipal',
+=======
+                        inputClass: 'btn-default',
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                 }
@@ -388,14 +396,22 @@ export class Modals {
                         inputId: 'mboxOk',
                         containerClass: 'two-col',
                         value: 'Ok',
+<<<<<<< HEAD
                         inputClass: 'botao btnPrincipal',
+=======
+                        inputClass: 'btn-default',
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxCancel',
                         containerClass: 'two-col',
                         value: 'Cancelar',
+<<<<<<< HEAD
                         inputClass: 'botao btnSecundario',
+=======
+                        inputClass: 'btn-default',
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         sub: actions != undefined ? actions.cancel ? () => { actions.cancel(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                 }
@@ -404,14 +420,22 @@ export class Modals {
                         inputId: 'mboxYes',
                         containerClass: 'two-col',
                         value: 'Sim',
+<<<<<<< HEAD
                         inputClass: 'botao btnPrincipal',
+=======
+                        inputClass: 'btn-default',
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         sub: actions != undefined ? actions.yes ? () => { actions.yes(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxNo',
                         containerClass: 'two-col',
                         value: 'Não',
+<<<<<<< HEAD
                         inputClass: 'botao btnSecundario',
+=======
+                        inputClass: 'btn-default',
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         sub: actions != undefined ? actions.no ? () => { actions.no(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                 }
@@ -420,21 +444,33 @@ export class Modals {
                         inputId: 'mboxYes',
                         containerClass: 'two-col',
                         value: 'Sim',
+<<<<<<< HEAD
                         inputClass: 'botao btnPrincipal',
+=======
+                        inputClass: 'btn-default',
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         sub: actions != undefined ? actions.yes ? () => { actions.yes(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxNo',
                         containerClass: 'two-col',
                         value: 'Não',
+<<<<<<< HEAD
                         inputClass: 'botao btnSecundario',
+=======
+                        inputClass: 'btn-default',
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         sub: actions != undefined ? actions.no ? () => { actions.no(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                     this.htmlButton(modalfooter, {
                         inputId: 'mboxCancel',
                         containerClass: 'two-col',
                         value: 'Cancelar',
+<<<<<<< HEAD
                         inputClass: 'botao btnSecundario',
+=======
+                        inputClass: 'btn-default',
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         sub: actions != undefined ? actions.cancel ? () => { actions.cancel(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                 }
@@ -443,7 +479,11 @@ export class Modals {
                         inputId: 'mboxOk',
                         containerClass: 'one-col',
                         value: 'Ok',
+<<<<<<< HEAD
                         inputClass: 'botao btnPrincipal',
+=======
+                        inputClass: 'btn-default',
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                     }, {});
                 }
@@ -454,7 +494,11 @@ export class Modals {
                     inputId: 'mboxOk',
                     containerClass: 'one-col',
                     value: 'Ok',
+<<<<<<< HEAD
                     inputClass: 'botao btnPrincipal',
+=======
+                    inputClass: 'btn-default',
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                     sub: actions != undefined ? actions.ok ? () => { actions.ok(); msgbox_close() } : () => msgbox_close() : () => msgbox_close()
                 }, {});
             }

@@ -178,12 +178,19 @@
 
 .carousel-icon {
     position: absolute;
+<<<<<<< HEAD
     /*left: 8%;*/
     z-index: 1;
     cursor: pointer;
     /*left: 27%;*/
     width: 30px !important;
 
+=======
+    left: 8%;
+    z-index: 1;
+    cursor: pointer;
+    left: 27%;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 }
 
 .slider-centered {

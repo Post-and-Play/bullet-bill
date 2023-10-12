@@ -8,9 +8,14 @@
 }
 
 .pesquisa__jogo-link {
+<<<<<<< HEAD
     text-decoration: none;
     color: black;
     cursor: pointer;
+=======
+  text-decoration: none;
+  color: black;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 }
 
 .pesquisa__jogo-link:hover {
@@ -31,7 +36,10 @@
   width: 100%;
   height: 380px;
   object-fit: cover;
+<<<<<<< HEAD
   pointer-events: none;
+=======
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 }
 
 .pesquisa__jogo-info-container {

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 import '../src/Login.css';
@@ -12,6 +13,20 @@ const Login = () => {
 
     const animationClass = 'animate';
 
+=======
+import '../src/Login.css'
+
+import Navbar from './components/navbar';
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+import { login } from './services/Auth';
+
+const Login = () => {
+
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     const [emailInput, setEmailInput] = useState('');
     const [senhaInput, setSenhaInput] = useState('');
     const [conectadoInput, setConectadoInput] = useState(false);
@@ -36,6 +51,7 @@ const Login = () => {
         }
     };
 
+<<<<<<< HEAD
     const animateStickers = () => {
 
         setTimeout(() => {
@@ -91,12 +107,15 @@ const Login = () => {
         animateStickers();
     }, [navigate])
 
+=======
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     return (
         <div>
             <Navbar hideSearchbar={true} />
             <div className="login__container">
                 <div className="login-page__container">
                     <div className="destaqueContainer">
+<<<<<<< HEAD
                       
                         <h1 className='destaque tituloDestaque'>Olá!</h1>
                         <h3 className='destaque subDestaque'>Bem-Vindo ao Post and Playing</h3>
@@ -111,6 +130,17 @@ const Login = () => {
                                 <img src={Ilustration} alt="PAP" />
                             </div>
                         </div>
+=======
+                        <h1 className='destaque tituloDestaque'>Olá!</h1>
+                        <h2 className='destaque subDestaque'>Bem-Vindo ao Post and Playing</h2>
+                        <p className='destaque textoDestaque'>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet malesuada velit. Mauris tempus lobortis tincidunt.
+                            Mauris et lectus vitae tellus posuere vehicula ac id sem. Aenean ligula arcu, semper in fringilla nec, tempus a nibh. Morbi scelerisque
+                            venenatis ligula id ullamcorper. Donec nisi nisi, viverra id vehicula malesuada, ornare eu sem. Phasellus tristique purus in dui sagittis rutrum.
+                            In ac dictum odio. Mauris feugiat volutpat nisi, at tempus augue mollis eget. Nam bibendum purus sed justo venenatis tempor. Cras maximus, massa nec
+                            blandit varius, nulla purus facilisis enim, vel maximus tellus nibh vel est.
+                        </p>
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                     </div>
                     <form className='login'>
                         <div className="login__container">
@@ -124,12 +154,17 @@ const Login = () => {
                             </label>
                             <div className="row">
                                 <div>
+<<<<<<< HEAD
                                     {/*<input type="checkbox" name="" id="checkbox_con" onChange={(e) => handleInputChange(e, setConectadoInput)} />*/}
                                     {/*<p className='manterConectado'>Mantenha-me conectado</p>*/}
                                     <label className="container-check" >
                                         <input id="checkbox_con" type="checkbox" onChange={(e) => handleInputChange(e, setConectadoInput)} />
                                         <span className="checkmark"></span> Mantenha-me conectado
                                     </label> 
+=======
+                                    <input type="checkbox" name="" id="" onChange={(e) => handleInputChange(e, setConectadoInput)} />
+                                    <p className='manterConectado'>Mantenha-me conectado</p>
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                                 </div>
                             </div>
                             <button to="/home" className='botao btnEntrar btnPrincipal' type="button" onClick={handleButtonClick}>Entrar</button>

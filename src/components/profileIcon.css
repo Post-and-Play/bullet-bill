@@ -2,6 +2,7 @@ ul {
   padding: 0;
 }
 
+<<<<<<< HEAD
 .navbar-profileicon {
     position: relative;
 }
@@ -12,17 +13,38 @@ ul {
     margin-left: 20px;
     cursor: pointer;
     border-radius: 50%;
+=======
+.navbar-profile__icon {
+  position: relative;
+}
+
+.profile__picture {
+  width: 3.125rem;
+  height: 3.125rem;
+  margin-left: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 }
 
 .profile__menu {
   position: absolute;
+<<<<<<< HEAD
   top: 52px; 
   right: -12px;
+=======
+  /* top: 100%; */
+  right: 0;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
   background-color: #795FA1;
   list-style: none;
   display: flex;
   flex-direction: column;
+<<<<<<< HEAD
   margin-top: 0.937rem;
+=======
+  margin-top: 0.9375rem;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
   align-items: center;
   justify-content: center;
   border-radius: 0 0 0.625rem 0.625rem;
@@ -36,6 +58,7 @@ ul {
   color: white;
 }
 
+<<<<<<< HEAD
     .menu__link,
     .profile__menu li a {
         display: flex;
@@ -45,6 +68,13 @@ ul {
         text-decoration: none;
         padding: 14px;
     }
+=======
+.menu__link,
+.profile__menu li a {
+  color: white;
+  text-decoration: none;
+}
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 
 .menu__link:hover,
 .profile__menu li a:hover {

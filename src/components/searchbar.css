@@ -44,7 +44,10 @@
 }
 
 .search-bar__submit-button {
+<<<<<<< HEAD
     height: 44px;
+=======
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     position: absolute;
     right: 0;
     display: flex;
@@ -55,6 +58,10 @@
     background-color: #B0AFE6;
     cursor: pointer;
     outline: none;
+<<<<<<< HEAD
+=======
+    height: 40px;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     border-radius: 7px;
 }
 

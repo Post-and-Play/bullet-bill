@@ -98,7 +98,10 @@ const Home = () => {
             }
             const response = api.post('./api/reviews', postData);
             if (response.data.id) {
-                
+                const icon = event.target.getFirstElement();
+                if (icon) {
+
+                }
             }
         }
     };

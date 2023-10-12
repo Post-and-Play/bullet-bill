@@ -330,7 +330,6 @@ const Jogo = () => {
                         <div className="jogo__sinopse">
                             <Icon icon="mingcute:quote-left-fill" className='jogo__sinopse-quoteIcon quoteIcon-left' />
                             <p className='jogo__sinopse-texto'>{description}</p>
-                            <p className='jogo__sinopse-texto'>{description}</p>
                             <Icon icon="mingcute:quote-right-fill" className='jogo__sinopse-quoteIcon quoteIcon-right' />
                         </div>
                     </div>

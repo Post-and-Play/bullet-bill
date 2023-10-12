@@ -1,7 +1,5 @@
 .favorito__jogos-container {
     padding: 50px;
-    height: 100vh;
-    width: 100vw;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -77,12 +75,21 @@
     z-index: 2;
 }
 
-/* .favorito__jogo-icon:hover {
+.favorito__hasNot {
+    width: 100%;
+    margin-top: 0px;
+    color: #633F9A;
+}
+
+    .favorito__hasNot h3 {
+        font-weight: 600;
+        text-align: center;
+    }
+    /* .favorito__jogo-icon:hover {
     filter: brightness(0.7);
 } */
-
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
-    .favorito__jogos-container {
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+        .favorito__jogos-container {
         justify-content: center;
     }
 }

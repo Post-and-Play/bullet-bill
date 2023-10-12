@@ -17,11 +17,9 @@
     background-color: #795FA1;
     height: auto;
     width: 50%;
-    /* position: absolute; */
     left: 0;
     right: 0;
-    /* margin: 60px auto; */
-    padding: 2.3125rem 0.9375rem;
+    padding: 28px;
     border-radius: 0.9375rem;
     color: #fff;
     display: flex;

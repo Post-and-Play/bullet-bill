@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import '../src/Cadastro.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Navbar from './components/navbar';
 // i
@@ -222,8 +221,8 @@ const Cadastro = () => {
                             </label>
                         </div>
                         <div className="cadastro__botao-container">
-                            <button className='cadastro__botao cadastro__btnVoltar' type="button" onClick={handleBackClick}>Voltar</button>
-                            <button className='cadastro__botao cadastro__btnCadastrar' type="submit" value="Cadastrar" onClick={handleButtonClick} >Cadastrar</button>
+                            <button className='botao cadastro__botao cadastro__btnVoltar' type="button" onClick={handleBackClick}>Voltar</button>
+                            <button className='botao cadastro__botao cadastro__btnCadastrar' type="submit" value="Cadastrar" onClick={handleButtonClick} >Cadastrar</button>
                         </div>
                     </div>
                 </form >

@@ -44,6 +44,7 @@
 }
 
 .search-bar__submit-button {
+    height: 44px;
     position: absolute;
     right: 0;
     display: flex;
@@ -54,7 +55,6 @@
     background-color: #B0AFE6;
     cursor: pointer;
     outline: none;
-    height: 40px;
     border-radius: 7px;
 }
 

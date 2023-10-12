@@ -1,10 +1,20 @@
 import './Admin.css'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './components/navbar';
+import api from './services/Api';
+import { getAuth } from './services/Auth';
+import { Modals } from './components/Modals';
 
 const Admin = () => {
     // Defina um estado para rastrear a opção selecionada
+
+    const root = document.getElementById('root');
+    const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
+
+    const [currentUser, setCurrentUser] = useState();
     const [opcaoSelecionada, setOpcaoSelecionada] = useState(null);
     const [nomeInput, setNomeInput] = useState('');
     const [nomeEmpresaInput, setNomeEmpresaInput] = useState('');
@@ -12,6 +22,17 @@ const Admin = () => {
     const [categoriaInput, setCategoriaInput] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [activeItem, setActiveItem] = useState(null);
+
+    const navigate = useNavigate();
+
+    const getCurrentUser = async () => {
+        let user = await getAuth();
+        if (user) {
+            setCurrentUser(user);
+        } else {
+            navigate('/admin');
+        }
+    }
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -29,9 +50,18 @@ const Admin = () => {
         setActiveItem(index === activeItem ? null : index);
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            loading.show();
+            await getCurrentUser();
+            loading.close();
+        }
+        fetchData();
+    }, []);
+
     return (
         <div>
-            <Navbar />
+            <Navbar currentUser={currentUser} />
             <div className="admin__container">
                 <div className="admin__content-container">
                     <div className="admin__menu-container">

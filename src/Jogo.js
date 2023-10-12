@@ -20,23 +20,28 @@ import { Icon } from '@iconify/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
-
+import Lightbox  from './components/LightBox';
 import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
 
 import api from './services/Api'
-import { getUser } from './services/Auth';
+import { getAuth } from './services/Auth';
 import { Modals } from './components/Modals';
+import { useNavigate } from 'react-router-dom';
 
 const Jogo = () => {
 
     const search = window.location.search;
     const params = new URLSearchParams(search);
     const initialGameId = params.get('id');
+
     const root = document.getElementById('root');
     const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
 
+    const [currentUser, setCurrentUser] = useState();
     const [reviews, setReviews] = useState([]);
+    const [review, setReview] = useState([]);
     const [name, setName] = useState('');
     const [genders, setGenders] = useState('');
     const [description, setDescription] = useState('');
@@ -48,6 +53,12 @@ const Jogo = () => {
     const [userId, setUserId] = useState('');
     const [reviewId, setReviewId] = useState(initialGameId);
     const [reviewLikes, setReviewLikes] = useState({});
+    const [reviewCount, setReviewCount] = useState([]);
+    const [averageRating, setAverageRating] = useState(0); // Média de notas
+    const [roundedAverageRating, setRoundedAverageRating] = useState();
+    const [lightboxImage, setLightboxImage] = useState(null);
+
+    const navigate = useNavigate();
 
     if (!gameId) {
         if (root) {
@@ -59,47 +70,82 @@ const Jogo = () => {
                 'Mensagem!',
                 {
                     ok: (evt) => {
-                        return;
+                        navigate('/home');
                     }
                 });
         }
     }
 
-    const sliderRef = useRef(null);
-
-    const settings = {
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        vertical: true,
-        verticalSwiping: true,
-        nextArrow: <></>,
-        prevArrow: <></>,
-    };
-
-    const images = [
-        LoopHero,
-        DuelLink,
-        Hearthstone,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil
-    ];
+    // const sliderRef = useRef(null);
 
     const getCurrentUser = async () => {
-
-        let user = await getUser();
+        let user = await getAuth();
         if (user) {
-            const response = await api.get('./api/users?id=' + user.id);
-            if (response.data.id) {
-                setUserId(response.data.id)
-            }
+            setCurrentUser(user);
+        } else {
+            navigate('/');
         }
     }
+
+    // const settings = {
+    //     infinite: true,
+    //     speed: 500,
+    //     slidesToShow: 3,
+    //     slidesToScroll: 1,
+    //     vertical: true,
+    //     verticalSwiping: true,
+    //     nextArrow: <></>,
+    //     prevArrow: <></>,
+    // };
+
+    // const images = [
+    //     LoopHero,
+    //     DuelLink,
+    //     Hearthstone,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil
+    // ];
+
+    const coresDasNotas = [
+        "#A70000",
+        "#AF1C00",
+        "#B83500",
+        "#C04D00",
+        "#C86500",
+        "#D07C00",
+        "#D89400",
+        "#E0AB00",
+        "#E8C300",
+        "#F0DA00",
+        "#F9F200",
+        "#FFFC00",
+        "#FFFC00",
+        "#C4FA00",
+        "#C4FA00",
+        "#88F800",
+        "#6AE700",
+        "#4CE600",
+        "#2EE500",
+        "#10D400",
+        "#0094DC"
+    ];
+    const getMediaColor = (averageRating) => {
+        // Mapeie a média para um índice no array de cores
+        const index = Math.min(Math.floor(averageRating * 2), coresDasNotas.length - 1);
+        return coresDasNotas[index];
+    };
+
+    const getCoresDasNotas = (nota) => {
+    // Calcula o índice arredondado com base na nota
+    const indice = Math.round(nota * 2);
+    
+    // Retorna a cor correspondente no array de cores
+    return coresDasNotas[indice];
+    };      
 
     const getReviews = async (gameId) => {
         if (!gameId) {
@@ -131,34 +177,43 @@ const Jogo = () => {
                     })
                 );
 
+                    const totalRating = mappedReviews.reduce((acc, review) => acc + review.grade, 0);
+                    const averageRating = totalRating / mappedReviews.length;
 
-                setReviews(mappedReviews);
 
-                // Atualize o estado de likes com base nas revisões obtidas
-                const updatedReviewLikes = {};
-                mappedReviews.forEach((review) => {
-                    updatedReviewLikes[review.id] = review.userLiked;
-                });
-                setReviewLikes(updatedReviewLikes);
+                    const roundedAverageRating = parseFloat(averageRating.toFixed(1));
 
-                setReviews(mappedReviews);
-            } else {
-                setReviews([]);
-            }
-        } catch (err) {
-            setReviews([]);
-        }
-    };
+                    
+                    // Atualize o estado de média do rating
+                    setAverageRating(averageRating);
+                    setRoundedAverageRating(roundedAverageRating);
 
-    const handleSlideDown = (review) => {
-        if (sliderRef.current) {
-            const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
-            const slidesToShow = settings.slidesToShow;
-            const nextSlideIndex = slideIndex + slidesToShow;
-            sliderRef.current.slickGoTo(nextSlideIndex);
-        }
-    };
+                    setReviewCount(mappedReviews.length);
+                    setReviews(mappedReviews);
+                    
 
+                    // Atualize o estado de likes com base nas revisões obtidas
+                    const updatedReviewLikes = {};
+                    mappedReviews.forEach((review) => {
+                        updatedReviewLikes[review.id] = review.userLiked;
+                    });
+                    setReviewLikes(updatedReviewLikes);
+                    } else {
+                    setReviews([]);
+                    }
+                } catch (err) {
+                    setReviews([]);
+                }
+                };
+    const mediaColor = getMediaColor(averageRating);
+    // const handleSlideDown = (review) => {
+    //     if (sliderRef.current) {
+    //         const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
+    //         const slidesToShow = settings.slidesToShow;
+    //         const nextSlideIndex = slideIndex + slidesToShow;
+    //         sliderRef.current.slickGoTo(nextSlideIndex);
+    //     }
+    // };
 
     const handleLike = async (review) => {
         try {
@@ -191,8 +246,6 @@ const Jogo = () => {
         }
     };
 
-
-
     const getCurrentGame = async () => {
         try {
 
@@ -205,7 +258,9 @@ const Jogo = () => {
                 setTopAdr(response.data.top_adr);
                 setRating(response.data.rating);
                 setReviews(response.data.reviews);
-                setGenderArray(genders.split(',').map((genders) => genders.trim()));
+                await getReviews(response.data.id);
+                await getCurrentUser();
+                
             }
             else {
                 if (root) {
@@ -241,34 +296,33 @@ const Jogo = () => {
         }
 
     }
-
+      
     useEffect(() => {
         const fetchData = async () => {
             // Defina o ID do jogo com base em como você está obtendo o ID do jogo da página atual
-            // Exemplo: const gameId = obterIDDoJogoDaPagina(); 
-            setGameId(initialGameId);
-            await getReviews(initialGameId);
-        };
-        fetchData();
-    }, [initialGameId]);
-
-    useEffect(() => {
-        const fetchData = async () => {
+            // Exemplo: const gameId = obterIDDoJogoDaPagina();
+            
+            loading.show();
             await getCurrentGame();
-        };
-        fetchData(); // Chama a função fetchData quando o componente for montado
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await getCurrentUser();
+    
+            // Mova a atualização do estado de genderArray para dentro desta função de efeito
+            // após a chamada de getCurrentGame()
+            if (genders) {
+                const categories = genders.split(',').map((category) => category.trim());
+                setGenderArray(categories);
+            }
+    
+            loading.close();
         }
+    
         fetchData();
-    }, []);
-
+    }, [genders]);
+    
+    console.log('genders:', genders);
+    console.log('genderArray:', genderArray);
     return (
         <div>
-            <Navbar />
+            <Navbar currentUser={currentUser} />
             <div className="jogo__banner-container">
                 <img src={coverAdr} alt="Banner" className='jogo__banner' />
                 <div className="jogo__banner_gradient"></div>
@@ -281,15 +335,15 @@ const Jogo = () => {
                             <div className="jogo__info-titulo-container">
                                 <div className="jogo__info-titulo">
                                     <h1 className='jogo__titulo'>{name}</h1>
-                                    <div className="jogo__nota-jogo">
-                                        <span>5.2</span>
+                                    <div className="jogo__nota-jogo" style={{ backgroundColor: mediaColor }}>
+                                        <span>{roundedAverageRating}</span>
                                     </div>
                                 </div>
                             </div>
                             <div className="jogo__categoria-container">
-                                {genderArray.map((genders, index) => (
-                                    <div key={index} className="pesquisa__categoria">
-                                        {genders}
+                                {genderArray.map((ge, i) => (
+                                    <div key={i} className="pesquisa__categoria">
+                                        {ge}
                                     </div>
                                 ))}
                                 {/*<div className="jogo__categoria">Party</div>*/}
@@ -298,7 +352,7 @@ const Jogo = () => {
                             <div className="jogo__rank-container">
                                 <div className="jogo__rank">
                                     <Icon icon="solar:ranking-linear" className='jogo__rank-icon' />
-                                    <span className='jogo__rank-ranking'>Ranking: #{rating}</span>
+                                    <span className='jogo__rank-ranking'>{reviewCount} Reviews</span>
                                 </div>
                             </div>
                         </div>
@@ -310,9 +364,9 @@ const Jogo = () => {
                             <Icon icon="mingcute:quote-right-fill" className='jogo__sinopse-quoteIcon quoteIcon-right' />
                         </div>
                     </div>
-                </div>
+                    </div>
             </div>
-            <div className="jogo__semelhantes-slider">
+            {/* <div className="jogo__semelhantes-slider">
                 <div className="jogo__semelhantes-container">
                     <Slider ref={sliderRef} {...settings} className="slider-centered">
                         {images.map((image, index) => (
@@ -327,17 +381,19 @@ const Jogo = () => {
                         <Icon icon="ep:arrow-up-bold" rotate={2} />
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="jogo__posts-container">
                 {Array.isArray(reviews) && reviews.map((review) => (
                     <div className="jogo__post" key={review.id}>
                         <div className="jogo__post-info-perfil-container">
-                            <a href="#" className="jogo__post-foto-user">
+                            <a href={`/perfil?id=${review.user_id}`} className="jogo__post-foto-user">
                                 <img src={review.userPhoto} alt="Foto perfil" className="jogo__post-foto-user" />
                             </a>
                             <div className="jogo__post-info-user">
                                 <p className="jogo__post-nomeUser">{review.username}</p>
-                                <div className="jogo__post-nota">{review.grade}</div>
+                                <div className="jogo__post-nota" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
+                                    {review.grade}
+                                </div>
                             </div>
                         </div>
                         <div className="jogo__post-descricao-container">
@@ -347,11 +403,12 @@ const Jogo = () => {
                                 </div>
                                 <div>
                                     {review.image_adr && (
-                                        <img src={review.image_adr} alt="Foto perfil" className="jogo__post-foto-opiniao" />
+                                        <img src={review.image_adr} alt="Foto perfil" className="jogo__post-foto-opiniao"  onClick={() => setLightboxImage(review.image_adr)} />
                                     )}
                                 </div>
                             </div>
                         </div>
+                        
                         <div className="post-cardlike-button-container">
                             <button className="post-cardlike-button" onClick={() => handleLike(review)}>
                                 <FontAwesomeIcon icon={faHeart} className={`post-cardheart-icon ${review.userLiked ? 'filled' : ''}`} />
@@ -361,7 +418,13 @@ const Jogo = () => {
                     </div>
                 ))}
             </div>
-            <PostButton />
+                {lightboxImage && (
+                    <Lightbox
+                    imageSrc={lightboxImage}
+                    onClose={() => setLightboxImage(null)}
+                />
+            )}
+            <PostButton currentUser={currentUser} />
         </div>
     )
 }

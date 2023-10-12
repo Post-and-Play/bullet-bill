@@ -1,20 +1,20 @@
-# CÛdigo de integraÁ„o com o Backend e Dialogs
+# C√≥digo de integra√ß√£o com o Backend e Dialogs
 
-Utilizamos a biblioteca "axios" para realizar a comunicaÁ„o com o backend. As requisiÁıes podem ser definidas com seu 
-respectivo mÈtodo, sendo: GET, POST, PUT ou DELETE.
+Utilizamos a biblioteca "axios" para realizar a comunica√ß√£o com o backend. As requisi√ß√µes podem ser definidas com seu 
+respectivo m√©todo, sendo: GET, POST, PUT ou DELETE.
 Foram adicionados os arquivos e pastas:
 
-### contÈm o cÛdigo do mecanismo de comunicaÁ„o com o Backend e o cÛdigo com funÁıes de autorizaÁ„o e validaÁ„o do usu·rio
+### cont√©m o c√≥digo do mecanismo de comunica√ß√£o com o Backend e o c√≥digo com fun√ß√µes de autoriza√ß√£o e valida√ß√£o do usu√°rio
  - Pasta src/services
 	- Api.js
 	- Auth.js
 
-### cÛdigo para criaÁ„o de forms modals, para facilitar o envio de notificaÁıes para o usu·rio atravÈs de dialogs.
+### c√≥digo para cria√ß√£o de forms modals, para facilitar o envio de notifica√ß√µes para o usu√°rio atrav√©s de dialogs.
  - src/components
 	- Modals.js
 	- Modals.css
 
-### arquivos de mÌdia para composiÁ„o dos dialogs
+### arquivos de m√≠dia para composi√ß√£o dos dialogs
  - src/image
 	- check.png
 	- critical.png
@@ -23,19 +23,19 @@ Foram adicionados os arquivos e pastas:
 
 # Exemplo de chamada ao backend
 
-Para realizar chamadas em alguma p·gina do frontend, primeiro deve-se realizar a iportaÁ„o:
+Para realizar chamadas em alguma p√°gina do frontend, primeiro deve-se realizar a iporta√ß√£o:
 
 ``` javascript
 import api from './services/Api';
 ```
 
-Exempo de rqeuisiÁ„o POST ( Quando envia dados )
+Exempo de rqeuisi√ß√£o POST ( Quando envia dados )
 
 
 ```javascript
 async function(){
 
-    //Deve usar uma funÁ„o assÌncrona
+    //Deve usar uma fun√ß√£o ass√≠ncrona
 
     await api.post('./api/users', {
             name: nomeInput + ' ' + sobrenomeInput,
@@ -66,7 +66,7 @@ async function(){
             if (root) {
                 modals.htmlDialog(
                     root,
-                    'N„o foi possÌvel criar a conta!',
+                    'N√£o foi poss√≠vel criar a conta!',
                     modals.msgboxButtons.okOnly,
                     modals.msgboxIcons.critical,
                     'Mensagem!',
@@ -81,29 +81,29 @@ async function(){
 
 }
 ```
-# FunÁ„o de autorizaÁ„o do usu·rio
+# Fun√ß√£o de autoriza√ß√£o do usu√°rio
 
-Para verificar se o usu·rio est· logado e autorizado para acessa, deve-se chamar as funÁıes do pacote Auth.js
+Para verificar se o usu√°rio est√° logado e autorizado para acessa, deve-se chamar as fun√ß√µes do pacote Auth.js
 
 ``` javascript
 import { getAuth } from './services/Auth';
 ```
 
-A funÁ„o getAuth verifica se o usu·rio est· com uma sess„o ativa atravÈs do token de validaÁ„o fornecido ao realizar login.
-Geralmente podemos realiazar a verificaÁ„o em qualquer momento. Veja um exemplo inserido no carregamento da p·gina:
+A fun√ß√£o getAuth verifica se o usu√°rio est√° com uma sess√£o ativa atrav√©s do token de valida√ß√£o fornecido ao realizar login.
+Geralmente podemos realiazar a verifica√ß√£o em qualquer momento. Veja um exemplo inserido no carregamento da p√°gina:
 
 ```javascript
 onLoad={() => getAuth()}
 ```
-Se o usu·rio n„o estiver validado a funÁ„o forÁa o retorno para a tela de login.
+Se o usu√°rio n√£o estiver validado a fun√ß√£o for√ßa o retorno para a tela de login.
 
 
 
 # criar dialogs boxes com mensagens
 
 O pacote Modals.js fornece 3 modelos de Dialogs. 
-1 - Modal personalizado, que permite incluir v·rios botıes e conte˙dos din‚micos no carregamento
-2 - Dialogobox de mensagem, com opcionais de tipo de mensagens: Sucesso, Pergunta, AtenÁ„o e Erro
+1 - Modal personalizado, que permite incluir v√°rios bot√µes e conte√∫dos din√¢micos no carregamento
+2 - Dialogobox de mensagem, com opcionais de tipo de mensagens: Sucesso, Pergunta, Aten√ß√£o e Erro
 3 - Modal de carregamento ( spinner )
 
 Para criar uma mensgem:
@@ -112,16 +112,16 @@ Para criar uma mensgem:
 
  import { Modals } from './components/Modals';
 
- // Busca o elemento root da p·gina
+ // Busca o elemento root da p√°gina
  const root = document.getElementById('root');
 
- // Cria uma inst‚ncia da classe Modals.
+ // Cria uma inst√¢ncia da classe Modals.
  const modals = new Modals();
 
  // Verifica se o elemento roo existe
  if (root) {
 
-        // Chama a funÁ„o de msgbox
+        // Chama a fun√ß√£o de msgbox
         modals.htmlDialog(
             root,
             'Sua mensagem!',

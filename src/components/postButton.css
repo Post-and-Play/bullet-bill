@@ -1,0 +1,333 @@
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.btn__post {
+    background-color: #633F9A;
+    border-radius: 10px;
+    color: white;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 13px;
+    box-sizing: border-box;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    cursor: pointer;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.icon__post {
+    width: 18px;
+    height: 18px;
+}
+
+.txt__post {
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+.btn__post:hover {
+    background-color: #4d2c80;
+}
+
+.postBox__container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 99;
+}
+
+.postBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #795FA1;
+    height: auto;
+    flex-basis: calc(100% / 21);
+    border-radius: 15px;
+    padding: 25px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    justify-content: center;
+    align-items: center;
+}
+
+.closeBtn__row {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+    margin-left: auto;
+}
+
+.postBox__selectJogo {
+    padding: 7px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.postBox__selectJogo option {
+    margin: 0;
+    padding: 0;
+    border-radius: 10px;
+}
+
+.postBox__selectJogo select {
+    outline: none;
+    border: none;
+}
+
+.txtAvaliacao__row {
+    flex: 0 0 auto;
+    display: flex;
+    color: #ffff;
+    font-size: 20px;
+}
+
+.txtAvaliacao__row p {
+    margin-bottom: 5px;
+}
+
+.postBox__avaliacao {
+    margin-bottom: 20px;
+}
+
+.postBox__nota-container {
+    display: flex;
+    width: 100%;
+    max-width: 660px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+.postBox__nota {
+    width: calc(100% / 21);
+    flex-shrink: 0;
+    flex-grow: 0;
+    padding: 10px;
+    border: 1px solid #795FA1;
+    background-color: #d3d3d3;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.postBox__nota:nth-child(1) {
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.postBox__nota:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+.postBox__nota:nth-child(1):hover, .postBox__nota:nth-child(1).checked {
+    background-color: #A70000;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.postBox__nota:nth-child(2):hover, .postBox__nota:nth-child(2).checked {
+    background-color: #AF1C00;
+}
+
+.postBox__nota:nth-child(3):hover, .postBox__nota:nth-child(3).checked {
+    background-color: #B83500;
+}
+
+.postBox__nota:nth-child(4):hover, .postBox__nota:nth-child(4).checked {
+    background-color: #C04D00;
+}
+
+.postBox__nota:nth-child(5):hover, .postBox__nota:nth-child(5).checked {
+    background-color: #C86500;
+}
+
+.postBox__nota:nth-child(6):hover, .postBox__nota:nth-child(6).checked {
+    background-color: #D07C00;
+}
+
+.postBox__nota:nth-child(7):hover, .postBox__nota:nth-child(7).checked {
+    background-color: #D89400;
+}
+
+.postBox__nota:nth-child(8):hover, .postBox__nota:nth-child(8).checked {
+    background-color: #E0AB00;
+}
+
+.postBox__nota:nth-child(9):hover, .postBox__nota:nth-child(9).checked {
+    background-color: #E8C300;
+}
+
+.postBox__nota:nth-child(10):hover, .postBox__nota:nth-child(10).checked {
+    background-color: #F0DA00;
+}
+
+.postBox__nota:nth-child(11):hover, .postBox__nota:nth-child(11).checked {
+    /* background-color: #E49A00; */
+    background-color: #F9F200;
+}
+
+.postBox__nota:nth-child(12):hover, .postBox__nota:nth-child(12).checked {
+    background-color: #FFFC00;
+}
+
+.postBox__nota:nth-child(13):hover, .postBox__nota:nth-child(13).checked {
+    background-color: #FFFC00;
+}
+
+.postBox__nota:nth-child(14):hover, .postBox__nota:nth-child(14).checked {
+    background-color: #C4FA00;
+}
+
+.postBox__nota:nth-child(15):hover, .postBox__nota:nth-child(15).checked {
+    background-color: #C4FA00;
+}
+
+.postBox__nota:nth-child(16):hover, .postBox__nota:nth-child(16).checked {
+    background-color: #88F800;
+}
+
+.postBox__nota:nth-child(17):hover, .postBox__nota:nth-child(17).checked {
+    background-color: #6AE700;
+}
+
+.postBox__nota:nth-child(18):hover, .postBox__nota:nth-child(18).checked {
+    background-color: #4CE600;
+}
+
+.postBox__nota:nth-child(19):hover, .postBox__nota:nth-child(19).checked {
+    background-color: #2EE500;
+}
+
+.postBox__nota:nth-child(20):hover, .postBox__nota:nth-child(20).checked {
+    background-color: #10D400;
+}
+
+.postBox__nota:nth-child(21):hover, .postBox__nota:nth-child(21).checked {
+    background-color: #0094DC;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.postBox__opiniao {
+    position: relative;
+    width: 655px;
+    height: 100%;
+    margin-bottom: 30px;
+}
+
+.postBox__opiniao-textarea {
+    width: 100%;
+    height: 250px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    resize: none;
+    padding: 25px;
+}
+
+
+.postBox__opiniao-icon {
+    position: absolute;
+    bottom: 0.938rem;
+    right: 0.938rem;
+    font-size: 1.875rem;
+    transform: rotate(90deg);
+    cursor: pointer;
+}
+
+.postBox__opiniao-image img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 4px;
+}
+.postBox__opiniao-icon label {
+    cursor: pointer;
+}
+
+.postBox__button {
+    width: 100%;
+    height: 50px;
+    outline: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    background-color: #633F9A;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.postBox__button:hover {
+    background-color: #4d2c80;
+}
+
+/* Media Queries */
+/* Tablet */
+@media screen and (max-width: 991px) {
+    .flex-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn__post {
+        margin-bottom: 20px;
+    }
+
+    .postBox {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 15px;
+        flex-basis: 100%;
+    }
+
+    .postBox__selectJogo,
+    .postBox__opiniao-textarea {
+        width: 100%;
+    }
+
+    .postBox__button {
+        width: 100%;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+    .postBox__container {
+        padding: 20px;
+    }
+
+    .postBox {
+        padding: 15px;
+        flex-basis: 100%;
+    }
+
+    .postBox__selectJogo,
+    .postBox__opiniao-textarea {
+        width: 100%;
+    }
+
+    .postBox__button {
+        width: 100%;
+    }
+}

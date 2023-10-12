@@ -1,6 +1,10 @@
 import '../components/postButton.css'
 
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
+=======
+import React, { useState, useEffect } from 'react';
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 import { Icon } from '@iconify/react';
 import sharpSendIcon from '@iconify-icons/ic/sharp-send';
 import attachmentIcon from '@iconify-icons/ic/attachment';
@@ -9,12 +13,45 @@ import { toast } from 'react-toastify';
 
 import api from '../services/Api';
 import { getUser } from "../services/Auth";
+<<<<<<< HEAD
+import { Modals } from './Modals';
+
+const PostButton = ({ currentUser }) => {
+
+    const root = document.getElementById('root');
+    const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
+
+    const [games, setGames] = useState([]);
+    const [postBox, setPostBox] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('');
+    const [opiniao, setOpiniao] = useState('');
+    const [selectedNota, setSelectedNota] = useState(null);
+    const [selectedColor, setSelectedColor] = useState('');
+    const [file, setFile] = useState(null);
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [userId, setUserId] = useState(null);
+      
+    useEffect(() => {
+        if (currentUser) {
+            setUserId(currentUser.id);
+        }
+    }, [currentUser]);
+=======
+import { toast } from 'react-toastify';
+
+import api from '../services/Api';
+import { getUser } from "../services/Auth";
 
 
 const PostButton = () => {
     const [games, setGames] = useState([]);
+    const [games, setGames] = useState([]);
     const [postBox, setPostBox] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
+    const [selectedNota, setSelectedNota] = useState(null);
+    const [selectedColor, setSelectedColor] = useState('');
+    const [opiniao, setOpiniao] = useState('');
     const [selectedNota, setSelectedNota] = useState(null);
     const [selectedColor, setSelectedColor] = useState('');
     const [opiniao, setOpiniao] = useState('');
@@ -44,6 +81,32 @@ const PostButton = () => {
 
 
 
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const user = await getUser();
+                if (!user) {
+                    return;
+                } else {
+                    const response = await api.get(`/api/users?id=${user.id}`);
+                    if (response.data.id) {
+                        setUserId(user.id);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao buscar dados do usuário:', error);
+            }
+        };
+
+        fetchData(); // Chama a função fetchData quando o componente for montado
+    }, []);
+
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
+
+
     const handleClick = () => {
         setPostBox(!postBox);
     }
@@ -58,16 +121,75 @@ const PostButton = () => {
 
     const valoresNotas = Array.from({ length: 21 }, (_, index) => index * 0.5);
 
+<<<<<<< HEAD
+=======
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         setFile(selectedFile);
 
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0];
+        setFile(selectedFile);
+
         if (selectedFile) {
+<<<<<<< HEAD
+=======
+        if (selectedFile) {
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
             toast.success('Imagem adicionada!', { position: toast.POSITION.TOP_RIGHT });
         }
     };
 
+<<<<<<< HEAD
+    //Função que muda as cores dos controles na sequencia do clique
+    const handleNotaClick = (event) => {
+        const note = Number(event.target.getAttribute('data-note'));
+        if (note) {
+            //alert(note);
+            const notes = document.getElementsByClassName('postBox__nota');
+            if (notes.length > 0) {
+
+                for (let i = 0; i < notes.length; i++) {
+                    notes[i].classList.remove('checked');
+                }
+
+                for (let i = 0; i < notes.length; i++) {
+                    let temp = Number(notes[i].getAttribute('data-note'));
+                    if (temp <= note) {
+                        notes[i].classList.add('checked');
+                    }
+                }
+
+                setSelectedNota(note);
+
+            }
+        }
+    }
+
+    const handlePost = async () => {
+
+        try {
+            // const reviewId = event.target.id;
+
+            // Verifique novamente se todos os campos obrigatórios estão preenchidos
+            if (!isFormValid) {
+                //toast.error('Por favor, preencha todos os campos obrigatórios.', { position: toast.POSITION.TOP_RIGHT });
+                if (root) {
+                    modals.htmlDialog(
+                        root,
+                        'Por favor, preencha todos os campos obrigatórios.',
+                        modals.msgboxButtons.okOnly,
+                        modals.msgboxIcons.check,
+                        'Mensagem!',
+                        {
+                            ok: (evt) => {
+
+                            }
+                        });
+                }
+=======
     const coresDasNotas = [
         "#A70000",
         "#AF1C00",
@@ -132,6 +254,7 @@ const PostButton = () => {
             // Verifique novamente se todos os campos obrigatórios estão preenchidos
             if (!isFormValid) {
                 toast.error('Por favor, preencha todos os campos obrigatórios.', { position: toast.POSITION.TOP_RIGHT });
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                 return;
             }
 
@@ -140,7 +263,24 @@ const PostButton = () => {
 
             // Certifique-se de que gameId é um número válido
             if (isNaN(gameId)) {
+<<<<<<< HEAD
+                //toast.error('Por favor, selecione um jogo válido.', { position: toast.POSITION.TOP_RIGHT });
+                if (root) {
+                    modals.htmlDialog(
+                        root,
+                        'Por favor, selecione um jogo válido.',
+                        modals.msgboxButtons.okOnly,
+                        modals.msgboxIcons.check,
+                        'Mensagem!',
+                        {
+                            ok: (evt) => {
+                               
+                            }
+                        });
+                }
+=======
                 toast.error('Por favor, selecione um jogo válido.', { position: toast.POSITION.TOP_RIGHT });
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                 return;
             }
 
@@ -153,6 +293,53 @@ const PostButton = () => {
                 opinion: opiniao,
             };
 
+<<<<<<< HEAD
+            loading.show();
+            // Enviar os dados para a API
+            const response = await api.post(`/api/review?id=${postData.game_id}`, postData);
+
+            if (response.data.id) {
+                // Postagem bem-sucedida
+                //toast.success('Postagem realizada com sucesso!', { position: toast.POSITION.TOP_RIGHT });
+                if (root) {
+                    modals.htmlDialog(
+                        root,
+                        'Postagem realizada com sucesso!',
+                        modals.msgboxButtons.okOnly,
+                        modals.msgboxIcons.check,
+                        'Mensagem!',
+                        {
+                            ok: (evt) => {
+                                resetForm();
+                                window.location.reload();
+                            }
+                        });
+                }
+
+                // Limpar o formulário ou fazer outras ações necessárias após a postagem
+                
+            } else {
+                // Lidar com erros de postagem
+                //toast.error('Ocorreu um erro ao postar. Tente novamente mais tarde.', { position: toast.POSITION.TOP_RIGHT });
+                if (root) {
+                    modals.htmlDialog(
+                        root,
+                        'Ocorreu um erro ao postar. Tente novamente mais tarde.',
+                        modals.msgboxButtons.okOnly,
+                        modals.msgboxIcons.warning,
+                        'Mensagem!',
+                        {
+                            ok: (evt) => {
+                               
+                            }
+                        });
+                }
+            }
+            loading.close();
+
+        }
+        catch (error) {
+=======
             // Enviar os dados para a API
             const response = await api.post(`/api/review?id=${postData.game_id}`, postData);
 
@@ -161,11 +348,13 @@ const PostButton = () => {
                 toast.success('Postagem realizada com sucesso!', { position: toast.POSITION.TOP_RIGHT });
                 // Limpar o formulário ou fazer outras ações necessárias após a postagem
                 resetForm();
+                window.location.reload();
             } else {
                 // Lidar com erros de postagem
                 toast.error('Ocorreu um erro ao postar. Tente novamente mais tarde.', { position: toast.POSITION.TOP_RIGHT });
             }
         } catch (error) {
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
             // Lidar com erros de exceção
             console.error('Erro ao postar:', error);
         }
@@ -197,16 +386,25 @@ const PostButton = () => {
         });
     };
 
+<<<<<<< HEAD
+    useEffect(() => {
+        // Verifique se todos os campos obrigatórios estão preenchidos
+        const formIsValid = selectedOption !== '' && selectedNota !== null && opiniao.trim() !== '';
+=======
 
     useEffect(() => {
         // Verifique se todos os campos obrigatórios estão preenchidos
         const formIsValid = selectedOption !== '' && selectedNota !== null && validateOpiniao();
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
         setIsFormValid(formIsValid);
     }, [selectedOption, selectedNota, opiniao]);
 
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     const getGames = async () => {
 
         try {
@@ -253,6 +451,16 @@ const PostButton = () => {
                                     {game.name} {/* Substitua 'nome' pelo campo real que contém o nome do jogo */}
                                 </option>
                             ))}
+<<<<<<< HEAD
+          
+=======
+                            <option className='postBox__selectJogo-placeholder' value="" disabled hidden>Escolha um jogo</option>
+                            {games.map((game) => (
+                                <option key={game.id} value={game.id}>
+                                    {game.name} {/* Substitua 'nome' pelo campo real que contém o nome do jogo */}
+                                </option>
+                            ))}
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                         </select>
                         <div className="postBox__avaliacao">
                             <div className="txtAvaliacao__row">
@@ -260,9 +468,20 @@ const PostButton = () => {
                             </div>
                             <div className="postBox__nota-container">
                                 {valoresNotas.map((valoresNotas, index) => (
+<<<<<<< HEAD
+                                    <div className={`postBox__nota`}
+                                        key={valoresNotas}
+                                        data-note={valoresNotas}
+                                        onClick={(event) => handleNotaClick(event)}>
+=======
                                     <div className={`postBox__nota ${valoresNotas === selectedNota ? 'selected' : ''}`}
                                         key={valoresNotas}
                                         onClick={(event) => handleNotaClick(valoresNotas, event)}>
+                                {valoresNotas.map((valoresNotas, index) => (
+                                    <div className={`postBox__nota ${valoresNotas === selectedNota ? 'selected' : ''}`}
+                                        key={valoresNotas}
+                                        onClick={(event) => handleNotaClick(valoresNotas, event)}>
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                                         {valoresNotas}
                                     </div>
                                 ))}
@@ -271,10 +490,19 @@ const PostButton = () => {
                         <div className="postBox__opiniao-container">
                             <div className="postBox__opiniao">
                                 <textarea className="postBox__opiniao-textarea" value={opiniao} placeholder='Digite a sua opinião' onChange={(event) => setOpiniao(event.target.value)} />
+<<<<<<< HEAD
+=======
+                                <textarea className="postBox__opiniao-textarea" value={opiniao} placeholder='Digite a sua opinião' onChange={(event) => setOpiniao(event.target.value)} />
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                                 <div className="postBox__opiniao-image">
                                     {file && <img src={URL.createObjectURL(file)} alt="Imagem anexada" />}
                                 </div>
                                 <div className="postBox__opiniao-icon">
+<<<<<<< HEAD
+=======
+                                </div>
+                                <div className="postBox__opiniao-icon">
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                                     <label htmlFor="file">
                                         <Icon icon={attachmentIcon} />
                                     </label>
@@ -286,10 +514,19 @@ const PostButton = () => {
                                         accept=".jpg, .jpeg, .png"
                                         className="postBox__icon"
                                     />
+<<<<<<< HEAD
+                                 </div>
+                            </div>
+                        </div>
+                        <button className='botao postBox__button' disabled={!isFormValid} onClick={handlePost}>Postar</button>
+=======
+                                </div>
                                 </div>
                             </div>
                         </div>
                         <button className='postBox__button' disabled={!isFormValid} onClick={handlePost}>Postar</button>
+                        <button className='postBox__button' disabled={!isFormValid} onClick={handlePost}>Postar</button>
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                     </div>
                 </div>
             }

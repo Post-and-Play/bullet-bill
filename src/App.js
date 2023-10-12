@@ -13,6 +13,10 @@ import Pesquisa from './Pesquisa'
 import Favoritos from './Favoritos';
 import Indicar from './Indicar';
 import Admin from './Admin';
+<<<<<<< HEAD
+import AdminLogin from './AdminLogin';
+=======
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 
 function App() {
   return (
@@ -29,7 +33,12 @@ function App() {
         <Route path="/pesquisa" element={<Pesquisa />} />
         <Route path="/favoritos" element={<Favoritos />} />
         <Route path="/indicar-jogo" element={<Indicar />} />
+<<<<<<< HEAD
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<Admin />} />
+=======
         <Route path="/admin" element={<Admin />} />
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
         {/* <Route path="/admin/jogos-indicados" element={<Admin />} /> */}
 
       </Routes>

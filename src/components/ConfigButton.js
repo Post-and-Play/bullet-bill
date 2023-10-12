@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import '../components/ConfigButton.css';
 import { IconContext } from 'react-icons';
+<<<<<<< HEAD
+import { MdArrowForward, MdArrowBack } from 'react-icons/md';
+import api from '../services/Api';
+import { getAuth } from '../services/Auth';
+import { Modals } from '../components/Modals';
+import { useNavigate } from 'react-router-dom';
+
+
+const ConfigButton = ({ currentUser }) => {
+=======
 import { MdArrowForward } from 'react-icons/md';
 import api from '../services/Api';
 import { getUser } from '../services/Auth';
@@ -9,9 +19,10 @@ import { Modals } from '../components/Modals';
 import { useNavigate } from 'react-router-dom';
 // import Fotoperfil from '../image/fotosperfil';
 // import banner from '../image/fotosbanner';
-
+import axios from 'axios';
 
 const ConfigButton = () => {
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
   const [user, setUser] = useState({});
   const [editing, setEditing] = useState(false);
   const [tempUser, setTempUser] = useState({});
@@ -40,6 +51,29 @@ const ConfigButton = () => {
   const modals = new Modals();
 
   useEffect(() => {
+<<<<<<< HEAD
+      if (currentUser) {
+          setName(currentUser.name);
+          setUsername(currentUser.user_name);
+          setMail(currentUser.mail);
+          setProfileImage(currentUser.photo_adr);
+          setBannerImage(currentUser.top_adr);
+          setBirth_date(currentUser.birth_date);
+          setDescription(currentUser.description);
+          setTwitchNick(currentUser.twitch_user);
+          setDiscordNick(currentUser.discord_user);
+          setEpicGamesNick(currentUser.epic_user);
+          setSteamNick(currentUser.steam_user);
+          setGithubNick(currentUser.github_user);
+      }
+  }, [currentUser]);
+
+  // Crie um objeto com os dados atualizados do perfil
+  const updateProfile = async () => {
+      try {
+
+      const user = await getAuth();
+=======
     const fetchData = async () => {
       const user = await getUser();
       if (user) {
@@ -67,6 +101,7 @@ const ConfigButton = () => {
   const updateProfile = async () => {
     try {
       const user = await getUser();
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
       if (!user) {
         return;
       }
@@ -76,6 +111,17 @@ const ConfigButton = () => {
         photo_adr: profileImage,
         top_adr: bannerImage,
         id: user.id,
+<<<<<<< HEAD
+        name: name,
+        user_name: user_name,
+        mail: mail,
+        birth_date: birth_date,
+        description: description,
+        steam_user: steamNick,
+        epic_user: epic_user,
+        twitch_user: twitch_user,
+        github_user: github_user,
+=======
         name,
         user_name,
         mail,
@@ -85,6 +131,7 @@ const ConfigButton = () => {
         epic_user,
         twitch_user,
         github_user,
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
         discord_user: discordNick,
         // Outros campos que você deseja atualizar
       };
@@ -262,11 +309,19 @@ const ConfigButton = () => {
             </div>
             {configBox && (
               <div className="configBox__container">
+<<<<<<< HEAD
+                 <div className="configBox__form">
+                  <div className="closeConfigBtn__row">
+                    <Icon icon="ph:x" className="closeConfiBtn" onClick={handleClose} />
+                  </div>
+                  <div className="configBox">
+=======
                 <div className="configBox">
                   <div className="closeConfigBtn__row">
                     <Icon icon="ph:x" className="closeConfiBtn" onClick={handleClose} />
                   </div>
                   <div className="configBox__form">
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                     <div>
                       <label htmlFor="steam_user">Nickname da Steam:</label>
                       <input type="text" id="steam_user" value={steamNick} onChange={handleSteam_userChange} />
@@ -289,9 +344,18 @@ const ConfigButton = () => {
                     </div>
                   </div>
                   <div className="arrow">
+<<<<<<< HEAD
+                    {/*<Icon icon="ph:arrow-left-bold" onClick={handleBackForm} />*/}
+                    <IconContext.Provider value={{ size: '2rem' }}>
+                        <MdArrowBack className="arrow-icon" onClick={handleBackForm} />
+                    </IconContext.Provider>
+                  </div>
+                  <button className="botao configBox__button" onClick={handleSubmit1}>
+=======
                     <Icon icon="ph:arrow-left-bold" onClick={handleBackForm} />
                   </div>
                   <button className="configBox__button" onClick={handleSubmit1}>
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                     Atualizar Perfil
                   </button>
                 </div>
@@ -311,6 +375,57 @@ const ConfigButton = () => {
 
           {configBox && (
             <div className="configBox__container">
+<<<<<<< HEAD
+              <div className="configBox__form">
+                <div className="closeConfigBtn__row">
+                  <Icon icon="ph:x" className="closeConfiBtn" onClick={handleClose} />
+                </div>
+                  <div className="configBox">
+                    <div>
+
+                      <div className="profileImageContainer">
+                        <div className="profileImageWrapper">
+                            <label className="imageLabel">Imagem de perfil</label>
+                          {profileImage ? (
+                            <img className="profileImage" src={profileImage} alt="Imagem de perfil" />
+                          ) : (<br/>)}
+                            <label htmlFor="profileImageUpload" className="upload-icon-placeholder">
+                                <Icon icon="ph:pencil" size={24} />
+                                <input
+                                    id="profileImageUpload"
+                                    type="file"
+                                    className="fileInput"
+                                    accept="image/*"
+                                    onChange={handleProfileChange}
+                                />
+                            </label>
+                        </div>
+                      </div>
+
+                      <div className="bannerImageContainer">
+                        <div className="bannerImageWrapper">
+                            <div className="bannerInputRectangle">
+                                <label className="imageLabelBanner">Imagem de fundo</label>
+                                <label htmlFor="bannerImageUpload" className="upload-icon-placeholder">
+                                    <Icon icon="ph:pencil" size={24} />
+                                    <input
+                                        id="bannerImageUpload"
+                                        type="file"
+                                        className="fileInput"
+                                        accept="image/*"
+                                        onChange={handleBannerChange}
+                                    />
+                                </label>
+                            </div>
+                            {bannerImage ? (
+                                <img className="bannerImage" src={bannerImage} alt="Imagem de fundo" />
+                            ) : (<br/>)}
+                         </div>
+
+                                          </div>
+
+                  </div>
+=======
               <div className="configBox">
                 <div className="closeConfigBtn__row">
                   <Icon icon="ph:x" className="closeConfiBtn" onClick={handleClose} />
@@ -321,7 +436,7 @@ const ConfigButton = () => {
                     <div className="imageLabel">Imagem de perfil</div>
                     <div className="profileImageWrapper">
                       {profileImage ? (
-                        <img className="profileImage" src={base64Image} alt="Imagem de perfil" />
+                        <img className="profileImage" src={profileImage} alt="Imagem de perfil" />
                       ) : (
                         <label htmlFor="profileImageUpload" className="upload-icon-placeholder">
                           <Icon icon="ph:pencil" size={24} />
@@ -356,6 +471,7 @@ const ConfigButton = () => {
                     </div>
                   </div>
 
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                   <div>
                     <label htmlFor="name">Nome:</label>
                     <input type="text" id="name" value={name} onChange={handleNameChange} />
@@ -384,7 +500,11 @@ const ConfigButton = () => {
                   </IconContext.Provider>
                 </div>
 
+<<<<<<< HEAD
+                <button className="botao configBox__button" onClick={handleSubmit1}>
+=======
                 <button className="configBox__button" onClick={handleSubmit1}>
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
                   Atualizar Perfil
                 </button>
               </div>

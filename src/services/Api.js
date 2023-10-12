@@ -9,7 +9,11 @@
 /* eslint default-case: 'off' */
 
 import axios from 'axios';
+<<<<<<< HEAD
+import { getStorage } from "./Auth";
+=======
 import { getUser } from "./Auth";
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 
 const test = true;
 var apiUrl = test ? process.env.REACT_APP_API_TEST : process.env.REACT_APP_API;
@@ -21,7 +25,11 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async config => {
+<<<<<<< HEAD
+    const { Token } = await getStorage() !== null;
+=======
     const { Token } = await getUser() !== null;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     if (Token) {
         config.headers.Authorization = `Bearer ${Token}`;
         // config.headers.XContentTypeOptions = 'no-sniff';

@@ -97,8 +97,12 @@
     border-radius: 0.9375rem;
     background-color: #633F9A;
     color: #fff;
+<<<<<<< HEAD
+    font-weight: 600;
+=======
     font-weight: 550;
     font-size: 18pt;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     padding: 0.5rem;
     margin-bottom: 0.5rem;
     outline: none;
@@ -153,8 +157,12 @@
     width: 100%;
     height: 50px !important;
     color: #fff;
+<<<<<<< HEAD
+    font-weight: 600;
+=======
     font-weight: 500;
     font-size: 18pt;
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
     padding: 0.5rem;
     border-radius: 0.9375rem;
     margin: 0;
@@ -216,6 +224,69 @@
 }
 
 
+<<<<<<< HEAD
+.destaque_ilustration {
+    position: relative;
+    width: 480px;
+    height: 310px;
+    align-items: center;
+}
+
+.destaque_ilustration_image {
+    height: 100%;
+    background: #fff;
+    opacity: 0.2;
+}
+
+.destaque_ilustration_image img {
+    height: 100%;
+}
+
+
+[data-anime] {
+    opacity: 0;
+}
+
+[data-anime="left"] {
+    transform: translate(-100%, 0)
+}
+
+[data-anime="right"] {
+    transform: translate(100%, 0)
+}
+
+[data-anime="top"] {
+    transform: translate(0, -100%)
+}
+
+[data-anime="bottom"] {
+    transform: translate(0, 100%)
+}
+
+[data-anime].animate {
+    opacity: 1;
+    transition: 1s;
+    transition-delay: 0.3s;
+    transform: translate(0, 0)
+}
+
+[data-anime].animate1 {
+    opacity: 1;
+    transition: 1s;
+    transition-delay: 0.6s;
+    transform: translate(0, 0)
+}
+
+[data-anime].animate2 {
+    opacity: 1;
+    transition: 1s;
+    transition-delay: 0.9s;
+    transform: translate(0, 0)
+}
+
+
+=======
+>>>>>>> 051e289046783c7dd87fd13763e3e4d43b031ed8
 
 /* Media Queries */
 /* Tablet */

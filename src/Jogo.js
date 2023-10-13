@@ -20,7 +20,7 @@ import { Icon } from '@iconify/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
-
+import Lightbox  from './components/LightBox';
 import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
 
@@ -54,6 +54,10 @@ const Jogo = () => {
     const [reviewId, setReviewId] = useState(initialGameId);
     const [reviewLikes, setReviewLikes] = useState({});
     const [reviewCount, setReviewCount] = useState([]);
+    const [averageRating, setAverageRating] = useState(0); // Média de notas
+    const [roundedAverageRating, setRoundedAverageRating] = useState();
+    const [lightboxImage, setLightboxImage] = useState(null);
+
     const navigate = useNavigate();
 
     if (!gameId) {
@@ -72,7 +76,7 @@ const Jogo = () => {
         }
     }
 
-    const sliderRef = useRef(null);
+    // const sliderRef = useRef(null);
 
     const getCurrentUser = async () => {
         let user = await getAuth();
@@ -83,28 +87,28 @@ const Jogo = () => {
         }
     }
 
-    const settings = {
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        vertical: true,
-        verticalSwiping: true,
-        nextArrow: <></>,
-        prevArrow: <></>,
-    };
+    // const settings = {
+    //     infinite: true,
+    //     speed: 500,
+    //     slidesToShow: 3,
+    //     slidesToScroll: 1,
+    //     vertical: true,
+    //     verticalSwiping: true,
+    //     nextArrow: <></>,
+    //     prevArrow: <></>,
+    // };
 
-    const images = [
-        LoopHero,
-        DuelLink,
-        Hearthstone,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil
-    ];
+    // const images = [
+    //     LoopHero,
+    //     DuelLink,
+    //     Hearthstone,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil
+    // ];
 
     const coresDasNotas = [
         "#A70000",
@@ -129,6 +133,11 @@ const Jogo = () => {
         "#10D400",
         "#0094DC"
     ];
+    const getMediaColor = (averageRating) => {
+        // Mapeie a média para um índice no array de cores
+        const index = Math.min(Math.floor(averageRating * 2), coresDasNotas.length - 1);
+        return coresDasNotas[index];
+    };
 
     const getCoresDasNotas = (nota) => {
     // Calcula o índice arredondado com base na nota
@@ -168,33 +177,43 @@ const Jogo = () => {
                     })
                 );
 
-                setReviewCount(mappedReviews.length)       
-                setReviews(mappedReviews);
+                    const totalRating = mappedReviews.reduce((acc, review) => acc + review.grade, 0);
+                    const averageRating = totalRating / mappedReviews.length;
 
-                // Atualize o estado de likes com base nas revisões obtidas
-                const updatedReviewLikes = {};
-                mappedReviews.forEach((review) => {
-                    updatedReviewLikes[review.id] = review.userLiked;
-                });
-                setReviewLikes(updatedReviewLikes);
 
-                setReviews(mappedReviews);
-            } else {
-                setReviews([]);
-            }
-        } catch (err) {
-            setReviews([]);
-        }
-    };
+                    const roundedAverageRating = parseFloat(averageRating.toFixed(1));
 
-    const handleSlideDown = (review) => {
-        if (sliderRef.current) {
-            const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
-            const slidesToShow = settings.slidesToShow;
-            const nextSlideIndex = slideIndex + slidesToShow;
-            sliderRef.current.slickGoTo(nextSlideIndex);
-        }
-    };
+                    
+                    // Atualize o estado de média do rating
+                    setAverageRating(averageRating);
+                    setRoundedAverageRating(roundedAverageRating);
+
+                    setReviewCount(mappedReviews.length);
+                    setReviews(mappedReviews);
+                    
+
+                    // Atualize o estado de likes com base nas revisões obtidas
+                    const updatedReviewLikes = {};
+                    mappedReviews.forEach((review) => {
+                        updatedReviewLikes[review.id] = review.userLiked;
+                    });
+                    setReviewLikes(updatedReviewLikes);
+                    } else {
+                    setReviews([]);
+                    }
+                } catch (err) {
+                    setReviews([]);
+                }
+                };
+    const mediaColor = getMediaColor(averageRating);
+    // const handleSlideDown = (review) => {
+    //     if (sliderRef.current) {
+    //         const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
+    //         const slidesToShow = settings.slidesToShow;
+    //         const nextSlideIndex = slideIndex + slidesToShow;
+    //         sliderRef.current.slickGoTo(nextSlideIndex);
+    //     }
+    // };
 
     const handleLike = async (review) => {
         try {
@@ -239,9 +258,9 @@ const Jogo = () => {
                 setTopAdr(response.data.top_adr);
                 setRating(response.data.rating);
                 setReviews(response.data.reviews);
-                setGenderArray(genders.split(',').map((genders) => genders.trim()));
                 await getReviews(response.data.id);
                 await getCurrentUser();
+                
             }
             else {
                 if (root) {
@@ -281,14 +300,26 @@ const Jogo = () => {
     useEffect(() => {
         const fetchData = async () => {
             // Defina o ID do jogo com base em como você está obtendo o ID do jogo da página atual
-            // Exemplo: const gameId = obterIDDoJogoDaPagina(); 
+            // Exemplo: const gameId = obterIDDoJogoDaPagina();
+            
             loading.show();
             await getCurrentGame();
+    
+            // Mova a atualização do estado de genderArray para dentro desta função de efeito
+            // após a chamada de getCurrentGame()
+            if (genders) {
+                const categories = genders.split(',').map((category) => category.trim());
+                setGenderArray(categories);
+            }
+    
             loading.close();
         }
+    
         fetchData();
-    }, []);
-
+    }, [genders]);
+    
+    console.log('genders:', genders);
+    console.log('genderArray:', genderArray);
     return (
         <div>
             <Navbar currentUser={currentUser} />
@@ -304,15 +335,15 @@ const Jogo = () => {
                             <div className="jogo__info-titulo-container">
                                 <div className="jogo__info-titulo">
                                     <h1 className='jogo__titulo'>{name}</h1>
-                                    <div className="jogo__nota-jogo">
-                                        <span>{rating}</span>
+                                    <div className="jogo__nota-jogo" style={{ backgroundColor: mediaColor }}>
+                                        <span>{roundedAverageRating}</span>
                                     </div>
                                 </div>
                             </div>
                             <div className="jogo__categoria-container">
-                                {genderArray.map((g, i) => (
+                                {genderArray.map((ge, i) => (
                                     <div key={i} className="pesquisa__categoria">
-                                        {g}
+                                        {ge}
                                     </div>
                                 ))}
                                 {/*<div className="jogo__categoria">Party</div>*/}
@@ -335,7 +366,7 @@ const Jogo = () => {
                     </div>
                     </div>
             </div>
-            <div className="jogo__semelhantes-slider">
+            {/* <div className="jogo__semelhantes-slider">
                 <div className="jogo__semelhantes-container">
                     <Slider ref={sliderRef} {...settings} className="slider-centered">
                         {images.map((image, index) => (
@@ -350,7 +381,7 @@ const Jogo = () => {
                         <Icon icon="ep:arrow-up-bold" rotate={2} />
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="jogo__posts-container">
                 {Array.isArray(reviews) && reviews.map((review) => (
                     <div className="jogo__post" key={review.id}>
@@ -372,7 +403,7 @@ const Jogo = () => {
                                 </div>
                                 <div>
                                     {review.image_adr && (
-                                        <img src={review.image_adr} alt="Foto perfil" className="jogo__post-foto-opiniao" />
+                                        <img src={review.image_adr} alt="Foto perfil" className="jogo__post-foto-opiniao"  onClick={() => setLightboxImage(review.image_adr)} />
                                     )}
                                 </div>
                             </div>
@@ -387,6 +418,12 @@ const Jogo = () => {
                     </div>
                 ))}
             </div>
+                {lightboxImage && (
+                    <Lightbox
+                    imageSrc={lightboxImage}
+                    onClose={() => setLightboxImage(null)}
+                />
+            )}
             <PostButton currentUser={currentUser} />
         </div>
     )

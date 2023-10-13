@@ -25,6 +25,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Modals } from './components/Modals';
 import { getAuth } from './services/Auth';
 import api from './services/Api'
+import Lightbox  from './components/LightBox';
 
 const Home = () => {
 
@@ -38,6 +39,8 @@ const Home = () => {
     const [games, setGames] = useState([]);
     const [userId, setUserId] = useState(null);
     const sliderRef = useRef(null);
+    const [lightboxImage, setLightboxImage] = useState(null);
+
     const navigate = useNavigate();
 
     const settings = {
@@ -197,7 +200,7 @@ const Home = () => {
     return (
         <div>
             <Navbar currentUser={currentUser} />
-            <div className="home__bemAvaliado-slider">
+            {/* <div className="home__bemAvaliado-slider">
                 <div className="home__bemAvaliado-container">
                     <div className="home-carousel-icon" onClick={handleSlideLeft} >
                         <Icon icon="ep:arrow-up-bold" rotate={3} className="image-slider__image" />
@@ -215,7 +218,7 @@ const Home = () => {
                         <Icon icon="ep:arrow-up-bold" rotate={1} />
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="custom-container">
                 <div className="container__card-post">
                     {reviews.map((review) => (
@@ -241,7 +244,7 @@ const Home = () => {
                                     </div>
                                     <div>
                                         {review.image_adr && (
-                                            <img src={review.image_adr} alt="Foto perfil" className="card-post__foto-opiniao" />
+                                            <img src={review.image_adr} alt="Foto perfil" className="card-post__foto-opiniao" onClick={() => setLightboxImage(review.image_adr)}/>
                                         )}
                                     </div>
                                 </div>
@@ -254,6 +257,12 @@ const Home = () => {
                             </button>
                         </div>
                     ))}
+                    {lightboxImage && (
+                    <Lightbox
+                    imageSrc={lightboxImage}
+                    onClose={() => setLightboxImage(null)}
+                        />
+                    )}
                     <PostButton currentUser={currentUser} />
                 </div>
             </div>

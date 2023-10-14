@@ -20,7 +20,7 @@ import { Icon } from '@iconify/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
-import Lightbox  from './components/LightBox';
+import Lightbox from './components/LightBox';
 import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
 
@@ -140,12 +140,12 @@ const Jogo = () => {
     };
 
     const getCoresDasNotas = (nota) => {
-    // Calcula o índice arredondado com base na nota
-    const indice = Math.round(nota * 2);
-    
-    // Retorna a cor correspondente no array de cores
-    return coresDasNotas[indice];
-    };      
+        // Calcula o índice arredondado com base na nota
+        const indice = Math.round(nota * 2);
+
+        // Retorna a cor correspondente no array de cores
+        return coresDasNotas[indice];
+    };
 
     const getReviews = async (gameId) => {
         if (!gameId) {
@@ -177,34 +177,34 @@ const Jogo = () => {
                     })
                 );
 
-                    const totalRating = mappedReviews.reduce((acc, review) => acc + review.grade, 0);
-                    const averageRating = totalRating / mappedReviews.length;
+                const totalRating = mappedReviews.reduce((acc, review) => acc + review.grade, 0);
+                const averageRating = totalRating / mappedReviews.length;
 
 
-                    const roundedAverageRating = parseFloat(averageRating.toFixed(1));
+                const roundedAverageRating = parseFloat(averageRating.toFixed(1));
 
-                    
-                    // Atualize o estado de média do rating
-                    setAverageRating(averageRating);
-                    setRoundedAverageRating(roundedAverageRating);
 
-                    setReviewCount(mappedReviews.length);
-                    setReviews(mappedReviews);
-                    
+                // Atualize o estado de média do rating
+                setAverageRating(averageRating);
+                setRoundedAverageRating(roundedAverageRating);
 
-                    // Atualize o estado de likes com base nas revisões obtidas
-                    const updatedReviewLikes = {};
-                    mappedReviews.forEach((review) => {
-                        updatedReviewLikes[review.id] = review.userLiked;
-                    });
-                    setReviewLikes(updatedReviewLikes);
-                    } else {
-                    setReviews([]);
-                    }
-                } catch (err) {
-                    setReviews([]);
-                }
-                };
+                setReviewCount(mappedReviews.length);
+                setReviews(mappedReviews);
+
+
+                // Atualize o estado de likes com base nas revisões obtidas
+                const updatedReviewLikes = {};
+                mappedReviews.forEach((review) => {
+                    updatedReviewLikes[review.id] = review.userLiked;
+                });
+                setReviewLikes(updatedReviewLikes);
+            } else {
+                setReviews([]);
+            }
+        } catch (err) {
+            setReviews([]);
+        }
+    };
     const mediaColor = getMediaColor(averageRating);
     // const handleSlideDown = (review) => {
     //     if (sliderRef.current) {
@@ -260,7 +260,7 @@ const Jogo = () => {
                 setReviews(response.data.reviews);
                 await getReviews(response.data.id);
                 await getCurrentUser();
-                
+
             }
             else {
                 if (root) {
@@ -296,28 +296,28 @@ const Jogo = () => {
         }
 
     }
-      
+
     useEffect(() => {
         const fetchData = async () => {
             // Defina o ID do jogo com base em como você está obtendo o ID do jogo da página atual
             // Exemplo: const gameId = obterIDDoJogoDaPagina();
-            
+
             loading.show();
             await getCurrentGame();
-    
+
             // Mova a atualização do estado de genderArray para dentro desta função de efeito
             // após a chamada de getCurrentGame()
             if (genders) {
                 const categories = genders.split(',').map((category) => category.trim());
                 setGenderArray(categories);
             }
-    
+
             loading.close();
         }
-    
+
         fetchData();
     }, [genders]);
-    
+
     console.log('genders:', genders);
     console.log('genderArray:', genderArray);
     return (
@@ -336,7 +336,7 @@ const Jogo = () => {
                                 <div className="jogo__info-titulo">
                                     <h1 className='jogo__titulo'>{name}</h1>
                                     <div className="jogo__nota-jogo" style={{ backgroundColor: mediaColor }}>
-                                        <span>{roundedAverageRating}</span>
+                                        <span >{roundedAverageRating}</span>
                                     </div>
                                 </div>
                             </div>
@@ -364,7 +364,7 @@ const Jogo = () => {
                             <Icon icon="mingcute:quote-right-fill" className='jogo__sinopse-quoteIcon quoteIcon-right' />
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
             {/* <div className="jogo__semelhantes-slider">
                 <div className="jogo__semelhantes-container">
@@ -403,12 +403,12 @@ const Jogo = () => {
                                 </div>
                                 <div>
                                     {review.image_adr && (
-                                        <img src={review.image_adr} alt="Foto perfil" className="jogo__post-foto-opiniao"  onClick={() => setLightboxImage(review.image_adr)} />
+                                        <img src={review.image_adr} alt="Foto perfil" className="jogo__post-foto-opiniao" onClick={() => setLightboxImage(review.image_adr)} />
                                     )}
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div className="post-cardlike-button-container">
                             <button className="post-cardlike-button" onClick={() => handleLike(review)}>
                                 <FontAwesomeIcon icon={faHeart} className={`post-cardheart-icon ${review.userLiked ? 'filled' : ''}`} />
@@ -418,8 +418,8 @@ const Jogo = () => {
                     </div>
                 ))}
             </div>
-                {lightboxImage && (
-                    <Lightbox
+            {lightboxImage && (
+                <Lightbox
                     imageSrc={lightboxImage}
                     onClose={() => setLightboxImage(null)}
                 />

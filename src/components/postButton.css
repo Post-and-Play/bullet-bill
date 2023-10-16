@@ -125,6 +125,7 @@
     text-align: center;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .postBox__nota:nth-child(1) {
@@ -138,90 +139,90 @@
 }
 
 
-.postBox__nota:nth-child(1):hover {
+.postBox__nota:nth-child(1):hover, .postBox__nota:nth-child(1).checked {
     background-color: #A70000;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
 
-.postBox__nota:nth-child(2):hover {
+.postBox__nota:nth-child(2):hover, .postBox__nota:nth-child(2).checked {
     background-color: #AF1C00;
 }
 
-.postBox__nota:nth-child(3):hover {
+.postBox__nota:nth-child(3):hover, .postBox__nota:nth-child(3).checked {
     background-color: #B83500;
 }
 
-.postBox__nota:nth-child(4):hover {
+.postBox__nota:nth-child(4):hover, .postBox__nota:nth-child(4).checked {
     background-color: #C04D00;
 }
 
-.postBox__nota:nth-child(5):hover {
+.postBox__nota:nth-child(5):hover, .postBox__nota:nth-child(5).checked {
     background-color: #C86500;
 }
 
-.postBox__nota:nth-child(6):hover {
+.postBox__nota:nth-child(6):hover, .postBox__nota:nth-child(6).checked {
     background-color: #D07C00;
 }
 
-.postBox__nota:nth-child(7):hover {
+.postBox__nota:nth-child(7):hover, .postBox__nota:nth-child(7).checked {
     background-color: #D89400;
 }
 
-.postBox__nota:nth-child(8):hover {
+.postBox__nota:nth-child(8):hover, .postBox__nota:nth-child(8).checked {
     background-color: #E0AB00;
 }
 
-.postBox__nota:nth-child(9):hover {
+.postBox__nota:nth-child(9):hover, .postBox__nota:nth-child(9).checked {
     background-color: #E8C300;
 }
 
-.postBox__nota:nth-child(10):hover {
+.postBox__nota:nth-child(10):hover, .postBox__nota:nth-child(10).checked {
     background-color: #F0DA00;
 }
 
-.postBox__nota:nth-child(11):hover {
+.postBox__nota:nth-child(11):hover, .postBox__nota:nth-child(11).checked {
     /* background-color: #E49A00; */
     background-color: #F9F200;
 }
 
-.postBox__nota:nth-child(12):hover {
+.postBox__nota:nth-child(12):hover, .postBox__nota:nth-child(12).checked {
     background-color: #FFFC00;
 }
 
-.postBox__nota:nth-child(13):hover {
+.postBox__nota:nth-child(13):hover, .postBox__nota:nth-child(13).checked {
     background-color: #FFFC00;
 }
 
-.postBox__nota:nth-child(14):hover {
+.postBox__nota:nth-child(14):hover, .postBox__nota:nth-child(14).checked {
     background-color: #C4FA00;
 }
 
-.postBox__nota:nth-child(15):hover {
+.postBox__nota:nth-child(15):hover, .postBox__nota:nth-child(15).checked {
     background-color: #C4FA00;
 }
 
-.postBox__nota:nth-child(16):hover {
+.postBox__nota:nth-child(16):hover, .postBox__nota:nth-child(16).checked {
     background-color: #88F800;
 }
 
-.postBox__nota:nth-child(17):hover {
+.postBox__nota:nth-child(17):hover, .postBox__nota:nth-child(17).checked {
     background-color: #6AE700;
 }
 
-.postBox__nota:nth-child(18):hover {
+.postBox__nota:nth-child(18):hover, .postBox__nota:nth-child(18).checked {
     background-color: #4CE600;
 }
 
-.postBox__nota:nth-child(19):hover {
+.postBox__nota:nth-child(19):hover, .postBox__nota:nth-child(19).checked {
     background-color: #2EE500;
 }
 
-.postBox__nota:nth-child(20):hover {
+.postBox__nota:nth-child(20):hover, .postBox__nota:nth-child(20).checked {
     background-color: #10D400;
 }
 
-.postBox__nota:nth-child(21):hover {
+.postBox__nota:nth-child(21):hover, .postBox__nota:nth-child(21).checked {
     background-color: #0094DC;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -244,6 +245,7 @@
     padding: 25px;
 }
 
+
 .postBox__opiniao-icon {
     position: absolute;
     bottom: 0.938rem;
@@ -257,6 +259,9 @@
     max-width: 100px;
     max-height: 100px;
     border-radius: 4px;
+}
+.postBox__opiniao-icon label {
+    cursor: pointer;
 }
 
 .postBox__button {
@@ -284,7 +289,6 @@
     }
 
     .btn__post {
-        position: static;
         margin-bottom: 20px;
     }
 

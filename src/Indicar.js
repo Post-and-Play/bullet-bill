@@ -4,9 +4,17 @@ import { useNavigate } from 'react-router-dom';
 
 import Navbar from './components/navbar';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Modals } from './components/Modals';
+import { getAuth } from './services/Auth';
+import api from './services/Api'
 
 const Indicar = () => {
+
+    const [currentUser, setCurrentUser] = useState();
+    const root = document.getElementById('root');
+    const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
 
     const navigate = useNavigate();
 
@@ -16,6 +24,15 @@ const Indicar = () => {
     const [categoriaInput, setCategoriaInput] = useState('');
     const [isChecked, setIsChecked] = useState(false);
     const [camposObrigatoriosPopup, setCamposObrigatoriosPopup] = useState(false);
+
+    const getCurrentUser = async () => {
+        let user = await getAuth();
+        if (user) {
+            setCurrentUser(user);
+        } else {
+            navigate('/');
+        }
+    }
 
     const handleInputChange = (event, setInput) => {
         setInput(event.target.value);
@@ -29,6 +46,16 @@ const Indicar = () => {
         setIsChecked(!isChecked);
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            loading.show();
+            await getCurrentUser();
+            loading.close();
+        };
+        fetchData(); // Chama a função fetchData quando o componente for montado
+    }, []);
+
+
     const handleSendClick = (e) => {
         if (nomeInput.trim() === '' || nomeEmpresaInput.trim() === '' || descricaoInput.trim() === '' || categoriaInput.trim() === '') {
             e.preventDefault();
@@ -36,17 +63,76 @@ const Indicar = () => {
             setTimeout(() => {
                 setCamposObrigatoriosPopup(false);
             }, 3000);
-        } else if (!isChecked) {
-            //dsadsa
         } else {
             e.preventDefault();
-            navigate('/jogo');
+            handlePost();
         }
     };
 
+    const handlePost = async () => {
+
+        const postData = {
+            name: nomeInput,
+            user_id: currentUser.id,
+            genders: categoriaInput,
+            description: descricaoInput,
+            creator: nomeEmpresaInput,
+            is_free: isChecked ? true : false,
+            approved: false
+        }
+
+        try {
+
+            loading.show();
+            // Enviar os dados para a API
+            const response = await api.post(`/api/recommendeds`, postData);
+            if (response.data.id) {
+                // Postagem bem-sucedida
+                //toast.success('Postagem realizada com sucesso!', { position: toast.POSITION.TOP_RIGHT });
+                if (root) {
+                    modals.htmlDialog(
+                        root,
+                        'Indicação realizada com sucesso!',
+                        modals.msgboxButtons.okOnly,
+                        modals.msgboxIcons.check,
+                        'Mensagem!',
+                        {
+                            ok: (evt) => {
+                                navigate('/home');
+                            }
+                        });
+                }
+
+                // Limpar o formulário ou fazer outras ações necessárias após a postagem
+
+            } else {
+                // Lidar com erros de postagem
+                //toast.error('Ocorreu um erro ao postar. Tente novamente mais tarde.', { position: toast.POSITION.TOP_RIGHT });
+                if (root) {
+                    modals.htmlDialog(
+                        root,
+                        'Ocorreu um erro ao indicar. Tente novamente mais tarde.',
+                        modals.msgboxButtons.okOnly,
+                        modals.msgboxIcons.warning,
+                        'Mensagem!',
+                        {
+                            ok: (evt) => {
+
+                            }
+                        });
+                }
+            }
+            loading.close();
+
+        } catch (err) {
+            console.error('Erro ao indicar:', err);
+        }
+
+    }
+
     return (
         <div>
-            <Navbar />
+            <Navbar currentUser={currentUser} />
             <form action='/jogo'>
                 <div className="indicar__card-container">
                     <div className="indicar__card">
@@ -67,12 +153,16 @@ const Indicar = () => {
                             <input type="text" value={categoriaInput} name='categoria' id='descricao' className='indicar__input' placeholder='RPG, Terror, Ação' required onChange={(e) => handleInputChange(e, setCategoriaInput)} />
                         </div>
                         <div className="indicar__row">
-                            <label htmlFor="categoria" className='indicar__label'>Marque essa opção se o jogo for gratuito</label>
-                            <input type="checkbox" name='categoria' id='descricao' className='indicar__checkbox' checked={isChecked} onChange={handleCheckboxChange} />
+                            <label className="container-check indicar__label" >
+                                <input id="checkbox_con" type="checkbox" onChange={handleCheckboxChange} />
+                                <span className="checkmark"></span> Marque essa opção se o jogo for gratuito
+                            </label> 
+                            {/*<label htmlFor="categoria" className='indicar__label'>Marque essa opção se o jogo for gratuito</label>*/}
+                            {/*<input type="checkbox" name='categoria' id='descricao' className='indicar__checkbox' checked={isChecked} onChange={handleCheckboxChange} />*/}
                         </div>
                         <div className="indicar__btn-container">
-                            <button type="submit" className='indicar__btn-enviar' onClick={handleSendClick}>Enviar</button>
-                            <button type="submit" className='indicar__btn-cancelar' onClick={handleBackClick}>Cancelar</button>
+                            <button type="submit" className='botao indicar__btn-enviar' onClick={handleSendClick}>Enviar</button>
+                            <button type="submit" className='botao indicar__btn-cancelar' onClick={handleBackClick}>Cancelar</button>
                         </div>
                     </div>
 

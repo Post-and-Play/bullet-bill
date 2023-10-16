@@ -19,28 +19,29 @@ import PostButton from './components/postButton'
 import { Icon } from '@iconify/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as faHeartSolid} from '@fortawesome/free-solid-svg-icons';
+import { FaTrash } from 'react-icons/fa';
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
-
-import React, { useRef, useState, useEffect } from 'react';
+import Lightbox  from './components/LightBox';
 import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
 
 import api from './services/Api'
-import { getUser } from './services/Auth';
+import { getAuth } from './services/Auth';
 import { Modals } from './components/Modals';
-
-import api from './services/Api'
-import { getUser } from './services/Auth';
-import { Modals } from './components/Modals';
+import { useNavigate } from 'react-router-dom';
 
 const Jogo = () => {
 
     const search = window.location.search;
     const params = new URLSearchParams(search);
     const initialGameId = params.get('id');
+
     const root = document.getElementById('root');
     const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
 
+    const [currentUser, setCurrentUser] = useState();
     const [reviews, setReviews] = useState([]);
     const [review, setReview] = useState([]);
     const [name, setName] = useState('');
@@ -55,6 +56,14 @@ const Jogo = () => {
     const [reviewId, setReviewId] = useState(initialGameId);
     const [reviewLikes, setReviewLikes] = useState({});
     const [reviewCount, setReviewCount] = useState([]);
+    const [averageRating, setAverageRating] = useState(0); // Média de notas
+    const [roundedAverageRating, setRoundedAverageRating] = useState();
+    const [lightboxImage, setLightboxImage] = useState(null);
+    const [isContextMenuVisible, setContextMenuVisible] = useState(false);
+    const [isFavorited, setIsFavorited] = useState(false);
+
+
+    const navigate = useNavigate();
 
     if (!gameId) {
         if (root) {
@@ -66,36 +75,45 @@ const Jogo = () => {
                 'Mensagem!',
                 {
                     ok: (evt) => {
-                        return;
+                        navigate('/home');
                     }
                 });
         }
     }
 
-    const sliderRef = useRef(null);
+    // const sliderRef = useRef(null);
 
-    const settings = {
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        vertical: true,
-        verticalSwiping: true,
-        nextArrow: <></>,
-        prevArrow: <></>,
-    };
+    const getCurrentUser = async () => {
+        let user = await getAuth();
+        if (user) {
+            setCurrentUser(user);
+        } else {
+            navigate('/');
+        }
+    }
 
-    const images = [
-        LoopHero,
-        DuelLink,
-        Hearthstone,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil,
-        FotoPerfil
-    ];
+    // const settings = {
+    //     infinite: true,
+    //     speed: 500,
+    //     slidesToShow: 3,
+    //     slidesToScroll: 1,
+    //     vertical: true,
+    //     verticalSwiping: true,
+    //     nextArrow: <></>,
+    //     prevArrow: <></>,
+    // };
+
+    // const images = [
+    //     LoopHero,
+    //     DuelLink,
+    //     Hearthstone,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil,
+    //     FotoPerfil
+    // ];
 
     const coresDasNotas = [
         "#A70000",
@@ -119,26 +137,34 @@ const Jogo = () => {
         "#2EE500",
         "#10D400",
         "#0094DC"
-      ];
-      const getCoresDasNotas = (nota) => {
-        // Calcula o índice arredondado com base na nota
-        const indice = Math.round(nota * 2);
-    
-        // Retorna a cor correspondente no array de cores
-        return coresDasNotas[indice];
-      };      
+    ];
+    const getMediaColor = (averageRating) => {
+        // Mapeie a média para um índice no array de cores
+        const index = Math.min(Math.floor(averageRating * 2), coresDasNotas.length - 1);
+        return coresDasNotas[index];
+    };
 
-
-    const getCurrentUser = async () => {
-
-        let user = await getUser();
-        if (user) {
-            const response = await api.get('./api/users?id=' + user.id);
-            if (response.data.id) {
-                setUserId(response.data.id)
-            }
+    const handleFavoriteClick = async () => {
+        try {
+          if (isFavorited) {
+            await api.delete(`/unfavorite/${currentUser.id}/${gameId}`);
+          } else {
+            await api.post(`/favorite/${currentUser.id}/${gameId}`);
+          }
+      
+          setIsFavorited(!isFavorited);
+        } catch (error) {
+          console.error('Erro ao favoritar/desfavoritar o jogo:', error);
         }
-    }
+      };
+
+    const getCoresDasNotas = (nota) => {
+    // Calcula o índice arredondado com base na nota
+    const indice = Math.round(nota * 2);
+    
+    // Retorna a cor correspondente no array de cores
+    return coresDasNotas[indice];
+    };      
 
     const getReviews = async (gameId) => {
         if (!gameId) {
@@ -158,46 +184,95 @@ const Jogo = () => {
                     filteredReviews.map(async (review) => {
                         const userResponse = await api.get(`/api/users?id=${review.user_id}`);
 
+                        const timestamp = new Date(review.post_date).getTime();
                         // Verifique se o usuário atual curtiu esta revisão
                         const userLiked = reviewLikes[review.id] || false;
-
+                        
                         return {
                             ...review,
                             userPhoto: userResponse.data.photo_adr,
                             username: userResponse.data.name,
-                            userLiked: userLiked, // Adicione informações sobre se o usuário atual curtiu ou não esta revisão
+                            userLiked: userLiked,
+                            timestamp: timestamp,
+                            postUserId: review.user_id, 
+                            // Adicione informações sobre se o usuário atual curtiu ou não esta revisão
                         };
                     })
+                    
                 );
+                
 
-                setReviewCount(mappedReviews.length)       
-                setReviews(mappedReviews);
 
-                // Atualize o estado de likes com base nas revisões obtidas
-                const updatedReviewLikes = {};
-                mappedReviews.forEach((review) => {
-                    updatedReviewLikes[review.id] = review.userLiked;
-                });
-                setReviewLikes(updatedReviewLikes);
+                    const totalRating = mappedReviews.reduce((acc, review) => acc + review.grade, 0);
+                    const averageRating = totalRating / mappedReviews.length;
 
-                setReviews(mappedReviews);
-            } else {
-                setReviews([]);
-            }
-        } catch (err) {
-            setReviews([]);
-        }
-    };
 
-    const handleSlideDown = (review) => {
-        if (sliderRef.current) {
-            const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
-            const slidesToShow = settings.slidesToShow;
-            const nextSlideIndex = slideIndex + slidesToShow;
-            sliderRef.current.slickGoTo(nextSlideIndex);
-        }
-    };
+                    const roundedAverageRating = parseFloat(averageRating.toFixed(1));
 
+                    
+                    // Atualize o estado de média do rating
+                    setAverageRating(averageRating);
+                    setRoundedAverageRating(roundedAverageRating);
+
+                    setReviewCount(mappedReviews.length);
+                    setReviews(mappedReviews);
+                    
+                    mappedReviews.sort((a, b) => b.timestamp - a.timestamp);
+                    // Atualize o estado de likes com base nas revisões obtidas
+                    const updatedReviewLikes = {};
+                    mappedReviews.forEach((review) => {
+                        updatedReviewLikes[review.id] = review.userLiked;
+                    });
+                    setReviewLikes(updatedReviewLikes);
+                    } else {
+                    setReviews([]);
+                    }
+                } catch (err) {
+                    setReviews([]);
+                }
+                };
+                    
+                const handleDeleteReview = async (postId, postUserId) => {
+                    console.log("postId:", postId);
+                    console.log("currentUser:", currentUser.id);
+                    console.log("postUserId:", postUserId);
+                    if (!postId || !currentUser || !currentUser.id) {
+                        console.error("ID da publicação ou ID do usuário não é válido:", postId, currentUser);
+                        return;
+                    }
+                
+                    // Converta ambos os IDs para números inteiros
+                    const postIdInt = parseInt(postId);
+                    const currentUserID = parseInt(currentUser.id);
+                
+                    if (currentUserID === postUserId) {
+                        console.log("Permissão concedida. IDs correspondem.");
+                        try {
+                            await api.delete(`/api/review?id=${postIdInt}`);
+                
+                            setReviews((prevReviews) => prevReviews.filter((prevReview) => prevReview.id !== postIdInt));
+                            window.location.reload();
+                            loading.show();
+                            loading.close();
+                        } catch (error) {
+                            console.error('Erro ao deletar a revisão:', error);
+                        }
+                    } else {
+                        console.error("Você não tem permissão para excluir esta revisão.");
+                    }
+                };
+                
+                
+                
+    const mediaColor = getMediaColor(averageRating);
+    // const handleSlideDown = (review) => {
+    //     if (sliderRef.current) {
+    //         const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
+    //         const slidesToShow = settings.slidesToShow;
+    //         const nextSlideIndex = slideIndex + slidesToShow;
+    //         sliderRef.current.slickGoTo(nextSlideIndex);
+    //     }
+    // };
 
     const handleLike = async (review) => {
         try {
@@ -230,8 +305,6 @@ const Jogo = () => {
         }
     };
 
-
-
     const getCurrentGame = async () => {
         try {
 
@@ -244,7 +317,9 @@ const Jogo = () => {
                 setTopAdr(response.data.top_adr);
                 setRating(response.data.rating);
                 setReviews(response.data.reviews);
-                setGenderArray(genders.split(',').map((genders) => genders.trim()));
+                await getReviews(response.data.id);
+                await getCurrentUser();
+                
             }
             else {
                 if (root) {
@@ -281,58 +356,60 @@ const Jogo = () => {
 
     }
 
+    
     useEffect(() => {
         const fetchData = async () => {
             // Defina o ID do jogo com base em como você está obtendo o ID do jogo da página atual
-            // Exemplo: const gameId = obterIDDoJogoDaPagina(); 
-            setGameId(initialGameId);
-            await getReviews(initialGameId);
-        };
-        fetchData();
-    }, [initialGameId]);
-
-    useEffect(() => {
-        const fetchData = async () => {
+            // Exemplo: const gameId = obterIDDoJogoDaPagina();
+            
+            loading.show();
             await getCurrentGame();
-        };
-        fetchData(); // Chama a função fetchData quando o componente for montado
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await getCurrentUser();
+    
+            // Mova a atualização do estado de genderArray para dentro desta função de efeito
+            // após a chamada de getCurrentGame()
+            if (genders) {
+                const categories = genders.split(',').map((category) => category.trim());
+                setGenderArray(categories);
+            }
+    
+            loading.close();
         }
+    
         fetchData();
-    }, []);
-
+    }, [genders]);
+    
+    console.log('genders:', genders);
+    console.log('genderArray:', genderArray);
     return (
         <div>
-            <Navbar />
+            <Navbar currentUser={currentUser} />
             <div className="jogo__banner-container">
-                <img src={coverAdr} alt="Banner" className='jogo__banner' />
-                <div className="jogo__banner_gradient"></div>
                 <img src={coverAdr} alt="Banner" className='jogo__banner' />
                 <div className="jogo__banner_gradient"></div>
                 <div className="jogo__info-container">
                     <div className="jogo__info-img-container">
                         <div className="jogo__info-img">
                             <img src={topAdr} alt="Foto jogo" />
-                            <img src={topAdr} alt="Foto jogo" />
                         </div>
                         <div className="jogo__info-jogo-container">
                             <div className="jogo__info-titulo-container">
                                 <div className="jogo__info-titulo">
                                     <h1 className='jogo__titulo'>{name}</h1>
-                                    <h1 className='jogo__titulo'>{name}</h1>
-                                    <div className="jogo__nota-jogo">
-                                        <span>{rating}</span>
+                                    <div className="jogo__nota-jogo" style={{ backgroundColor: mediaColor }}>
+                                        <span>{roundedAverageRating}</span>
                                     </div>
+                                    <button
+                                    onClick={handleFavoriteClick}
+                                    className={`jogo__favoritar-button ${isFavorited ? 'favorited' : ''}`}
+                                >
+                                    <FontAwesomeIcon icon={faHeart} color={isFavorited ? 'black' : 'white'} />
+                                </button>
                                 </div>
                             </div>
                             <div className="jogo__categoria-container">
-                                {genderArray.map((g, i) => (
+                                {genderArray.map((ge, i) => (
                                     <div key={i} className="pesquisa__categoria">
-                                        {g}
+                                        {ge}
                                     </div>
                                 ))}
                                 {/*<div className="jogo__categoria">Party</div>*/}
@@ -350,14 +427,15 @@ const Jogo = () => {
                         <div className="jogo__sinopse">
                             <Icon icon="mingcute:quote-left-fill" className='jogo__sinopse-quoteIcon quoteIcon-left' />
                             <p className='jogo__sinopse-texto'>{description}</p>
-                            <p className='jogo__sinopse-texto'>{description}</p>
                             <Icon icon="mingcute:quote-right-fill" className='jogo__sinopse-quoteIcon quoteIcon-right' />
                         </div>
+                        
                     </div>
                     </div>
-                </div>
+                 
             </div>
-            <div className="jogo__semelhantes-slider">
+            
+            {/* <div className="jogo__semelhantes-slider">
                 <div className="jogo__semelhantes-container">
                     <Slider ref={sliderRef} {...settings} className="slider-centered">
                         {images.map((image, index) => (
@@ -372,38 +450,54 @@ const Jogo = () => {
                         <Icon icon="ep:arrow-up-bold" rotate={2} />
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="jogo__posts-container">
                 {Array.isArray(reviews) && reviews.map((review) => (
                     <div className="jogo__post" key={review.id}>
                         <div className="jogo__post-info-perfil-container">
-                            <a href="#" className="jogo__post-foto-user">
+                            <a href={`/perfil?id=${review.user_id}`} className="jogo__post-foto-user">
                                 <img src={review.userPhoto} alt="Foto perfil" className="jogo__post-foto-user" />
                             </a>
+                            
                             <div className="jogo__post-info-user">
                                 <p className="jogo__post-nomeUser">{review.username}</p>
                                 <div className="jogo__post-nota" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
                                     {review.grade}
                                 </div>
+                                <div class="jogo__post-remove">
+                                {currentUser && currentUser.id === review.postUserId && (
+                                    <FaTrash
+                                    className="delete-icon"
+                                    onClick={() => handleDeleteReview(review.id, review.postUserId)} // Use uma função anônima
+                                    />
+                                )}
+                                </div>
                             </div>
                         </div>
                         <div className="jogo__post-descricao-container">
                             <div className="jogo__post-descricao">
+                           
+                            <div className="post-card-options">
+                            
+                        </div>
+                            {/* {isContextMenuVisible && (
+                                <div className="post-context-menu">
+                                <ul>
+                                    <li onClick={handleDelete}>Deletar</li>
+                                </ul>
+                                </div>
+                            )} */}
                                 <div>
                                     <p>{review.opinion}</p>
                                 </div>
                                 <div>
                                     {review.image_adr && (
-                                        <img src={review.image_adr} alt="Foto perfil" className="jogo__post-foto-opiniao" />
+                                        <img src={review.image_adr} alt="Foto perfil" className="jogo__post-foto-opiniao"  onClick={() => setLightboxImage(review.image_adr)} />
                                     )}
                                 </div>
                             </div>
                         </div>
-                        <div className="post-cardlike-button-container">
-                            <button className="post-cardlike-button" onClick={() => handleLike(review)}>
-                                <FontAwesomeIcon icon={faHeart} className={`post-cardheart-icon ${review.userLiked ? 'filled' : ''}`} />
-                                <span className='post-cardlike-likes'>{review.likes}</span>
-                            </button>
+                        
                         <div className="post-cardlike-button-container">
                             <button className="post-cardlike-button" onClick={() => handleLike(review)}>
                                 <FontAwesomeIcon icon={faHeart} className={`post-cardheart-icon ${review.userLiked ? 'filled' : ''}`} />
@@ -412,9 +506,14 @@ const Jogo = () => {
                         </div>
                     </div>
                 ))}
-                ))}
             </div>
-            <PostButton />
+                {lightboxImage && (
+                    <Lightbox
+                    imageSrc={lightboxImage}
+                    onClose={() => setLightboxImage(null)}
+                />
+            )}
+            <PostButton currentUser={currentUser} />
         </div>
     )
 }

@@ -7,45 +7,40 @@ import CSGO from './icons/Render background/Imagens/icon/icon--CSGO.png'
 import EldenRing from './icons/Render background/Imagens/icon/icon--EldenRing.png'
 import Osu from './icons/Render background/Imagens/icon/icon--Osu.png'
 import Skyrim from './icons/Render background/Imagens/icon/icon--Skryim.png'
-import Cleitin from './image/perfil-cleitin.png';
-import Atreus from './image/perfil-atreus.png';
-import Kratus from './image/perfil-kratus.png';
-import Adalberto from './image/perfil-adalberto.png';
-import Cleber from './image/perfil-cleber.png';
-import Gabriel from './image/perfil-gabriel.png';
+//import Cleitin from './image/perfil-cleitin.png';
+//import Atreus from './image/perfil-atreus.png';
+//import Kratus from './image/perfil-kratus.png';
+//import Adalberto from './image/perfil-adalberto.png';
+//import Cleber from './image/perfil-cleber.png';
+//import Gabriel from './image/perfil-gabriel.png';
 
 import React, { useRef, useState, useEffect } from 'react'; // Importe o useEffect aqui
-
-import React, { useRef, useState, useEffect } from 'react'; // Importe o useEffect aqui
-
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
-
 import { Icon } from '@iconify/react';
-
 import PostButton from './components/postButton';
 import Navbar from './components/navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Modals } from './components/Modals';
-import { Modals } from './components/Modals';
-
-import { getAuth, getUser } from './services/Auth';
+import { getAuth } from './services/Auth';
 import api from './services/Api'
-import { getAuth, getUser } from './services/Auth';
-import api from './services/Api'
+import Lightbox  from './components/LightBox';
 
 const Home = () => {
 
-    const [reviews, setReviews] = useState([]);
-    const [games, setGames] = useState([]);
-    const [userId, setUserId] = useState(null);
+    const [currentUser, setCurrentUser] = useState();
+
+    const root = document.getElementById('root');
+    const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
 
     const [reviews, setReviews] = useState([]);
     const [games, setGames] = useState([]);
     const [userId, setUserId] = useState(null);
-
     const sliderRef = useRef(null);
+    const [lightboxImage, setLightboxImage] = useState(null);
+
     const navigate = useNavigate();
 
     const settings = {
@@ -67,6 +62,16 @@ const Home = () => {
         Skyrim
     ];
 
+    const getCurrentUser = async () => {
+        let user = await getAuth();
+        if (user) {
+            setCurrentUser(user);
+            setUserId(user.id);
+        } else {
+            navigate('/');
+        }
+    }
+
     const handleSlideRight = () => {
         if (sliderRef.current) {
             const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
@@ -86,8 +91,22 @@ const Home = () => {
     };
     const [liked, setLiked] = useState(false);
 
-    const handleLike = () => {
+    const handleLike = (event) => {
         setLiked(!liked);
+        const idreview = event.target.getAttribute('data-review');
+        if (idreview) {
+            const postData = {
+                review_id: Number(idreview),
+                user_id: currentUser.id
+            }
+            const response = api.post('./api/reviews', postData);
+            if (response.data.id) {
+                const icon = event.target.getFirstElement();
+                if (icon) {
+
+                }
+            }
+        }
     };
 
     const getGames = async () => {
@@ -128,16 +147,15 @@ const Home = () => {
         "#2EE500",
         "#10D400",
         "#0094DC"
-      ];
-      const getCoresDasNotas = (nota) => {
+    ];
+
+    const getCoresDasNotas = (nota) => {
         // Calcula o índice arredondado com base na nota
         const indice = Math.round(nota * 2);
     
         // Retorna a cor correspondente no array de cores
         return coresDasNotas[indice];
       };      
-
-
 
     const getReviews = async () => {
         try {
@@ -148,8 +166,8 @@ const Home = () => {
                     response.data.map(async (reviews) => {
                         const userResponse = await api.get(`/api/users?id=${reviews.user_id}`);
                         const gameResponse = await api.get(`/api/games?id=${reviews.game_id}`);
-                        console.log(userResponse)
-                        console.log(gameResponse)
+                        //console.log(userResponse)
+                        //console.log(gameResponse)
                         return {
                             ...reviews,
                             userPhoto: userResponse.data.photo_adr,
@@ -170,36 +188,19 @@ const Home = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const user = await getUser();
-            if (user) {
-                const response = await api.get(`/api/users?id=${user.id}`);
-                if (response.data.id) {
-                    setUserId(response.data.id)
-                }
-            }
-        };
-
-        fetchData(); // Chama a função fetchData quando o componente for montado
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
+            loading.show();
+            await getCurrentUser();
             await getGames();
-        };
-        fetchData(); // Chama a função fetchData quando o componente for montado
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
             await getReviews();
+            loading.close();
         };
         fetchData(); // Chama a função fetchData quando o componente for montado
     }, []);
 
     return (
-        <div onLoad={() => getAuth()}>
-            <Navbar />
-            <div className="home__bemAvaliado-slider">
+        <div>
+            <Navbar currentUser={currentUser} />
+            {/* <div className="home__bemAvaliado-slider">
                 <div className="home__bemAvaliado-container">
                     <div className="home-carousel-icon" onClick={handleSlideLeft} >
                         <Icon icon="ep:arrow-up-bold" rotate={3} className="image-slider__image" />
@@ -217,7 +218,7 @@ const Home = () => {
                         <Icon icon="ep:arrow-up-bold" rotate={1} />
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="custom-container">
                 <div className="container__card-post">
                     {reviews.map((review) => (
@@ -243,30 +244,12 @@ const Home = () => {
                                     </div>
                                     <div>
                                         {review.image_adr && (
-                                            <img src={review.image_adr} alt="Foto perfil" className="card-post__foto-opiniao" />
+                                            <img src={review.image_adr} alt="Foto perfil" className="card-post__foto-opiniao" onClick={() => setLightboxImage(review.image_adr)}/>
                                         )}
                                     </div>
                                 </div>
                             </div>
-                            <button className="post-card__like-button" onClick={handleLike}>
-                                <FontAwesomeIcon
-                                    icon={faHeart}
-                                    className={`post-card__heart-icon ${liked ? 'filled' : ''}`}
-                                />
-                            </button>
-                            <div className="card-post__descricao-container">
-                                <div className="card-post__descricao">
-                                    <div className="card-post__descricao">
-                                        <p>{review.opinion}</p>
-                                    </div>
-                                    <div>
-                                        {review.image_adr && (
-                                            <img src={review.image_adr} alt="Foto perfil" className="card-post__foto-opiniao" />
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                            <button className="post-card__like-button" onClick={handleLike}>
+                            <button className="post-card__like-button" data-review={review.id} onClick={handleLike}>
                                 <FontAwesomeIcon
                                     icon={faHeart}
                                     className={`post-card__heart-icon ${liked ? 'filled' : ''}`}
@@ -274,8 +257,13 @@ const Home = () => {
                             </button>
                         </div>
                     ))}
-                    ))}
-                    <PostButton />
+                    {lightboxImage && (
+                    <Lightbox
+                    imageSrc={lightboxImage}
+                    onClose={() => setLightboxImage(null)}
+                        />
+                    )}
+                    <PostButton currentUser={currentUser} />
                 </div>
             </div>
         </div>

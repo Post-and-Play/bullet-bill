@@ -20,12 +20,12 @@ export const USER_KEY = "@pap-token";
 export const DATE_EXP = "@pap-expire";
 export const CONECT_KEY = "@pap-persist";
 
-export var User = { Token: null, id: null };
-
 //Verifica se existe dados no localStorage
 export const getStorage = () => {
 
-    var user = JSON.parse(localStorage.getItem(USER_KEY)) !== null;
+    let user = JSON.parse(localStorage.getItem(USER_KEY));
+    //alert(JSON.stringify(user));
+
     if (!user) {
 
         try {
@@ -73,38 +73,38 @@ export const getStorage = () => {
 
         }
 
-        return false;
+        return null;
     }
 
-    var token = user.token !== null;
-    var userid = user.id !== null;
+    let token = user.token !== null;
+    let userid = user.id !== null;
 
-    var con = localStorage.getItem(CONECT_KEY) !== null ? localStorage.getItem(CONECT_KEY) : 0;
+    let con = localStorage.getItem(CONECT_KEY) !== null ? localStorage.getItem(CONECT_KEY) : false;
 
-    var today = new Date();
-    var date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date + ' ' + time;
-    var dTimeexp = new Date(localStorage.getItem(DATE_EXP));
-    var dTimecur = new Date(dateTime);
+    let today = new Date();
+    let date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    let dateTime = date + ' ' + time;
+    let dTimeexp = new Date(localStorage.getItem(DATE_EXP));
+    let dTimecur = new Date(dateTime);
 
-    if (con == 1) {
+    if (con == 'on') {
 
-        var today2 = new Date(new Date().valueOf() + 3600000);
+        let today2 = new Date(new Date().valueOf() + 3600000);
 
-        var minutes2 = today2.getMinutes();
-        var hours2 = today2.getHours();
+        let minutes2 = today2.getMinutes();
+        let hours2 = today2.getHours();
 
-        var date2 = today2.getFullYear() + "-" + (today2.getMonth() + 1) + "-" + today2.getDate();
-        var time2 = hours2 + ":" + minutes2 + ":" + today2.getSeconds();
-        var dateTime2 = date2 + ' ' + time2;
+        let date2 = today2.getFullYear() + "-" + (today2.getMonth() + 1) + "-" + today2.getDate();
+        let time2 = hours2 + ":" + minutes2 + ":" + today2.getSeconds();
+        let dateTime2 = date2 + ' ' + time2;
 
         localStorage.setItem(DATE_EXP, dateTime2);
         dTimeexp = new Date(dateTime2);
 
     }
 
-    var time = dTimecur.valueOf() < dTimeexp.valueOf();
+    time = dTimecur.valueOf() < dTimeexp.valueOf();
     //alert(time);
 
     if (!time) {
@@ -121,10 +121,11 @@ export const getStorage = () => {
                 'Mensagem!',
                 {
                     ok: (evt) => {
-
+                        return null;
                     }
                 });
         }
+        return null;
 
     }
 
@@ -133,32 +134,25 @@ export const getStorage = () => {
 
     //if (localAuthok == false){ alert("Sessão expirada! "); }
     //alert('localAuthok = ' + (localAuthok));
-    return localAuthok;
+    
+    return localAuthok ? user : null;
 
-};
-
-//Obtem os dados de usuário no localStorage
-export const getUser = async () => {
-    if (await getStorage() == true)
-        return JSON.parse(localStorage.getItem(USER_KEY));
-    else {
-        logout();
-    }
 };
 
 //Inicia a sessão no servidor e grava os dados de autenticação no localStorage
 export const login = async (email, pass, con) => {
 
-    //let location = window.location;
     if (email && pass) {
 
-        await api.post('./api/login', {
+        let url = window.location.pathname.includes('/admin') ? './api/admins/login' : './api/login';
+
+        await api.post(url, {
             login: email,
             password: pass
         }).then(async function (response) {
             console.log(response);
 
-            User = { Token: null, id: null };
+            let User = { Token: null, id: null };
 
             if (response.data.Token) {
 
@@ -178,7 +172,14 @@ export const login = async (email, pass, con) => {
                 var dateTime = date + ' ' + time;
 
                 await localStorage.setItem(DATE_EXP, dateTime);
-                window.location.assign('/home');
+
+                if (window.location.pathname.includes('/admin')) {
+                    window.location.assign('/admin/dashboard');
+                }
+                else {
+                    window.location.assign('/home');
+                }
+                
 
             }
             else {
@@ -244,45 +245,50 @@ export const logout = async () => {
 };
 
 //Para verificar a autorização do usuario durante a sessão
-export const getAuth = async (showMsg = false) => {
+export const getAuth = async () => {
 
-    //Para obter parametros da url no navegador se necessário
-    //let location = window.location;
-    //let search = window.location.search;
-    //let params = new URLSearchParams(search);
+    const user = await getStorage();
+    if (user) {
 
-    if (await getStorage() == true) {
+        //alert('storage: ' + JSON.stringify(user));
 
-        User = await getUser();
+        let currentUser = null;
 
-        var id = User.id;
-
-        //alert('isAuthenticated = true');
-
-        const response = await api.get('./api/users?id=' + id);
-        if (!response.data.id) {
-            //alert('Problemas na autenticação!\n' + message + '\nStatus: ' + status);     
-            await logout();
-            window.location.assign('/');
+        if (await window.location.pathname.includes('/admin')) {
+            //await alert('is admin');
+            try {
+                const response = await api.get('./api/admins?id=' + user.id);
+                if (!response.data.id) {
+                    //alert('Problemas na autenticação!\n' + message + '\nStatus: ' + status);     
+                    await logout();
+                    return null;
+                }
+                else { currentUser = response.data }
+            } catch (err) {
+                await logout();
+                return null;
+            }
+          
         }
-
-        //Se pretender osrar o nome do usuário na página!
-
-        //var usern = document.getElementById('user_name');
-        //if (usern) {
-        //    usern.innerHTML = response.data.name;
-        //}
-
-        //localStorage.setItem(USER_KEY, JSON.stringify(User));
-
-        //alert('isAuthenticated = true');
-
+        else {
+            try {
+                const response = await api.get('./api/users?id=' + user.id);
+                if (!response.data.id) {
+                    //alert('Problemas na autenticação!\n' + message + '\nStatus: ' + status);     
+                    await logout();
+                    return null;
+                } else { currentUser = response.data }
+            } catch (err) {
+                await logout();
+                return null;
+            }
+           
+        }
+        return currentUser;
     }
     else {
-        //alert('isAuthenticated = false');
-        //await logout();
-        window.location.assign('/');
-
+        await logout();
+        return null;
     }
 
 }

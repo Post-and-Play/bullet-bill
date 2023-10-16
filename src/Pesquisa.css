@@ -8,8 +8,9 @@
 }
 
 .pesquisa__jogo-link {
-  text-decoration: none;
-  color: black;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
 }
 
 .pesquisa__jogo-link:hover {
@@ -30,6 +31,7 @@
   width: 100%;
   height: 380px;
   object-fit: cover;
+  pointer-events: none;
 }
 
 .pesquisa__jogo-info-container {

@@ -90,6 +90,7 @@
 .jogo__categoria-container {
     display: flex;
     flex-direction: row;
+    font-weight: bold;
 }
 
 .jogo__categoria {
@@ -106,6 +107,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    font-weight: bold;
+    color:#7047ad;
+    
+
 }
 
 .jogo__rank-icon {
@@ -120,6 +125,7 @@
     align-items: center;
     justify-content: center;
     margin: auto;
+    
 }
 
 .jogo__sinopse-quoteIcon {
@@ -131,6 +137,8 @@
 .jogo__sinopse-texto {
     flex-grow: 1;
     text-align: center;
+    font-weight: bold;
+    color:#060606ce;
 }
 
 .quoteIcon-right {
@@ -178,10 +186,12 @@
 
 .carousel-icon {
     position: absolute;
-    left: 8%;
+    /*left: 8%;*/
     z-index: 1;
     cursor: pointer;
-    left: 27%;
+    /*left: 27%;*/
+    width: 30px !important;
+
 }
 
 .slider-centered {
@@ -237,7 +247,6 @@
     padding: 7px;
     border-radius: 5px;
     font-weight: bold;
-    background-color: #0094DC;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -246,12 +255,7 @@
     
 }
 
-.jogo__post-descricao-container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: auto;
-}
+
 
 .jogo__post-descricao {
     width: 100%;
@@ -280,6 +284,15 @@ img.jogo__post-foto-opiniao {
     flex-direction: row;
     width: 100%;
     height: auto;
+}
+.jogo__post-remove {
+  position: absolute;
+  /* top: 10px; */
+  right: 21.5%;
+  
+  font-size: 19px; /* Tamanho do ícone */
+  color: #060606ce; /* Cor do ícone de exclusão */
+  cursor: pointer;
 }
 
 .jogo__post-descricao {
@@ -317,6 +330,34 @@ img.jogo__post-foto-opiniao {
     /* border-radius: #000000; */
     transition: color 0.3s;
     margin-right: 8px;
+}
+
+/* Adicione este CSS para o botão de favoritar */
+
+.jogo__favoritar-button {
+    width: 42px;
+    margin-left: 10px;
+    height: 42px;
+    padding: 7px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #cf53ee;
+    color:#fff;
+    text-shadow: 0px 0px 4px #060606a1;
+    
+}
+
+.jogo__favoritar-button:hover {
+    background-color: #4d2c80;
+}
+
+/* Adicione uma classe 'favorited' para quando o jogo estiver favoritado */
+
+.jogo__favoritar-button.favorited {
+    background-color: #FFD700; /* Cor de favorito, você pode ajustar conforme necessário */
 }
 
 /* Media Queries */

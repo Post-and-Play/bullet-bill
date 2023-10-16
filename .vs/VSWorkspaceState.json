@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src"
   ],
-  "SelectedNode": "\\.env.example",
+  "SelectedNode": "\\src\\Jogo.js",
   "PreviewInSolutionExplorer": false
 }

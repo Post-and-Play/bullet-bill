@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import '../components/ConfigButton.css';
 import { IconContext } from 'react-icons';
-import { MdArrowForward } from 'react-icons/md';
+import { MdArrowForward, MdArrowBack } from 'react-icons/md';
 import api from '../services/Api';
-import { getUser } from '../services/Auth';
+import { getAuth } from '../services/Auth';
 import { Modals } from '../components/Modals';
 import { useNavigate } from 'react-router-dom';
-// import Fotoperfil from '../image/fotosperfil';
-// import banner from '../image/fotosbanner';
-import axios from 'axios';
 
-const ConfigButton = () => {
+
+const ConfigButton = ({ currentUser }) => {
   const [user, setUser] = useState({});
   const [editing, setEditing] = useState(false);
   const [tempUser, setTempUser] = useState({});
@@ -40,33 +38,27 @@ const ConfigButton = () => {
   const modals = new Modals();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const user = await getUser();
-      if (user) {
-        const response = await api.get(`/api/users?id=${user.id}`);
-        if (response.data.id) {
-          setName(response.data.name);
-          setUsername(response.data.user_name);
-          setMail(response.data.mail);
-          setBirth_date(response.data.birth_date);
-          setDescription(response.data.description);
-          setTwitchNick(response.data.twitch_user);
-          setDiscordNick(response.data.discord_user);
-          setEpicGamesNick(response.data.epic_user);
-          setSteamNick(response.data.steam_user);
-          setGithubNick(response.data.github_user);
-
-        }
+      if (currentUser) {
+          setName(currentUser.name);
+          setUsername(currentUser.user_name);
+          setMail(currentUser.mail);
+          setProfileImage(currentUser.photo_adr);
+          setBannerImage(currentUser.top_adr);
+          setBirth_date(currentUser.birth_date);
+          setDescription(currentUser.description);
+          setTwitchNick(currentUser.twitch_user);
+          setDiscordNick(currentUser.discord_user);
+          setEpicGamesNick(currentUser.epic_user);
+          setSteamNick(currentUser.steam_user);
+          setGithubNick(currentUser.github_user);
       }
-    };
-
-    fetchData(); // Chama a função fetchData quando o componente for montado
-  }, []);
+  }, [currentUser]);
 
   // Crie um objeto com os dados atualizados do perfil
   const updateProfile = async () => {
-    try {
-      const user = await getUser();
+      try {
+
+      const user = await getAuth();
       if (!user) {
         return;
       }
@@ -76,15 +68,15 @@ const ConfigButton = () => {
         photo_adr: profileImage,
         top_adr: bannerImage,
         id: user.id,
-        name,
-        user_name,
-        mail,
-        birth_date,
-        description,
+        name: name,
+        user_name: user_name,
+        mail: mail,
+        birth_date: birth_date,
+        description: description,
         steam_user: steamNick,
-        epic_user,
-        twitch_user,
-        github_user,
+        epic_user: epic_user,
+        twitch_user: twitch_user,
+        github_user: github_user,
         discord_user: discordNick,
         // Outros campos que você deseja atualizar
       };
@@ -262,11 +254,11 @@ const ConfigButton = () => {
             </div>
             {configBox && (
               <div className="configBox__container">
-                <div className="configBox">
+                 <div className="configBox__form">
                   <div className="closeConfigBtn__row">
                     <Icon icon="ph:x" className="closeConfiBtn" onClick={handleClose} />
                   </div>
-                  <div className="configBox__form">
+                  <div className="configBox">
                     <div>
                       <label htmlFor="steam_user">Nickname da Steam:</label>
                       <input type="text" id="steam_user" value={steamNick} onChange={handleSteam_userChange} />
@@ -289,9 +281,12 @@ const ConfigButton = () => {
                     </div>
                   </div>
                   <div className="arrow">
-                    <Icon icon="ph:arrow-left-bold" onClick={handleBackForm} />
+                    {/*<Icon icon="ph:arrow-left-bold" onClick={handleBackForm} />*/}
+                    <IconContext.Provider value={{ size: '2rem' }}>
+                        <MdArrowBack className="arrow-icon" onClick={handleBackForm} />
+                    </IconContext.Provider>
                   </div>
-                  <button className="configBox__button" onClick={handleSubmit1}>
+                  <button className="botao configBox__button" onClick={handleSubmit1}>
                     Atualizar Perfil
                   </button>
                 </div>
@@ -311,51 +306,55 @@ const ConfigButton = () => {
 
           {configBox && (
             <div className="configBox__container">
-              <div className="configBox">
+              <div className="configBox__form">
                 <div className="closeConfigBtn__row">
                   <Icon icon="ph:x" className="closeConfiBtn" onClick={handleClose} />
                 </div>
+                  <div className="configBox">
+                    <div>
 
-                <div className="configBox__form">
-                  <div className="profileImageContainer">
-                    <div className="imageLabel">Imagem de perfil</div>
-                    <div className="profileImageWrapper">
-                      {profileImage ? (
-                        <img className="profileImage" src={profileImage} alt="Imagem de perfil" />
-                      ) : (
-                        <label htmlFor="profileImageUpload" className="upload-icon-placeholder">
-                          <Icon icon="ph:pencil" size={24} />
-                          <input
-                            id="profileImageUpload"
-                            type="file"
-                            className="fileInput"
-                            accept="image/*"
-                            onChange={handleProfileChange}
-                          />
-                        </label>
-                      )}
-                    </div>
-                  </div>
-                  <div className="bannerImageContainer">
-                    <div className="imageLabel">Imagem de fundo</div>
-                    <div className="bannerImageWrapper">
-                      {bannerImage ? (
-                        <img className="bannerImage" src={bannerImage} alt="Imagem de fundo" />
-                      ) : (
-                        <label htmlFor="bannerImageUpload" className="upload-icon-placeholder">
-                          <Icon icon="ph:pencil" size={24} />
-                          <input
-                            id="bannerImageUpload"
-                            type="file"
-                            className="fileInput"
-                            accept="image/*"
-                            onChange={handleBannerChange}
-                          />
-                        </label>
-                      )}
-                    </div>
-                  </div>
+                      <div className="profileImageContainer">
+                        <div className="profileImageWrapper">
+                            <label className="imageLabel">Imagem de perfil</label>
+                          {profileImage ? (
+                            <img className="profileImage" src={profileImage} alt="Imagem de perfil" />
+                          ) : (<br/>)}
+                            <label htmlFor="profileImageUpload" className="upload-icon-placeholder">
+                                <Icon icon="ph:pencil" size={24} />
+                                <input
+                                    id="profileImageUpload"
+                                    type="file"
+                                    className="fileInput"
+                                    accept="image/*"
+                                    onChange={handleProfileChange}
+                                />
+                            </label>
+                        </div>
+                      </div>
 
+                      <div className="bannerImageContainer">
+                        <div className="bannerImageWrapper">
+                            <div className="bannerInputRectangle">
+                                <label className="imageLabelBanner">Imagem de fundo</label>
+                                <label htmlFor="bannerImageUpload" className="upload-icon-placeholder">
+                                    <Icon icon="ph:pencil" size={24} />
+                                    <input
+                                        id="bannerImageUpload"
+                                        type="file"
+                                        className="fileInput"
+                                        accept="image/*"
+                                        onChange={handleBannerChange}
+                                    />
+                                </label>
+                            </div>
+                            {bannerImage ? (
+                                <img className="bannerImage" src={bannerImage} alt="Imagem de fundo" />
+                            ) : (<br/>)}
+                         </div>
+
+                                          </div>
+
+                  </div>
                   <div>
                     <label htmlFor="name">Nome:</label>
                     <input type="text" id="name" value={name} onChange={handleNameChange} />
@@ -384,7 +383,7 @@ const ConfigButton = () => {
                   </IconContext.Provider>
                 </div>
 
-                <button className="configBox__button" onClick={handleSubmit1}>
+                <button className="botao configBox__button" onClick={handleSubmit1}>
                   Atualizar Perfil
                 </button>
               </div>

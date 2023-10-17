@@ -89,26 +89,28 @@ const Admin = () => {
                         name: nomeInput,
                         genders: categoriaInput,
                         description: descricaoInput,
-                        creator: nomeEmpresaInput, // Use o valor de nomeEmpresaInput
-                        is_free: isFree, // Use o valor de isFree diretamente
-                        approved: true
+                        creator: nomeEmpresaInput,
+                        is_free: isFree,
+                        approved: true,
+                        top_adr: selectedProfileImage,
+                        cover_adr: selectedBannerImage
                     };
 
                     // Enviar `approvedData` como corpo da solicitação PUT
-                    await api.put(`/api/recommendeds?id=${activeItem}`, approvedData);
+                    await api.delete(`/api/recommendeds?id=${activeItem}`);
 
                     // Passo 2: Criar uma nova linha na tabela 'games'
                     const newGameData = {
                         name: nomeInput,
                         genders: categoriaInput,
                         description: descricaoInput,
-                        cover_adr: '', // Deve ser um valor vazio, como você mencionou
-                        top_adr: '', // Deve ser um valor vazio, como você mencionou
+                        cover_adr: selectedBannerImage, // Deve ser um valor vazio, como você mencionou
+                        top_adr: selectedBannerImage, // Deve ser um valor vazio, como você mencionou
                         rating: 0,
                         reviews: 0,
                     };
 
-                    await api.post('/api/games/search', newGameData);
+                    await api.post('/api/games', newGameData);
 
                     // Limpar os campos
                     limparCampos();
@@ -124,6 +126,28 @@ const Admin = () => {
         }
     };
 
+    const handleDeleteClick = async (e) => {
+        if (activeItem) {
+            try {
+                loading.show();
+                // Fazer uma solicitação DELETE para excluir o jogo indicado com base no ID
+                await api.delete(`/api/users?id=${activeItem}`);
+
+                limparCampos()
+
+                // Atualizar a lista de jogos após a exclusão
+                await getAllUsers();
+                loading.close();
+            } catch (error) {
+                console.error('Erro ao reprovar o jogo indicado:', error);
+                loading.close();
+            }
+        }
+    };
+
+    const handleCancelClick = async (e) => {
+        limparCampos();
+    }
 
 
     const handleOpcaoSelecionada = async (opcao) => {
@@ -141,22 +165,25 @@ const Admin = () => {
         if (opcao === 'editar-adm') {
             await getAllAdmins();
         }
+        if (opcao === 'deletar-user') {
+            await getAllUsers();
+        }
     };
 
     const getIndicatedGames = async () => {
         try {
             loading.show();
             const response = await api.get('/api/recommendeds/search');
+            // console.log("api getIndicatedGames:", response.data[].approved === false);
             if (response.data) {
-                console.log("api getIndicatedGames:", response.data)
                 setJogos(response.data);
             } else {
-                setJogos([]); // Certifique-se de que 'setJogos' seja chamado em caso de resposta vazia
+                setJogos([]);
             }
             loading.close();
         } catch (error) {
             console.error('Erro ao buscar jogos indicados:', error);
-            setJogos([]); // Trate o erro definindo 'jogos' como um array vazio ou outra ação apropriada.
+            setJogos([]);
             loading.close();
         }
     };
@@ -225,14 +252,18 @@ const Admin = () => {
         setDescricaoInput(jogo.description);
         setCategoriaInput(jogo.genders);
         setIsFree(jogo.is_free);
+        setSelectedProfileImage(jogo.top_adr);
+        setSelectedBannerImage(jogo.cover_adr);
     };
 
     const handleUserClick = (user) => {
+        setActiveItem(user.id);
         setNomeInput(user.name);
         setNickNameInput(user.user_name);
     };
 
     const handleAdminClick = (admin) => {
+        setActiveItem(admin.id);
         setNickNameInput(admin.name);
     };
 
@@ -244,6 +275,8 @@ const Admin = () => {
         setCategoriaInput('');
         setNickNameInput('');
         setIsChecked(false);
+        setSelectedBannerImage('');
+        setSelectedProfileImage('');
     };
 
     const handleProfileImageChange = (e) => {
@@ -391,6 +424,9 @@ const Admin = () => {
                             <li className={`admin__menu-option ${opcaoSelecionada === 'editar-adm' ? 'ativo' : ''}`} onClick={() => handleOpcaoSelecionada('editar-adm')}>
                                 <p className="admin__menu-option-text">Editar administrador</p>
                             </li>
+                            <li className={`admin__menu-option ${opcaoSelecionada === 'deletar-user' ? 'ativo' : ''}`} onClick={() => handleOpcaoSelecionada('deletar-user')}>
+                                <p className="admin__menu-option-text">Deletar usuário</p>
+                            </li>
                         </ul>
                     </div>
 
@@ -442,6 +478,35 @@ const Admin = () => {
                                                 <input id="checkbox_con" type="checkbox" checked={isFree} disabled={true} />
                                                 <span className="checkmark"></span> Jogo gratuito
                                             </label>
+                                        </div>
+                                        <div className='admin__row-imgs'>
+                                            <div className="admin__profileImageContainer">
+                                                <p className="admin__profileImageText">Foto de perfil</p>
+                                                <div className="admin__profileImageWrap">
+                                                    {selectedProfileImage && (
+                                                        <div className="admin__image-preview admin__image-preview__perfil">
+                                                            <img src={selectedProfileImage} alt="Imagem de perfil" onClick={() => handleClearImage(setSelectedProfileImage)} />
+                                                            <label className="admin__overlay" onClick={() => handleClearImage(setSelectedProfileImage)}>
+                                                                <Icon icon="ph:pencil" />
+                                                            </label>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className="admin__bannerImageContainer">
+                                                <p className="admin__bannerImageText">Foto de capa</p>
+                                                <div className="admin__bannerImageWrap">
+                                                    {selectedBannerImage && (
+                                                        <div className="admin__image-preview image-preview__banner">
+                                                            <img src={selectedBannerImage} alt="Imagem de capa" onClick={() => handleClearImage(setSelectedBannerImage)} />
+                                                            <label className="admin__overlay" onClick={() => handleClearImage(setSelectedBannerImage)}>
+                                                                <Icon icon="ph:pencil" />
+                                                            </label>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="admin__btn-container">
                                             <button className='indicar__btn-aprovar' onClick={handleApproveClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Aprovar</button>
@@ -661,6 +726,52 @@ const Admin = () => {
                                         <div className="admin__btn-container">
                                             <button className='indicar__btn-aprovar' disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Confirmar</button>
                                             <button className='indicar__btn-reprovar' disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                        {opcaoSelecionada === 'deletar-user' && (
+                            <>
+                                <div className="admin__gridView-container">
+                                    <div className="admin__gridView">
+                                        <input
+                                            type="text"
+                                            placeholder="Pesquisar..."
+                                            className="admin__search-input"
+                                        />
+                                        {users.length > 0 ? (
+                                            users.map((user) => (
+                                                <li key={user.id} className="admin__gridView-cell" onClick={() => handleUserClick(user)}>
+                                                    <p className="gridView-game">{user.user_name}</p>
+                                                </li>
+                                            ))
+                                        ) : (
+                                            <p className='gridView-nonResult'>Não existem usuários cadastrados</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="admin-card__container ">
+                                    <div className="admin__card">
+                                        <div className="admin__row">
+                                            <label htmlFor="nome" className='admin__label'>Nome:</label>
+                                            <input type="text" name="nome" id="nome" className='admin__input' value={nomeInput} readOnly />
+                                        </div>
+                                        <div className="admin__row">
+                                            <label htmlFor="nickNameInput" className='admin__label'>Nickname(s):</label>
+                                            <input type="text" value={nickNameInput} name='nickNameInput' id='nickNameInput' className='admin__input' readOnly />
+                                        </div>
+                                        <div className="admin__row">
+                                            <label className="container-check indicar__label" >
+                                                <input id="checkbox_con" type="checkbox" onChange={handleCheckboxChange} disabled={true} />
+                                                <span className="checkmark"></span> Administrador
+                                            </label>
+                                        </div>
+                                        <div className="admin__btn-container">
+
+                                            <button className='indicar__btn-aprovar' onClick={handleDeleteClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Deletar</button>
+                                            <button className='indicar__btn-reprovar' onClick={handleCancelClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Cancelar</button>
                                         </div>
                                     </div>
                                 </div>

@@ -30,7 +30,7 @@
 
 .admin__menu-option {
     cursor: pointer;
-    padding: 10px 0;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,7 +62,7 @@
 }
 
 /* Todo conteúdo do card de jogos indicados */
-.admin-indicar__card-container {
+.admin-card__container {
     display: flex;
     justify-content: center;
     margin: auto;
@@ -78,6 +78,10 @@
 
 .admin__gridView {
     height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .admin__gridView-cell {
@@ -87,6 +91,8 @@
     flex-direction: row;
     font-size: larger;
     cursor: pointer;
+    width: 100%;
+    padding: 15px;
 }
 
 .admin__gridView-cell:hover,
@@ -104,42 +110,72 @@
     margin: auto;
 }
 
-.admin-indicar__card {
+.admin__card {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
     width: 100%;
-    height: 35rem;
+    height: auto;
     background-color: #795FA1;
     border-radius: 15px;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
     margin-top: 50px;
 }
 
-.admin-indicar__row {
+.admin__row {
     width: 100%;
     margin-bottom: 20px;
 }
 
-.admin-indicar__label {
+.admin__label {
     color: #fff;
 }
 
-.admin-indicar__input,
-.admin-indicar__textarea {
+.admin__input,
+.admin__textarea {
     padding: 8px;
     width: 100%;
     border-radius: 7px;
+    background-color: #624a86;
+    color: #e7e7e7;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
 }
 
-.admin-indicar__input {
+.admin__textarea {
+    height: auto;
+    resize: none;
+}
+
+.admin__textarea::-webkit-scrollbar {
+    width: 8px;
+    /* Largura da barra de rolagem */
+}
+
+.admin__textarea::-webkit-scrollbar-track {
+    background: transparent;
+    /* Cor de fundo da barra de rolagem */
+}
+
+.admin__textarea::-webkit-scrollbar-thumb {
+    background: #4a3170;
+    /* Cor da barra de rolagem */
+    border-radius: 4px;
+    /* Raio dos cantos da barra de rolagem */
+}
+
+
+.admin__textarea::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Cor da barra de rolagem ao passar o mouse */
+}
+
+.admin__input {
     height: 2.2rem;
 }
 
-.admin-indicar__btn-container {
+.admin__btn-container {
     display: flex;
     width: 100%;
     justify-content: space-around;
@@ -148,7 +184,7 @@
 .indicar__btn-aprovar,
 .indicar__btn-reprovar {
     width: 30%;
-    /* height: 1.2rem; */
+    height: 3rem;
     border-radius: 15px;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
     padding: 10px;
@@ -173,4 +209,95 @@
 
 .indicar__btn-reprovar:hover {
     background-color: #614688;
+}
+
+.gridView-nonResult {
+    margin: auto;
+}
+
+.admin__menu-option-text {
+    text-wrap: nowrap;
+}
+
+.admin__row-imgs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.admin__profileImageContainer,
+.admin__bannerImageContainer {
+    text-align: center;
+    padding: 20px;
+}
+
+.admin__profileImageWrap,
+.admin__bannerImageWrap {
+    position: relative;
+    display: inline-block;
+}
+
+.admin__file-input-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #4d2e7c;
+    border: 2px dashed #4d2e7c;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.admin__file-input-label i {
+    margin-right: 8px;
+}
+
+.admin__image-preview {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border: 2px dashed #4d2e7c;
+    border-radius: 5px;
+}
+
+.admin__image-preview__perfil {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin__image-preview__banner {
+    width: 250px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin__image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ícone de lápis */
+.admin__file-input-label i {
+    margin-right: 8px;
+}
+
+.admin__overlay {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #492979;
+    font-size: 40px;
+}
+
+.admin__profileImageText,
+.admin__bannerImageText {
+    color: #fff;
 }

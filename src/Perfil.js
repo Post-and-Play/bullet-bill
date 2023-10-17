@@ -17,36 +17,36 @@ import { Modals } from './components/Modals';
 
 const Perfil = () => {
 
-      const root = document.getElementById('root');
-      const modals = new Modals();
-      const loading = new modals.htmlLoading(root);
+    const root = document.getElementById('root');
+    const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
 
-      const search = window.location.search;
-      const params = new URLSearchParams(search);
-      const initialUserId = params.get('id');
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const initialUserId = params.get('id');
 
-      const [currentUser, setCurrentUser] = useState();
-      const [following, setFollowing] = useState();
-      const [followingId, setFollowingId] = useState(null);
-      const [liked, setLiked] = useState('');
-      const [name, setName] = useState('');
-      const [followed, setFollowed] = useState('');
-      const [description, setDescription] = useState('');
-      const [profileImage, setProfileImage] = useState(null);
-      const [bannerImage, setBannerImage] = useState(null);
-      const [steamNick, setSteamNick] = useState('');
-      const [epicGamesNick, setEpicGamesNick] = useState('');
-      const [twitchNick, setTwitchNick] = useState('');
-      const [githubNick, setGithubNick] = useState('');
-      const [discordNick, setDiscordNick] = useState('');
-      const [posts, setPosts] = useState([]);
-      const [lightboxImage, setLightboxImage] = useState(null);
+    const [currentUser, setCurrentUser] = useState();
+    const [following, setFollowing] = useState();
+    const [followingId, setFollowingId] = useState(null);
+    const [liked, setLiked] = useState('');
+    const [name, setName] = useState('');
+    const [followed, setFollowed] = useState('');
+    const [description, setDescription] = useState('');
+    const [profileImage, setProfileImage] = useState(null);
+    const [bannerImage, setBannerImage] = useState(null);
+    const [steamNick, setSteamNick] = useState('');
+    const [epicGamesNick, setEpicGamesNick] = useState('');
+    const [twitchNick, setTwitchNick] = useState('');
+    const [githubNick, setGithubNick] = useState('');
+    const [discordNick, setDiscordNick] = useState('');
+    const [posts, setPosts] = useState([]);
+    const [lightboxImage, setLightboxImage] = useState(null);
 
-      const [userId, setUserId] = useState(initialUserId);
-      const navigate = useNavigate();
-      const isPerfilPessoal = userId ? false : true;
+    const [userId, setUserId] = useState(initialUserId);
+    const navigate = useNavigate();
+    const isPerfilPessoal = userId ? false : true;
 
-      const handleCheckFollowing = async (user, userid) => {
+    const handleCheckFollowing = async (user, userid) => {
          try {
              if (!user.id || !userid) {
                 console.error('IDs de usuário inválidos');
@@ -74,9 +74,9 @@ const Perfil = () => {
              console.error('Erro ao verificar se o usuário segue:', error);
              setFollowing(false);
          }
-       };
+    };
 
-      const getCurrentUser = async () => {
+    const getCurrentUser = async () => {
         let user = await getAuth();
         if (user) {
 
@@ -128,9 +128,9 @@ const Perfil = () => {
               navigate('/home');
           }
 
-        };
+    };
 
-      const getUserData = async () => {
+    const getUserData = async () => {
         try {
             const response = await api.get(`/api/users?id=${userId}`);
             if (response.data.id) {
@@ -141,9 +141,9 @@ const Perfil = () => {
             console.log(err.message);
             return null
         }
-      }
+    }
 
-      const coresDasNotas = [
+    const coresDasNotas = [
             "#A70000",
             "#AF1C00",
             "#B83500",
@@ -165,7 +165,7 @@ const Perfil = () => {
             "#2EE500",
             "#10D400",
             "#0094DC"
-        ];
+    ];
 
     const getCoresDasNotas = (nota) => {
         // Calcula o índice arredondado com base na nota
@@ -292,7 +292,7 @@ const Perfil = () => {
         fetchData();
     }, []);
 
-      return (
+    return (
         <div className="perfil__page-container">
           <Navbar currentUser={currentUser} />
           <header className="perfil-banner__container">
@@ -394,7 +394,7 @@ const Perfil = () => {
           )}
           <PostButton currentUser={currentUser} />
         </div>
-      );
+    );
 };
 
 export default Perfil;

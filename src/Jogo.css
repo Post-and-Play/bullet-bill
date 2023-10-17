@@ -321,9 +321,42 @@ img.jogo__post-foto-opiniao {
     margin-right: 8px;
 }
 
+.jogo-info__favorite-button {
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #B0AFE6;
+    border: 2px solid #4d2c80;
+    color: #4d2c80;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 50px;
+}
+
+
+.jogo-info__favorite-button .jogo-info__favorite-icon {
+    margin-right: 0px;
+    margin: auto;
+}
+
+.jogo-info__favorite-button:hover {
+    background-color: #4d2c80;
+    color: #fff;
+}
+
+.jogo-info__favorite-button:hover .jogo-info__favorite-icon {
+    color: #8662bc;
+}
+
+
+
 /* Media Queries */
 /* Tablet */
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
+/*@media only screen and (min-width: 768px) and (max-width: 1024px) {
     .jogo__banner-container {
         height: 100vh;
         box-sizing: border-box;
@@ -366,7 +399,7 @@ img.jogo__post-foto-opiniao {
         width: 100%;
     }
 }
-
+*/
 @media only screen and (max-width: 767px) {
     .jogo__banner-container {
         height: 100vh;

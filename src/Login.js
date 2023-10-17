@@ -101,7 +101,7 @@ const Login = () => {
                         <h1 className='destaque tituloDestaque'>Olá!</h1>
                         <h3 className='destaque subDestaque'>Bem-Vindo ao Post and Playing</h3>
                         <p className='destaque textoDestaque'>
-                            O PAP é uma rede social que conecta pessoas que gostam de games, promovendo a interação e compartilhamento de informações sobre jogos e recompensando os perfis mais engajados e bem avaliados.
+                        o Post and Playing é uma comunidade dedicada a celebrar a paixão pelo gaming através de reviews, discussões e conexões, onde os gamers compartilham experiências, descobrem novos jogos e vivem uma jornada em um mundo de histórias únicas.
                         </p>
                         <p className='destaque textoDestaque'>
                             Junte-se a nós!

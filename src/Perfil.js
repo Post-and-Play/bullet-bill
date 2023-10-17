@@ -11,42 +11,48 @@ import PostButton from './components/postButton';
 import Navbar from './components/navbar';
 import Lightbox from './components/LightBox';
 import api from './services/Api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getAuth } from './services/Auth';
-import { FaUserPlus, FaCheck } from 'react-icons/fa';
+import { FaUserPlus, FaCheck} from 'react-icons/fa';
 import { Modals } from './components/Modals';
+import { FaTrash } from 'react-icons/fa';
 
 const Perfil = () => {
 
-    const root = document.getElementById('root');
-    const modals = new Modals();
-    const loading = new modals.htmlLoading(root);
+      const root = document.getElementById('root');
+      const modals = new Modals();
+      const loading = new modals.htmlLoading(root);
 
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
-    const initialUserId = params.get('id');
+      const search = window.location.search;
+      const params = new URLSearchParams(search);
+      const initialUserId = params.get('id');
 
-    const [currentUser, setCurrentUser] = useState();
-    const [following, setFollowing] = useState();
-    const [followingId, setFollowingId] = useState(null);
-    const [liked, setLiked] = useState('');
-    const [name, setName] = useState('');
-    const [followed, setFollowed] = useState('');
-    const [description, setDescription] = useState('');
-    const [profileImage, setProfileImage] = useState(null);
-    const [bannerImage, setBannerImage] = useState(null);
-    const [steamNick, setSteamNick] = useState('');
-    const [epicGamesNick, setEpicGamesNick] = useState('');
-    const [twitchNick, setTwitchNick] = useState('');
-    const [githubNick, setGithubNick] = useState('');
-    const [discordNick, setDiscordNick] = useState('');
-    const [posts, setPosts] = useState([]);
-    const [lightboxImage, setLightboxImage] = useState(null);
+      const [currentUser, setCurrentUser] = useState();
+      const [following, setFollowing] = useState();
+      const [followingId, setFollowingId] = useState(null);
+      const [reviews, setReviews] = useState([]);
+      const [liked, setLiked] = useState('');
+      const [name, setName] = useState('');
+      const [followed, setFollowed] = useState('');
+      const [description, setDescription] = useState('');
+      const [profileImage, setProfileImage] = useState(null);
+      const [bannerImage, setBannerImage] = useState(null);
+      const [steamNick, setSteamNick] = useState('');
+      const [epicGamesNick, setEpicGamesNick] = useState('');
+      const [twitchNick, setTwitchNick] = useState('');
+      const [githubNick, setGithubNick] = useState('');
+      const [discordNick, setDiscordNick] = useState('');
+      const [posts, setPosts] = useState([]);
+      const [lightboxImage, setLightboxImage] = useState(null);
+      const [averageRating, setAverageRating] = useState(0); // Média de notas
+      const [roundedAverageRating, setRoundedAverageRating] = useState();
+      const [userIdU,setUserIdU] = useState(initialUserId);
+      const [userId, setUserId] = useState(initialUserId);
+      
+      const navigate = useNavigate();
+      const isPerfilPessoal = userId ? false : true;
 
-    const [userId, setUserId] = useState(initialUserId);
-    const navigate = useNavigate();
-    const isPerfilPessoal = userId ? false : true;
-
-    const handleCheckFollowing = async (user, userid) => {
+      const handleCheckFollowing = async (user, userid) => {
          try {
              if (!user.id || !userid) {
                 console.error('IDs de usuário inválidos');
@@ -74,9 +80,9 @@ const Perfil = () => {
              console.error('Erro ao verificar se o usuário segue:', error);
              setFollowing(false);
          }
-    };
+       };
 
-    const getCurrentUser = async () => {
+      const getCurrentUser = async () => {
         let user = await getAuth();
         if (user) {
 
@@ -109,6 +115,7 @@ const Perfil = () => {
 
                 }
             } else {
+                setUserIdU(user.id);
                 setUserId(null);
                 setName(user.name);
                 setFollowed(user.followed);
@@ -128,9 +135,9 @@ const Perfil = () => {
               navigate('/home');
           }
 
-    };
+        };
 
-    const getUserData = async () => {
+      const getUserData = async () => {
         try {
             const response = await api.get(`/api/users?id=${userId}`);
             if (response.data.id) {
@@ -141,9 +148,9 @@ const Perfil = () => {
             console.log(err.message);
             return null
         }
-    }
+      }
 
-    const coresDasNotas = [
+      const coresDasNotas = [
             "#A70000",
             "#AF1C00",
             "#B83500",
@@ -165,7 +172,7 @@ const Perfil = () => {
             "#2EE500",
             "#10D400",
             "#0094DC"
-    ];
+        ];
 
     const getCoresDasNotas = (nota) => {
         // Calcula o índice arredondado com base na nota
@@ -271,7 +278,10 @@ const Perfil = () => {
                 };
                 })
             );
-
+            
+            
+           
+            
             setPosts(mappedPosts);
             } else {
 
@@ -283,6 +293,32 @@ const Perfil = () => {
         }
     };
 
+    const handleDeleteReview = async (userIdU, postUserId) => {
+      if (!currentUser || !currentUser.id) {
+        console.error("ID do usuário não é válido:", currentUser);
+        return;
+      }
+    
+      // Converta ambos os IDs para números inteiros
+      const userIdInt = parseInt(userIdU);
+      const currentUserID = parseInt(currentUser.id);
+    
+      if (currentUserID === postUserId) {
+        console.log("Permissão concedida. IDs correspondem.");
+        try {
+          await api.delete(`/api/review?id=${userIdInt}`);
+    
+          // Atualize o estado `posts` para refletir que a revisão foi removida
+          setPosts((prevPosts) => prevPosts.filter((prevPost) => prevPost.id !== userIdInt));
+        } catch (error) {
+          console.error('Erro ao deletar a revisão:', error);
+        }
+      } else {
+        console.error("Você não tem permissão para excluir esta revisão.");
+      }
+    };
+    
+
     useEffect(() => {
         const fetchData = async () => {
             loading.show();
@@ -292,7 +328,7 @@ const Perfil = () => {
         fetchData();
     }, []);
 
-    return (
+      return (
         <div className="perfil__page-container">
           <Navbar currentUser={currentUser} />
           <header className="perfil-banner__container">
@@ -309,11 +345,11 @@ const Perfil = () => {
                   <h1>{name}</h1>
                   {!isPerfilPessoal && (
                     <button
-                        className={`perfil-info__follow-button ${following ? 'following' : ''}`}
-                        onClick={following ? handleUnfollow : handleFollow}
-                    >
-                      {following ? 'Deixar de Seguir' : 'Seguir'}
-                    </button>
+                    className={`perfil-info__follow-button ${following ? 'following' : ''}`}
+                    onClick={following ? handleUnfollow : handleFollow}
+                  >
+                    {following ? 'Deixar de Seguir' : 'Seguir'}
+                  </button>
                   )}
                 </div>
                 <div className="perfil-info__follow-container">
@@ -382,6 +418,16 @@ const Perfil = () => {
                       <img src={post.image_adr} alt="Foto perfil" className="perfil-post-card__descricao-img" onClick={() => setLightboxImage(post.image_adr)} />
                     )}
                   </div>
+                  
+                  <div className="perfil-post_remove">
+                  {userIdU === currentUser.id && (
+                    <FaTrash
+                      className="delete-icon"
+                      onClick={() => handleDeleteReview(post.id, post.user_id)}
+                    />
+                  )}
+                </div>
+
                 </article>
               ))}
             </div>
@@ -394,7 +440,7 @@ const Perfil = () => {
           )}
           <PostButton currentUser={currentUser} />
         </div>
-    );
+      );
 };
 
 export default Perfil;

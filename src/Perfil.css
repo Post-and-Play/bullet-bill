@@ -21,7 +21,15 @@ html {
     height: 25rem;
     object-fit: cover;
 }
-
+.perfil-post_remove {
+    position: absolute;
+    /* top: 10px; */
+    right: 0.5%;
+    
+    font-size: 19px; /* Tamanho do ícone */
+    color: #060606ce; /* Cor do ícone de exclusão */
+    cursor: pointer;
+  }
 .perfil-banner__foto {
     position: absolute;
     top: 50%;

@@ -18,16 +18,23 @@
   .lightbox-content {
     position: relative;
     padding: 20px;
-    max-width: 80%;
     text-align: center;
-
+    max-width: 100%;
+    max-height: 100%;
   }
   
+  /* Estilo para a imagem dentro do Lightbox */
+  .lightbox-content img {
+    max-width: 80%; /* A imagem não pode ser maior que a tela */
+    max-height: 80%; /* A imagem não pode ser maior que a tela */
+    display: block; /* Para garantir que a imagem fique no centro da lightbox */
+    margin: 0 auto;
+  }
   /* Estilo para o botão de fechar do Lightbox */
   .lightbox-close {
     position: absolute;
-    /* top: 10px;
-    right: 10px; */
+    top: 10px;
+    right: 10px;
     background: transparent;
     border: none;
     font-size: 25px;

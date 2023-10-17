@@ -60,64 +60,6 @@ const Favoritos = () => {
 
     }
 
-    const getCurrentGame = async (event) => {
-        event.preventDefault();
-        try {
-
-            //console.log('element...html: ' + event.target);
-
-            let gameId = event.target.id;
-            if (gameId !== '' && gameId !== null && gameId !== undefined) {
-                gameId = event.target.getAttribute('id');
-            }
-
-            console.log('clicked...' + event.target.id);
-
-            if (gameId !== '' && gameId !== null && gameId !== undefined) {
-                return;
-            }
-
-            const response = await api.get('./api/games?id=' + gameId);
-            if (response.data.id) {
-                navigate('/jogo?id=' + gameId);
-            }
-            else {
-                console.error('Game não encontrado!');
-                if (root) {
-                    modals.htmlDialog(
-                        root,
-                        'Game não encontrado!',
-                        modals.msgboxButtons.okOnly,
-                        modals.msgboxIcons.warning,
-                        'Mensagem!',
-                        {
-                            ok: (evt) => {
-
-                            }
-                        });
-                }
-            }
-           
-        }
-        catch (err) {
-            console.error(err.message);
-            if (root) {
-                modals.htmlDialog(
-                    root,
-                    'Game não encontrado!\n' + err.message,
-                    modals.msgboxButtons.okOnly,
-                    modals.msgboxIcons.warning,
-                    'Mensagem!',
-                    {
-                        ok: (evt) => {
-
-                        }
-                    });
-            }
-        }
-
-    }
-
     useEffect(() => {
         const fetchData = async () => {
             loading.show();

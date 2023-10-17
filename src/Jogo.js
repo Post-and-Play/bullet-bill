@@ -2,23 +2,13 @@ import './Jogo.css'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-import FotoPerfil from './image/foto.png'
-import UnoPerfil from './image/uno-perfil.png'
-import UnoBanner from './image/banner-uno.png'
-import LoopHero from './image/loop-hero.png'
-import DuelLink from './image/duel-link.png'
-import Hearthstone from './image/hearthstone.png'
-import HeartIcon from './icons/heart-solid.svg'
-
-import Adalberto from './image/perfil-adalberto.png';
-import Cleber from './image/perfil-cleber.png';
-
 import Navbar from './components/navbar';
 import PostButton from './components/postButton'
 
 import { Icon } from '@iconify/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
 import Lightbox  from './components/LightBox';
 import React, { useRef, useState, useEffect } from 'react';
@@ -39,9 +29,9 @@ const Jogo = () => {
     const modals = new Modals();
     const loading = new modals.htmlLoading(root);
 
+    const [gameId, setGameId] = useState(initialGameId);
     const [currentUser, setCurrentUser] = useState();
     const [reviews, setReviews] = useState([]);
-    const [review, setReview] = useState([]);
     const [name, setName] = useState('');
     const [genders, setGenders] = useState('');
     const [description, setDescription] = useState('');
@@ -49,43 +39,98 @@ const Jogo = () => {
     const [topAdr, setTopAdr] = useState('');
     const [rating, setRating] = useState('');
     const [genderArray, setGenderArray] = useState([]);
-    const [gameId, setGameId] = useState(initialGameId);
-    const [userId, setUserId] = useState('');
-    const [reviewId, setReviewId] = useState(initialGameId);
+   
+    const [userId, setUserId] = useState();
+    const [userLikes, setUserLikes] = useState([]);
+    const [reviewId, setReviewId] = useState(0);
     const [reviewLikes, setReviewLikes] = useState({});
     const [reviewCount, setReviewCount] = useState([]);
     const [averageRating, setAverageRating] = useState(0); // Média de notas
     const [roundedAverageRating, setRoundedAverageRating] = useState();
     const [lightboxImage, setLightboxImage] = useState(null);
+   
+    const [favorite, setFavorite] = useState();
+    const [favoriteId, setFavoriteId] = useState(null);
 
     const navigate = useNavigate();
 
-    if (!gameId) {
-        if (root) {
-            modals.htmlDialog(
-                root,
-                'Identificador do Game inválido!',
-                modals.msgboxButtons.okOnly,
-                modals.msgboxIcons.warning,
-                'Mensagem!',
-                {
-                    ok: (evt) => {
-                        navigate('/home');
+    const handleCheckFavorite = async (user) => {
+        try {
+
+            if (!user.id) {
+                console.error('ID de usuário inválido');
+                return;
+            }
+
+            if (!gameId) {
+                console.error('ID de jogo inválido');
+                return;
+            }
+
+            // Envie uma solicitação à API para verificar se o jogo é favorito
+            const response = await api.get(`/api/favorite/user?id=${user.id}`);
+            //console.log(response);
+
+            if (response.status === 200) {
+                //console.log('Response Data: ' + JSON.stringify(response.data));
+                if (response.data.length > 0) {
+                    let favoriteItem = await response.data.find((a) => { return a.game_id == gameId });
+                    if (favoriteItem) {
+                        setFavoriteId(favoriteItem.id);
+                        setFavorite(true);
+                        //console.log('Found Favorite: ' + favoriteItem);
                     }
-                });
+                    else {
+                        setFavorite(false);
+                        //console.log('Not Found Favorite');
+                    }
+                } else { 
+                    setFavorite(false);
+                    //console.log('Not Found Favorite')
+                }
+             
+           
+            } else {
+                setFavorite(false);
+                console.log('Not Found Favorite');
+            }
+        } catch (error) {
+            console.error('Erro ao verificar se o jogo é favorito:', error);
+            setFavorite(false);
+        }
+    };
+
+    const handleCheckUserLikes = async (user) => {
+        const response = await api.get(`/api/likes/user?id=${user.id}`);
+        if (response.status === 200) {
+            await setUserLikes(response.data);
+            return response.data;
+            // console.log(response.data);
+        } else {
+            console.error(response);
+            return [];
         }
     }
-
-    // const sliderRef = useRef(null);
 
     const getCurrentUser = async () => {
         let user = await getAuth();
         if (user) {
             setCurrentUser(user);
+            if (user) {
+                if (user.id && gameId) {
+                    await handleCheckFavorite(user);       
+                    await handleCheckUserLikes(user);
+                }
+            } else {
+                navigate('/');
+            }
+
         } else {
             navigate('/');
         }
     }
+
+    // const sliderRef = useRef(null);
 
     // const settings = {
     //     infinite: true,
@@ -110,6 +155,16 @@ const Jogo = () => {
     //     FotoPerfil
     // ];
 
+
+    // const handleSlideDown = (review) => {
+    //     if (sliderRef.current) {
+    //         const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
+    //         const slidesToShow = settings.slidesToShow;
+    //         const nextSlideIndex = slideIndex + slidesToShow;
+    //         sliderRef.current.slickGoTo(nextSlideIndex);
+    //     }
+    // };
+
     const coresDasNotas = [
         "#A70000",
         "#AF1C00",
@@ -133,6 +188,7 @@ const Jogo = () => {
         "#10D400",
         "#0094DC"
     ];
+
     const getMediaColor = (averageRating) => {
         // Mapeie a média para um índice no array de cores
         const index = Math.min(Math.floor(averageRating * 2), coresDasNotas.length - 1);
@@ -140,109 +196,210 @@ const Jogo = () => {
     };
 
     const getCoresDasNotas = (nota) => {
-    // Calcula o índice arredondado com base na nota
-    const indice = Math.round(nota * 2);
+        // Calcula o índice arredondado com base na nota
+        const indice = Math.round(nota * 2);
     
-    // Retorna a cor correspondente no array de cores
-    return coresDasNotas[indice];
+        // Retorna a cor correspondente no array de cores
+        return coresDasNotas[indice];
     };      
 
     const getReviews = async (gameId) => {
+
         if (!gameId) {
             console.error("gameId não é válido:", gameId);
             return;
         }
+
         try {
             console.log("gameId in getReviews:", gameId);
 
             const response = await api.get(`/api/reviews/game?id=${gameId}`);
-            console.log(response);
+           
+            if (response.status === 200) {
+                const filteredReviews = response.data //.filter((review) => review.game_id === parseInt(gameId));
+                if (filteredReviews.length > 0) {
 
-            if (response.data) {
-                const filteredReviews = response.data.filter((review) => review.game_id === parseInt(gameId));
+                    const mappedReviews = await Promise.all(
+                        filteredReviews.map((review) => {
 
-                const mappedReviews = await Promise.all(
-                    filteredReviews.map(async (review) => {
-                        const userResponse = await api.get(`/api/users?id=${review.user_id}`);
+                            // Verifique se o usuário atual curtiu esta revisão
+                            const userLiked = userLikes.find((a) => { return a.review_id == review.id }) ? true : false;
 
-                        // Verifique se o usuário atual curtiu esta revisão
-                        const userLiked = reviewLikes[review.id] || false;
-
-                        return {
-                            ...review,
-                            userPhoto: userResponse.data.photo_adr,
-                            username: userResponse.data.name,
-                            userLiked: userLiked, // Adicione informações sobre se o usuário atual curtiu ou não esta revisão
-                        };
-                    })
-                );
+                            return {
+                                ...review,
+                                userLiked: userLiked,
+                                // Adicione informações sobre se o usuário atual curtiu ou não esta revisão
+                            };
+                        })
+                    );
 
                     const totalRating = mappedReviews.reduce((acc, review) => acc + review.grade, 0);
                     const averageRating = totalRating / mappedReviews.length;
-
-
                     const roundedAverageRating = parseFloat(averageRating.toFixed(1));
 
-                    
                     // Atualize o estado de média do rating
                     setAverageRating(averageRating);
                     setRoundedAverageRating(roundedAverageRating);
 
                     setReviewCount(mappedReviews.length);
                     setReviews(mappedReviews);
-                    
 
-                    // Atualize o estado de likes com base nas revisões obtidas
-                    const updatedReviewLikes = {};
-                    mappedReviews.forEach((review) => {
-                        updatedReviewLikes[review.id] = review.userLiked;
-                    });
-                    setReviewLikes(updatedReviewLikes);
-                    } else {
-                    setReviews([]);
-                    }
-                } catch (err) {
-                    setReviews([]);
+                    console.log(mappedReviews);
+
+                } else {
+                    console.log('Has not reviews');
                 }
-                };
+               
+            } else {
+                setReviews([]);
+                console.error(response);
+            }
+
+        } catch (err) {
+            setReviews([]);
+            console.error(err);
+        }
+
+    };
+
     const mediaColor = getMediaColor(averageRating);
-    // const handleSlideDown = (review) => {
-    //     if (sliderRef.current) {
-    //         const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
-    //         const slidesToShow = settings.slidesToShow;
-    //         const nextSlideIndex = slideIndex + slidesToShow;
-    //         sliderRef.current.slickGoTo(nextSlideIndex);
-    //     }
-    // };
 
-    const handleLike = async (review) => {
+    const handleLike = async (index) => {
+
         try {
-            // Verifique se o usuário atual já curtiu esta revisão
-            const isUserLiked = reviewLikes[review.id] || false;
 
-            // Obtenha o número atual de curtidas como um número inteiro
-            const currentLikes = parseInt(review.likes) || 0;
+            if (currentUser) {
 
-            // Calcule o novo número de curtidas com base no estado atual e na ação do usuário
-            const newLikes = isUserLiked ? currentLikes - 1 : currentLikes + 1;
+                //console.log(review);
+                if (index) {
 
-            // Converta newLikes em uma string antes de enviá-lo para o servidor
-            const newLikesAsString = newLikes.toString();
+                    if (reviews[index].userLiked === true) {
 
-            // Envie a solicitação POST para a rota de "like" no servidor Go
-            await api.post(`/api/like`, {
-                // Inclua os campos necessários na solicitação, como user_id, review_id, etc.
-                user_id: review.user_id, // Certifique-se de ter o ID do usuário disponível
-                review_id: review.id // Certifique-se de ter o ID da revisão disponível
-            });
+                        const response = await api.delete(`/api/like?user_id=${reviews[index].user_id}&review_id=${reviews[index].id}`, {
+                            user_id: currentUser.id, // Certifique-se de ter o ID do usuário disponível
+                            review_id: reviews[index].id // Certifique-se de ter o ID da revisão disponível
+                        });
 
-            // Atualize o estado de likes apenas para a revisão específica clicada
-            setReviewLikes((prevLikes) => ({
-                ...prevLikes,
-                [review.id]: !isUserLiked, // Inverte o estado de curtida para a revisão clicada
-            }));
+                        if (response.status === 200) {
+                            reviews[index].userLiked = false;
+                            reviews[index].likes += 1;
+                        }
+
+                    } else {
+
+                        // Envie a solicitação POST para a rota de "like" no servidor Go
+                        const response = await api.post(`/api/like`, {
+                            user_id: currentUser.id, // Certifique-se de ter o ID do usuário disponível
+                            review_id: reviews[index].id // Certifique-se de ter o ID da revisão disponível
+                        });
+
+                        if (response.status === 200) {
+                            reviews[index].userLiked = true;
+                            reviews[index].likes -= 1;
+                        }
+
+                    }
+
+                    setReviews(reviews);
+
+                } else {
+                    console.log('indice não encontrado: ' + index);
+                }
+
+               
+
+            } else {
+
+                if (root) {
+                    modals.htmlDialog(
+                        root,
+                        'Problema na identificação do usuário! Tente recarregar a página.',
+                        modals.msgboxButtons.okOnly,
+                        modals.msgboxIcons.warning,
+                        'Mensagem!',
+                        {
+                            ok: (evt) => {
+                                window.location.reload();
+                            }
+                        });
+                }
+
+            }
+
         } catch (error) {
-            console.error(`Erro ao curtir o post ${review.id}:`, error);
+            console.error(`Erro ao curtir o post ${reviews[index].id}:`, error);
+        }
+    };
+
+    const handleFavorite = async () => {
+
+        try {
+
+            if (!currentUser.id) {
+                console.error('ID de usuário inválido');
+                return;
+            }
+
+            if (!gameId) {
+                console.error('ID de jogo inválido');
+                return;
+            }
+
+            // Converta os IDs para inteiros
+            const favoriteUserId = parseInt(currentUser.id);
+
+            // Envie uma solicitação à API para criar um novo registro na tabela "favorite"
+            const favoriteData = {
+                game_id: gameId,
+                user_id: favoriteUserId,
+            };
+
+            // Enviar os dados para a API usando um pedido POST
+            const response = await api.post('/api/favorite', favoriteData);
+
+            if (response.data.id) {
+                // A ação foi bem-sucedida, você pode realizar alguma ação adicional aqui
+                // Atualize o estado `favoriteing` para refletir a ação do usuário
+                setFavoriteId(response.data.id);
+                setFavorite(true); // ou setFollowing(!favoriteing) dependendo de como você deseja atualizar o estado
+                await getCurrentGame();
+
+            } else {
+                console.error('Falha ao adicionar como favorito:', response.data.message);
+            }
+        } catch (error) {
+            console.log(currentUser.id);
+            console.log(gameId);
+            console.error('Erro ao adicionar como favorito:', error);
+        }
+    };
+
+    const handleUnFavorite = async () => {
+        try {
+
+            if (!currentUser.id) {
+                console.error('ID de usuário inválido');
+                return;
+            }
+
+            if (!gameId) {
+                console.error('ID de jogo inválido');
+                return;
+            }
+
+            // Execute a solicitação DELETE à API para deixar de seguir o usuário
+            const response = await api.delete(`/api/favorite?id=${favoriteId}`);
+
+            if (response.data.OK) {
+                // A ação de deixar de seguir foi bem-sucedida.
+                // Atualize o estado `favoriteing` para refletir que o usuário não está mais seguindo.
+                setFavorite(false);
+                await getCurrentGame();
+            } else {
+                console.error('Falha ao remover de favoritos:', response.data.message);
+            }
+        } catch (error) {
+            console.error('Erro ao remover de favoritos:', error);
         }
     };
 
@@ -257,10 +414,7 @@ const Jogo = () => {
                 setCoverAdr(response.data.cover_adr);
                 setTopAdr(response.data.top_adr);
                 setRating(response.data.rating);
-                setReviews(response.data.reviews);
-                await getReviews(response.data.id);
-                await getCurrentUser();
-                
+                setReviews(response.data.reviews);           
             }
             else {
                 if (root) {
@@ -296,15 +450,35 @@ const Jogo = () => {
         }
 
     }
-      
+
     useEffect(() => {
         const fetchData = async () => {
             // Defina o ID do jogo com base em como você está obtendo o ID do jogo da página atual
             // Exemplo: const gameId = obterIDDoJogoDaPagina();
             
             loading.show();
+
+            if (!initialGameId) {
+                if (root) {
+                    modals.htmlDialog(
+                        root,
+                        'Identificador do Game inválido!',
+                        modals.msgboxButtons.okOnly,
+                        modals.msgboxIcons.warning,
+                        'Mensagem!',
+                        {
+                            ok: (evt) => {
+                                navigate('/home');
+                            }
+                        });
+                }
+            }
+            
+            await setGameId(Number(initialGameId));
+            await getCurrentUser();
             await getCurrentGame();
-    
+            await getReviews(initialGameId);   
+
             // Mova a atualização do estado de genderArray para dentro desta função de efeito
             // após a chamada de getCurrentGame()
             if (genders) {
@@ -316,10 +490,11 @@ const Jogo = () => {
         }
     
         fetchData();
-    }, [genders]);
+    }, []);
     
-    console.log('genders:', genders);
-    console.log('genderArray:', genderArray);
+    //console.log('genders:', genders);
+    //console.log('genderArray:', genderArray);
+
     return (
         <div>
             <Navbar currentUser={currentUser} />
@@ -346,14 +521,22 @@ const Jogo = () => {
                                         {ge}
                                     </div>
                                 ))}
-                                {/*<div className="jogo__categoria">Party</div>*/}
-                                {/*<div className="jogo__categoria">Estratégia</div>*/}
                             </div>
                             <div className="jogo__rank-container">
                                 <div className="jogo__rank">
                                     <Icon icon="solar:ranking-linear" className='jogo__rank-icon' />
                                     <span className='jogo__rank-ranking'>{reviewCount} Reviews</span>
                                 </div>
+                            </div>
+                            <div>
+                                <button
+                                    className={`jogo-info__favorite-button ${favorite ? 'following' : ''}`}
+                                    onClick={favorite ? handleUnFavorite : handleFavorite}>                    
+                                    {favorite ? <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${favorite ? 'filled' : ''}`} style={{ marginRight: '6px', color: '#ff7373' }} /> 
+                                        : <FontAwesomeIcon icon={faHeart} className={`post-card__heart-icon ${favorite ? 'filled' : ''}`} style={{ marginRight: '6px', color: '#eee' }} />  
+                                    }
+                                    {favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -383,14 +566,14 @@ const Jogo = () => {
                 </div>
             </div> */}
             <div className="jogo__posts-container">
-                {Array.isArray(reviews) && reviews.map((review) => (
-                    <div className="jogo__post" key={review.id}>
+                {Array.isArray(reviews) && reviews.map((review, index) => (
+                    <div className="jogo__post" key={index}>
                         <div className="jogo__post-info-perfil-container">
                             <a href={`/perfil?id=${review.user_id}`} className="jogo__post-foto-user">
-                                <img src={review.userPhoto} alt="Foto perfil" className="jogo__post-foto-user" />
+                                <img src={review.photo_adr} alt="Foto perfil" className="jogo__post-foto-user" />
                             </a>
                             <div className="jogo__post-info-user">
-                                <p className="jogo__post-nomeUser">{review.username}</p>
+                                <p className="jogo__post-nomeUser">{review.name}</p>
                                 <div className="jogo__post-nota" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
                                     {review.grade}
                                 </div>
@@ -407,12 +590,13 @@ const Jogo = () => {
                                     )}
                                 </div>
                             </div>
-                        </div>
-                        
+                        </div>                     
                         <div className="post-cardlike-button-container">
-                            <button className="post-cardlike-button" onClick={() => handleLike(review)}>
-                                <FontAwesomeIcon icon={faHeart} className={`post-cardheart-icon ${review.userLiked ? 'filled' : ''}`} />
-                                <span className='post-cardlike-likes'>{review.likes}</span>
+                            <button className="post-cardlike-button" onClick={() => { handleLike(index) }}>
+                                {review.userLiked ? 
+                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardheart-icon filled`} style={{ color: '#4d2c80' }} /> :
+                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardheart-icon filled`} style={{ color: '#ddd' }} />}                          
+                                <span className='post-cardlike-likes'>{review.likes} Curtidas</span>
                             </button>
                         </div>
                     </div>

@@ -6,7 +6,7 @@ import Navbar from './components/navbar';
 import PostButton from './components/postButton'
 
 import { Icon } from '@iconify/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon, FaTrash } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
@@ -472,6 +472,36 @@ const Jogo = () => {
 
     }
 
+    const handleDeleteReview = async (postId, postUserId) => {
+        console.log("postId:", postId);
+        console.log("currentUser:", currentUser.id);
+        console.log("postUserId:", postUserId);
+        if (!postId || !currentUser || !currentUser.id) {
+            console.error("ID da publicação ou ID do usuário não é válido:", postId, currentUser);
+            return;
+        }
+
+        // Converta ambos os IDs para números inteiros
+        const postIdInt = parseInt(postId);
+        const currentUserID = parseInt(currentUser.id);
+
+        if (currentUserID === postUserId) {
+            console.log("Permissão concedida. IDs correspondem.");
+            try {
+                await api.delete(`/api/review?id=${postIdInt}`);
+
+                setReviews((prevReviews) => prevReviews.filter((prevReview) => prevReview.id !== postIdInt));
+                window.location.reload();
+                loading.show();
+                loading.close();
+            } catch (error) {
+                console.error('Erro ao deletar a revisão:', error);
+            }
+        } else {
+            console.error("Você não tem permissão para excluir esta revisão.");
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             // Defina o ID do jogo com base em como você está obtendo o ID do jogo da página atual
@@ -595,9 +625,17 @@ const Jogo = () => {
                                 <img src={review.photo_adr} alt="Foto perfil" className="jogo__post-foto-user" />
                             </a>
                             <div className="jogo__post-info-user">
-                                <p className="jogo__post-nomeUser">{review.name}</p>
+                                <p className="jogo__post-nomeUser">{review.username}</p>
                                 <div className="jogo__post-nota" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
                                     {review.grade}
+                                </div>
+                                <div class="jogo__post-remove">
+                                    {currentUser && currentUser.id === review.postUserId && (
+                                        <FaTrash
+                                            className="delete-icon"
+                                            onClick={() => handleDeleteReview(review.id, review.postUserId)} // Use uma função anônima
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>

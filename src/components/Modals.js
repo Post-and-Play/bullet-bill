@@ -549,6 +549,86 @@ export class Modals {
 
         }
 
+        this.htmlLoadingElment = function (parent, animation = Loading) {
+
+            var instance = this;
+            instance.animation = animation;
+
+            instance.show = function (text) {
+
+                formclose();
+
+                var modalId = 'elmloading';
+                var modal = document.createElement('div');
+                modal.id = modalId;
+                modal.className = 'modal';
+                modal.setAttribute('role', 'dialog');
+
+                //Modal Content
+                let modalcontent = document.createElement('div');
+                modalcontent.className = 'modal-content-loading';
+                modalcontent.style.maxWidth = '420px';
+
+                //Header
+                // let modalheader = document.createElement('div');
+                // modalheader.className = 'modal-header';
+                // modalcontent.appendChild(modalheader)
+                //Header
+
+                //Body
+                let modalbody = document.createElement('div');
+                modalbody.className = 'modal-body';
+
+                let div = document.createElement('div');
+                div.className = 'container-loading';
+
+                let loading = document.createElement('div');
+                loading.className = 'loading-element';
+                let img = document.createElement('img');
+                img.src = instance.animation;
+                img.alt = 'loading-element';
+                loading.appendChild(img);
+                div.appendChild(loading);
+
+                if (text) {
+                    let ul = document.createElement('ul')
+                    ul.className = 'one-col';
+                    let label = document.createElement('label');
+                    label.className = 'label-loading';
+                    label.innerHTML = text;
+                    ul.appendChild(label);
+                    div.appendChild(ul);
+                }
+                modalbody.appendChild(div);
+
+                modalcontent.appendChild(modalbody);
+
+                // let modalfooter = document.createElement('div');
+                // modalfooter.className = 'modal-footer';
+                // modalcontent.appendChild(modalfooter);
+
+                modal.appendChild(modalcontent);
+                parent.appendChild(modal);
+
+                modal.style.display = 'flex';
+
+            }
+
+            instance.close = function () {
+                var timer1 = new Timer(1000, formclose);
+                timer1.start();
+            }
+
+            function formclose() {
+                var modal = document.getElementById('elmloading');
+                if (modal) {
+                    modal.parentNode.removeChild(modal);
+                }
+            }
+
+        }
+
+
     }
 }
 

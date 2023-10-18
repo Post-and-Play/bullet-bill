@@ -1,6 +1,6 @@
 
 /* The Modal (background) */
-.modal {
+.modal, .modal-element {
     display: none; /* Hidden by default */
     align-items: center;
     justify-content: center;
@@ -14,7 +14,10 @@
     background-color: #dfdfdff3; /* Black w/ opacity */
 }
 
-/* Modal Content */
+.modal-element {
+    position: absolute;
+}
+    /* Modal Content */
 .modal-content, .modal-content-dialog, .modal-content-loading {
     position: relative;
     background-color: #fefefe;
@@ -87,7 +90,14 @@
     align-items: center;
 }
 
-.loading img {
+.loading-element {
+    display: flex;
+    width: auto;
+    height: 100%;
+    align-items: center;
+}
+
+.loading img, .loading-element img {
     max-width: 100% !important;
     height: auto !important;
 }

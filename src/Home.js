@@ -122,7 +122,8 @@ const Home = () => {
 
     const handleLike = async (e, index) => {
         e.preventDefault();
-
+        const loadingElm = new modals.htmlLoadingElment(e.target);
+        loadingElm.show();
         try {
 
             if (currentUser) {
@@ -206,6 +207,7 @@ const Home = () => {
         } catch (error) {
             console.error(`Erro ao curtir o post ${reviews[index].id}:`, error);
         }
+        loadingElm.close();
     };
 
     const getCurrentUser = async () => {

@@ -96,7 +96,7 @@ const Home = () => {
 
                     setReviews(mappedReviews);
 
-                    console.log(mappedReviews);
+                    //console.log(mappedReviews);
 
                     return mappedReviews;
 
@@ -121,9 +121,11 @@ const Home = () => {
     };
 
     const handleLike = async (e, index) => {
-        e.preventDefault();
-        const loadingElm = new modals.htmlLoadingElment(e.target);
-        loadingElm.show();
+
+        const loadingElm = await new modals.htmlLoadingElment(e.target);
+        await loadingElm.show();
+        await setTimeout(() => { }, 3000);
+
         try {
 
             if (currentUser) {
@@ -139,10 +141,6 @@ const Home = () => {
                         });
 
                         if (response.status === 200) {
-
-                            //reviews[index].userLiked = false;
-                            //reviews[index].likes -= 1;
-
                             setReviews(reviews.map((review, i) => {
                                 if (i === index) {
                                     review.userLiked = false;
@@ -150,9 +148,6 @@ const Home = () => {
                                 }
                                 return { ...review }
                             }));
-
-                            //console.log(reviews[index]);
-
                         }
 
                     } else {
@@ -164,10 +159,6 @@ const Home = () => {
                         });
 
                         if (response.status === 200) {
-
-                            //reviews[index].userLiked = true;
-                            //reviews[index].likes -= 1;
-
                             setReviews(reviews.map((review, i) => {
                                 if (i === index) {
                                     review.userLiked = true;
@@ -175,8 +166,6 @@ const Home = () => {
                                 }
                                 return { ...review }
                             }));
-
-                            //console.log(reviews[index]);
                         }
 
                     }
@@ -207,7 +196,8 @@ const Home = () => {
         } catch (error) {
             console.error(`Erro ao curtir o post ${reviews[index].id}:`, error);
         }
-        loadingElm.close();
+
+        await loadingElm.close();
     };
 
     const getCurrentUser = async () => {

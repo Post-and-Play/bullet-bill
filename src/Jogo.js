@@ -649,7 +649,7 @@ const Jogo = () => {
                                 <div className="jogo__post-nota" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
                                     {review.grade}
                                 </div>
-                                <div class="jogo__post-remove">
+                                <div className="jogo__post-remove">
                                     {currentUser && currentUser.id === review.user_id && (
                                         <FaTrash
                                             className="delete-icon"

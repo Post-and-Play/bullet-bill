@@ -77,15 +77,18 @@ const SearchBar = ({ currentUser }) => {
                         : []);
                 } else {
                     await setGameResults([]);
+                    
                 }
             } catch (error) {
                 console.error('Erro ao buscar resultados de games:', error);
                 await setGameResults([]);
             }
+        } else if(searchTerm === '') {
+            handleSearchNull();
 
-        } else {
+        } else{
             await setSearchResults([]);
-            navigate('/pesquisa');
+            
         }
 
         const combinedResults = [...userResults, ...gameResults];
@@ -109,8 +112,14 @@ const SearchBar = ({ currentUser }) => {
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         // Executar a pesquisa aqui
+        
         fetchSearchResults(searchTerm);
     };
+
+    const handleSearchNull = (e) =>{
+        
+        navigate ('/pesquisa')
+    }
 
  
     useEffect(() => {
@@ -131,7 +140,7 @@ const SearchBar = ({ currentUser }) => {
                 placeholder="Digite o nome de um jogo"
                 className="search-bar__input"
                 />
-                <button type="submit" className="search-bar__submit-button">
+                <button type="submit" className="search-bar__submit-button" >
                 <Icon icon={searchIcon} className="iconify" />
                 </button>
             </div>
@@ -139,7 +148,7 @@ const SearchBar = ({ currentUser }) => {
                 <div className="search-results">
                 {searchResults.map((result, index) => (
                     <div key={index} className="search-result-item" onClick={() => handleGameClick(result.id, result.type)}>
-                    <img src={result.top_adr} alt={`Foto jogo`} className='search-result-item__foto' />
+                    <img src={result.photo_adr || result.top_adr}  alt={`Foto jogo`} className='search-result-item__foto' />
                     <p className='search-result-item__nome'>{result.name}</p>
                     {/* <p className='search-result-item__nickname'>{result.nickname}</p> */}
                     {/* <a

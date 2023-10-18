@@ -1,6 +1,8 @@
 import './Favoritos.css'
 
 import { Icon } from '@iconify/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import Navbar from './components/navbar'
 import PostButton from './components/postButton'
 
@@ -32,17 +34,18 @@ const Favoritos = () => {
     const getCurrentUser = async () => {
         let user = await getAuth();
         if (user) {
-            setCurrentUser(user);
+            await setCurrentUser(user);
+            await getFavorites(user);
         } else {
             navigate('/');
         }
     }
 
-    const getGames = async () => {
+    const getFavorites = async (user) => {
 
         try {
-            const response = await api.get('./api/likes/user');
-            if (response.data) {
+            const response = await api.get(`/api/favorite/user?id=${user.id}`);
+            if (response.status == 200) {
                 //console.log('setGames: \n' + JSON.stringify(response.data));
                 setGames(response.data);
             }
@@ -57,61 +60,10 @@ const Favoritos = () => {
 
     }
 
-    const getCurrentGame = async (event) => {
-        event.preventDefault();
-        try {
-
-            //console.log('element...html: ' + event.target);
-
-            const gameId = event.target.id;
-            /* console.log('clicked...' + gameId);*/
-
-            if (gameId !== '' && gameId !== null && gameId !== undefined) {
-                const response = await api.get('./api/games?id=' + gameId);
-                if (response.data.id) {
-                    navigate('/jogo?id=' + gameId);
-                }
-                else {
-                    if (root) {
-                        modals.htmlDialog(
-                            root,
-                            'Game não encontrado!',
-                            modals.msgboxButtons.okOnly,
-                            modals.msgboxIcons.warning,
-                            'Mensagem!',
-                            {
-                                ok: (evt) => {
-
-                                }
-                            });
-                    }
-                }
-            }
-
-        }
-        catch (err) {
-            if (root) {
-                modals.htmlDialog(
-                    root,
-                    'Game não encontrado!\n' + err.message,
-                    modals.msgboxButtons.okOnly,
-                    modals.msgboxIcons.warning,
-                    'Mensagem!',
-                    {
-                        ok: (evt) => {
-
-                        }
-                    });
-            }
-        }
-
-    }
-
     useEffect(() => {
         const fetchData = async () => {
             loading.show();
             await getCurrentUser();
-            await getGames();
             loading.close();
         };
         fetchData(); // Chama a função fetchData quando o componente for montado
@@ -123,9 +75,9 @@ const Favoritos = () => {
             <div className="favorito__jogos-container">
                 {games.length > 0 ?
                     games.map((game, index) => (
-                         <div key={index} className="favorito__jogo">
-                            <Icon className='favorito__jogo-icon' icon="ri:heart-fill" color="#633F9A" width="45" height="45" hFlip={true} />
-                            <button id={game.id} className='favorito__jogo-link' onClick={(event) => getCurrentGame(event)}>
+                        <div key={index} className="favorito__jogo">
+                            <FontAwesomeIcon icon={faHeart} className={`favorito__jogo-icon filled`} style={{ fontSize: '24px', color: '#ff7373' }} /> 
+                            <a href={`/jogo?id=${game.game_id}`} className='favorito__jogo-link'> 
                                 <img src={game.top_adr} alt="Foto jogo" className='favorito__jogo-foto' />
                                 <div className="`favorito__jogo-info-container`">
                                     <p className='favorito__jogo-titulo'>{game.name}</p>
@@ -140,7 +92,7 @@ const Favoritos = () => {
                                         }
                                     </div>
                                 </div>
-                            </button>
+                            </a>
                         </div>
                     )) : (<div className='favorito__hasNot'><h3>Nenhum favorito ainda!</h3></div>)
                 }

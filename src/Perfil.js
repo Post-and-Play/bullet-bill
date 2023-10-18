@@ -13,9 +13,8 @@ import Lightbox from './components/LightBox';
 import api from './services/Api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getAuth } from './services/Auth';
-import { FaUserPlus, FaCheck} from 'react-icons/fa';
+import { FaUserPlus, FaCheck, FaTrash } from 'react-icons/fa';
 import { Modals } from './components/Modals';
-import { FaTrash } from 'react-icons/fa';
 
 const Perfil = () => {
 
@@ -27,40 +26,37 @@ const Perfil = () => {
       const params = new URLSearchParams(search);
       const initialUserId = params.get('id');
 
-      const [currentUser, setCurrentUser] = useState();
-      const [following, setFollowing] = useState();
-      const [followingId, setFollowingId] = useState(null);
-      const [reviews, setReviews] = useState([]);
-      const [liked, setLiked] = useState('');
-      const [name, setName] = useState('');
-      const [followed, setFollowed] = useState('');
-      const [description, setDescription] = useState('');
-      const [profileImage, setProfileImage] = useState(null);
-      const [bannerImage, setBannerImage] = useState(null);
-      const [steamNick, setSteamNick] = useState('');
-      const [epicGamesNick, setEpicGamesNick] = useState('');
-      const [twitchNick, setTwitchNick] = useState('');
-      const [githubNick, setGithubNick] = useState('');
-      const [discordNick, setDiscordNick] = useState('');
-      const [posts, setPosts] = useState([]);
-      const [lightboxImage, setLightboxImage] = useState(null);
-      const [averageRating, setAverageRating] = useState(0); // Média de notas
-      const [roundedAverageRating, setRoundedAverageRating] = useState();
-      const [userIdU,setUserIdU] = useState(initialUserId);
-      const [userId, setUserId] = useState(initialUserId);
-      
-      const navigate = useNavigate();
-      const isPerfilPessoal = userId ? false : true;
+    const [currentUser, setCurrentUser] = useState();
+    const [following, setFollowing] = useState();
+    const [followingId, setFollowingId] = useState(null);
+    const [liked, setLiked] = useState('');
+    const [name, setName] = useState('');
+    const [followed, setFollowed] = useState('');
+    const [description, setDescription] = useState('');
+    const [profileImage, setProfileImage] = useState(null);
+    const [bannerImage, setBannerImage] = useState(null);
+    const [steamNick, setSteamNick] = useState('');
+    const [epicGamesNick, setEpicGamesNick] = useState('');
+    const [twitchNick, setTwitchNick] = useState('');
+    const [githubNick, setGithubNick] = useState('');
+    const [discordNick, setDiscordNick] = useState('');
+    const [posts, setPosts] = useState([]);
+    const [lightboxImage, setLightboxImage] = useState(null);
+    const [userIdU, setUserIdU] = useState(initialUserId); //you
+    const [userId, setUserId] = useState(initialUserId);
+    const navigate = useNavigate();
+    const isPerfilPessoal = userId ? false : true;
+    const [followingCount, setFollowingCount] = useState();
 
       const handleCheckFollowing = async (user, userid) => {
          try {
-             if (!user.id || !userid) {
+             if (!user.id || !userId) {
                 console.error('IDs de usuário inválidos');
                 return;
            }
 
            // Verifique se o `userId` não é o mesmo que o `currentUser.id`
-             if (user.id === userid) {
+             if (user.id === userId) {
                console.error('Você não pode verificar se segue a si mesmo.');
                 return;
            }
@@ -95,11 +91,11 @@ const Perfil = () => {
                     setFollowed(userPerfil.followed);
                     setFollowing(userPerfil.following);
                     setDescription(userPerfil.description);
-                    setTwitchNick(userPerfil.twitch_userPerfil);
-                    setDiscordNick(userPerfil.discord_userPerfil);
-                    setEpicGamesNick(userPerfil.epic_userPerfil);
-                    setSteamNick(userPerfil.steam_userPerfil);
-                    setGithubNick(userPerfil.github_userPerfil);
+                    setTwitchNick(userPerfil.twitch_user);
+                    setDiscordNick(userPerfil.discord_user);
+                    setEpicGamesNick(userPerfil.epic_user);
+                    setSteamNick(userPerfil.steam_user);
+                    setGithubNick(userPerfil.github_user);
                     setProfileImage(userPerfil.photo_adr);
                     setBannerImage(userPerfil.top_adr);
                     await getPosts(userPerfil.id);
@@ -190,7 +186,7 @@ const Perfil = () => {
             }
 
             // Verifique se o `userId` não é o mesmo que o `currentUser.id`
-            if (currentUser.id === userId) {
+            if (currentUser.id == userId) {
                 console.error('Você não pode seguir a si mesmo.');
                 return;
             }
@@ -231,9 +227,10 @@ const Perfil = () => {
                 console.error('IDs de usuário inválidos');
                 return;
             }
+            console.log(userId, currentUser.id)
 
             // Verifique se o `userId` não é o mesmo que o `currentUser.id`
-            if (currentUser.id === userId) {
+            if (currentUser.id == userId) {
                 console.error('Você não pode deixar de seguir a si mesmo.');
                 return;
             }
@@ -241,19 +238,38 @@ const Perfil = () => {
             // Execute a solicitação DELETE à API para deixar de seguir o usuário
             const response = await api.delete(`/api/follow?id=${followingId}`);
 
+            console.log(followingId)
             if (response.data.OK) {
                 // A ação de deixar de seguir foi bem-sucedida.
                 // Atualize o estado `following` para refletir que o usuário não está mais seguindo.
                 setFollowing(false);
                 await getCurrentUser();
             } else {
-                console.error('Falha ao deixar de seguir o usuário:', response.data.message);
+              window.location.reload()
+                // console.error('Falha ao deixar de seguir o usuário:', response.data.message);
+                
             }
         } catch (error) {
             console.error('Erro ao deixar de seguir o usuário:', error);
+            window.location.reload()
         }
     };
 
+    // Função para obter o número de seguidores
+    const getFollowingCount = async () => {
+      try {
+          if (userId) {
+              const response = await api.get(`/api/users?id=${userId}`);
+              if (response.data.id) {
+                  setFollowingCount(response.data.following);
+              } else {
+                  setFollowingCount(0);
+              }
+          }
+      } catch (error) {
+          console.error('Erro ao obter o número de seguidores:', error);
+      }
+  };
     const getPosts = async (userId) => {
         try {
             console.log("userId in getReviews:", userId);
@@ -267,8 +283,7 @@ const Perfil = () => {
                 filteredPosts.map(async (post) => {
                 const userResponse = await api.get(`/api/users?id=${post.user_id}`);
                 const gameResponse = await api.get(`/api/games?id=${post.game_id}`);
-                console.log(userResponse);
-                console.log(gameResponse);
+              
                 return {
                     ...post,
                     userPhoto: userResponse.data.photo_adr,
@@ -294,28 +309,44 @@ const Perfil = () => {
     };
 
     const handleDeleteReview = async (userIdU, postUserId) => {
-      if (!currentUser || !currentUser.id) {
-        console.error("ID do usuário não é válido:", currentUser);
-        return;
-      }
-    
-      // Converta ambos os IDs para números inteiros
-      const userIdInt = parseInt(userIdU);
-      const currentUserID = parseInt(currentUser.id);
-    
-      if (currentUserID === postUserId) {
-        console.log("Permissão concedida. IDs correspondem.");
-        try {
-          await api.delete(`/api/review?id=${userIdInt}`);
-    
-          // Atualize o estado `posts` para refletir que a revisão foi removida
-          setPosts((prevPosts) => prevPosts.filter((prevPost) => prevPost.id !== userIdInt));
-        } catch (error) {
-          console.error('Erro ao deletar a revisão:', error);
+        if (!currentUser || !currentUser.id) {
+            console.error("ID do usuário não é válido:", currentUser);
+            return;
         }
-      } else {
-        console.error("Você não tem permissão para excluir esta revisão.");
-      }
+
+        if (root) {
+            modals.htmlDialog(
+                root,
+                'Remover essa postagem?',
+                modals.msgboxButtons.yesNo,
+                modals.msgboxIcons.question,
+                'Mensagem!',
+                {
+                    yes: async (evt) => {
+                        // Converta ambos os IDs para números inteiros
+                        const userIdInt = parseInt(userIdU);
+                        const currentUserID = parseInt(currentUser.id);
+
+                        if (currentUserID === postUserId) {
+                            console.log("Permissão concedida. IDs correspondem.");
+                            try {
+                                await api.delete(`/api/review?id=${userIdInt}`);
+
+                                // Atualize o estado `posts` para refletir que a revisão foi removida
+                                setPosts((prevPosts) => prevPosts.filter((prevPost) => prevPost.id !== userIdInt));
+                            } catch (error) {
+                                console.error('Erro ao deletar a revisão:', error);
+                            }
+                        } else {
+                            console.error("Você não tem permissão para excluir esta revisão.");
+                        }
+                    },
+                    no: (evt) => {
+                        return;
+                    }
+                });
+        }
+       
     };
     
 
@@ -323,6 +354,7 @@ const Perfil = () => {
         const fetchData = async () => {
             loading.show();
             await getCurrentUser();
+            await getFollowingCount()
             loading.close();
         };
         fetchData();
@@ -354,7 +386,8 @@ const Perfil = () => {
                 </div>
                 <div className="perfil-info__follow-container">
                   <p className="perfil-info__folllow">{followed} seguidores</p>
-                  <p className="perfil-info__folllow">{following} seguindo</p>
+                  <p className="perfil-info__folllow">{followingCount} seguindo</p>
+                  {console.log(followingCount)}
                 </div>
               </section>
               <section className="perfil-info__info-container">
@@ -412,22 +445,20 @@ const Perfil = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="perfil-post-card__descricao">
-                    <p alt="Opiniao" className="perfil-post-card__descricao-txt">{post.opinion}</p>
-                    {post.image_adr && (
-                      <img src={post.image_adr} alt="Foto perfil" className="perfil-post-card__descricao-img" onClick={() => setLightboxImage(post.image_adr)} />
-                    )}
-                  </div>
-                  
-                  <div className="perfil-post_remove">
-                  {userIdU === currentUser.id && (
-                    <FaTrash
-                      className="delete-icon"
-                      onClick={() => handleDeleteReview(post.id, post.user_id)}
-                    />
-                  )}
-                </div>
-
+                    <div className="perfil-post-card__descricao">
+                        <p alt="Opiniao" className="perfil-post-card__descricao-txt">{post.opinion}</p>
+                        {post.image_adr && (
+                          <img src={post.image_adr} alt="Foto perfil" className="perfil-post-card__descricao-img" onClick={() => setLightboxImage(post.image_adr)} />
+                        )}
+                    </div>
+                    <div className="perfil-post_remove">
+                        {userIdU === currentUser.id && (
+                            <FaTrash
+                                className="delete-icon"
+                                onClick={() => handleDeleteReview(post.id, post.user_id)}
+                            />
+                        )}
+                    </div>
                 </article>
               ))}
             </div>

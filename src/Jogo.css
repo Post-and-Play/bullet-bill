@@ -85,12 +85,12 @@
     color: #fff;
     font-weight: bold;
     margin-left: 15px;
+    text-shadow: 0px 0px 3px black;
 }
 
 .jogo__categoria-container {
     display: flex;
     flex-direction: row;
-    font-weight: bold;
 }
 
 .jogo__categoria {
@@ -101,16 +101,18 @@
     margin-right: 10px;
     margin-bottom: 15px;
     cursor: pointer;
+    
+}
+
+.pesquisa__categoria{
+    font-weight: bold;
+    color: #04030382;
 }
 
 .jogo__rank-container {
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-weight: bold;
-    color:#7047ad;
-    
-
 }
 
 .jogo__rank-icon {
@@ -125,7 +127,6 @@
     align-items: center;
     justify-content: center;
     margin: auto;
-    
 }
 
 .jogo__sinopse-quoteIcon {
@@ -134,11 +135,21 @@
     color: rgba(34, 31, 31, 1);
 }
 
+.jogo__rank-ranking{
+    font-weight: bold;
+    color: #633F9A;
+    text-shadow: 
+               -1px -1px 0px #9675c7, 
+               -1px 1px 0px #9675c7,                    
+                1px -1px 0px #9675c7,                  
+                1px 0px 0px #9675c7;
+}
+
 .jogo__sinopse-texto {
     flex-grow: 1;
     text-align: center;
     font-weight: bold;
-    color:#060606ce;
+    color: #060606ac;
 }
 
 .quoteIcon-right {
@@ -235,6 +246,8 @@
 .jogo__post-info-user {
     display: flex;
     flex-direction: column;
+    font-weight: bold;
+    color: #060606d3;
 }
 
 .jogo__post-nomeUser {
@@ -247,15 +260,21 @@
     padding: 7px;
     border-radius: 5px;
     font-weight: bold;
+    background-color: #0094DC;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #f9f9f9;
     text-shadow: 0px 0px 4px #060606a1;
-    
+
 }
 
-
+.jogo__post-descricao-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+}
 
 .jogo__post-descricao {
     width: 100%;
@@ -285,19 +304,19 @@ img.jogo__post-foto-opiniao {
     width: 100%;
     height: auto;
 }
-.jogo__post-remove {
-  position: absolute;
-  /* top: 10px; */
-  right: 21.5%;
-  
-  font-size: 19px; /* Tamanho do ícone */
-  color: #060606ce; /* Cor do ícone de exclusão */
-  cursor: pointer;
-}
 
 .jogo__post-descricao {
     width: 100%;
     height: auto;
+}
+
+.jogo__post-remove {
+    position: absolute;
+    /* top: 10px; */
+    right: 21.5%;
+    font-size: 19px; /* Tamanho do ícone */
+    color: #060606ce; /* Cor do ícone de exclusão */
+    cursor: pointer;
 }
 
 img.jogo__post-foto-opiniao {
@@ -322,47 +341,60 @@ img.jogo__post-foto-opiniao {
     cursor: pointer;
     outline: none;
     margin-top: 15px;
+    width: max-content;
 }
 
-.post-cardheart-icon {
-    color: #633f9a2c;
-    font-size: 30px;
-    /* border-radius: #000000; */
+.post-cardlike-icon {
+    font-size: 26px;
     transition: color 0.3s;
     margin-right: 8px;
 }
 
-/* Adicione este CSS para o botão de favoritar */
 
-.jogo__favoritar-button {
-    width: 42px;
-    margin-left: 10px;
-    height: 42px;
-    padding: 7px;
-    border-radius: 5px;
-    font-weight: bold;
-    display: flex;
+.post-card__heart-icon {
+    color: #633f9a2c;
+    font-size: 18px;
+    transition: color 0.3s;
+    margin-right: 8px;
+}
+
+.jogo-info__favorite-button {
+    margin-top: 10px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #cf53ee;
-    color:#fff;
-    text-shadow: 0px 0px 4px #060606a1;
-    
+    background-color: #B0AFE6;
+    border: 2px solid #4d2c80;
+    color: #4d2c80;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 5px;
+    height: 40px;
 }
 
-.jogo__favoritar-button:hover {
+
+.jogo-info__favorite-button .jogo-info__favorite-icon {
+    margin-right: 0px;
+    margin: auto;
+}
+
+.jogo-info__favorite-button:hover {
     background-color: #4d2c80;
+    color: #fff;
 }
 
-/* Adicione uma classe 'favorited' para quando o jogo estiver favoritado */
-
-.jogo__favoritar-button.favorited {
-    background-color: #FFD700; /* Cor de favorito, você pode ajustar conforme necessário */
+.jogo-info__favorite-button:hover .jogo-info__favorite-icon {
+    color: #8662bc;
 }
+
+
 
 /* Media Queries */
 /* Tablet */
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
+/*@media only screen and (min-width: 768px) and (max-width: 1024px) {
     .jogo__banner-container {
         height: 100vh;
         box-sizing: border-box;
@@ -405,7 +437,7 @@ img.jogo__post-foto-opiniao {
         width: 100%;
     }
 }
-
+*/
 @media only screen and (max-width: 767px) {
     .jogo__banner-container {
         height: 100vh;

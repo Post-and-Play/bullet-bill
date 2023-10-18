@@ -59,22 +59,22 @@ const PostButton = ({ currentUser }) => {
 
     //Função que muda as cores dos controles na sequencia do clique
     const handleNotaClick = (event) => {
-        const note = Number(event.target.getAttribute('data-note'));
-        if (note) {
+        const note = parseFloat(event.target.getAttribute('data-note'))
+        
             //alert(note);
             const notes = document.getElementsByClassName('postBox__nota');
-            if (notes.length > 0) {
+            if (notes.length >=0) {
 
                 for (let i = 0; i < notes.length; i++) {
                     notes[i].classList.remove('checked');
                 }
 
                 for (let i = 0; i < notes.length; i++) {
-                    let temp = Number(notes[i].getAttribute('data-note'));
+                    let temp = parseFloat(notes[i].getAttribute('data-note'))
                     if (temp <= note) {
                         notes[i].classList.add('checked');
                     }
-                }
+                
 
                 setSelectedNota(note);
 

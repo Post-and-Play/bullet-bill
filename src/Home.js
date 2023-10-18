@@ -21,7 +21,7 @@ import { Icon } from '@iconify/react';
 import PostButton from './components/postButton';
 import Navbar from './components/navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { Modals } from './components/Modals';
 import { getAuth } from './services/Auth';
 import api from './services/Api'
@@ -40,6 +40,7 @@ const Home = () => {
     const [userId, setUserId] = useState(null);
     const sliderRef = useRef(null);
     const [lightboxImage, setLightboxImage] = useState(null);
+    const [userLikes, setUserLikes] = useState([]);
 
     const navigate = useNavigate();
 
@@ -62,14 +63,170 @@ const Home = () => {
         Skyrim
     ];
 
+
+    const handleCheckUserLikes = async (user) => {
+        const response = await api.get(`/api/likes/user?id=${user.id}`);
+        if (response.status === 200) {
+            //console.log(response.data);
+            setUserLikes(response.data);
+            return response.data;
+        } else {
+            console.error(response);
+            setUserLikes([]);
+            return [];
+        }
+    }
+
+    const getReviews = async (likes) => {
+
+        try {
+          
+            const response = await api.get(`/api/reviews`);
+
+            if (response.status === 200) {
+                const filteredReviews = response.data;
+                if (filteredReviews.length > 0) {
+
+                    const mappedReviews = await filteredReviews.map((review) => {
+                        return {
+                            ...review,
+                            userLiked: likes.find((like) => { return like.review_id === review.id }) ? true : false,
+                        };
+                    });
+
+                    setReviews(mappedReviews);
+
+                    console.log(mappedReviews);
+
+                    return mappedReviews;
+
+                } else {
+                    setReviews([]);
+                    console.log('Has not reviews');
+                    return [];
+                }
+
+            } else {
+                setReviews([]);
+                console.error(response);
+                return [];
+            }
+
+        } catch (err) {
+            setReviews([]);
+            console.error(err);
+            return [];
+        }
+
+    };
+
+    const handleLike = async (e, index) => {
+        e.preventDefault();
+
+        try {
+
+            if (currentUser) {
+
+                //console.log(review);
+                if (index >= 0) {
+
+                    if (reviews[index].userLiked === true) {
+
+                        const response = await api.delete(`/api/like?user_id=${reviews[index].user_id}&review_id=${reviews[index].id}`, {
+                            user_id: currentUser.id, // Certifique-se de ter o ID do usuário disponível
+                            review_id: reviews[index].id // Certifique-se de ter o ID da revisão disponível
+                        });
+
+                        if (response.status === 200) {
+
+                            //reviews[index].userLiked = false;
+                            //reviews[index].likes -= 1;
+
+                            setReviews(reviews.map((review, i) => {
+                                if (i === index) {
+                                    review.userLiked = false;
+                                    review.likes -= 1;
+                                }
+                                return { ...review }
+                            }));
+
+                            //console.log(reviews[index]);
+
+                        }
+
+                    } else {
+
+                        // Envie a solicitação POST para a rota de "like" no servidor Go
+                        const response = await api.post(`/api/like`, {
+                            user_id: currentUser.id, // Certifique-se de ter o ID do usuário disponível
+                            review_id: reviews[index].id // Certifique-se de ter o ID da revisão disponível
+                        });
+
+                        if (response.status === 200) {
+
+                            //reviews[index].userLiked = true;
+                            //reviews[index].likes -= 1;
+
+                            setReviews(reviews.map((review, i) => {
+                                if (i === index) {
+                                    review.userLiked = true;
+                                    review.likes += 1;
+                                }
+                                return { ...review }
+                            }));
+
+                            //console.log(reviews[index]);
+                        }
+
+                    }
+
+
+                } else {
+                    console.log('indice não encontrado: ' + index);
+                }
+
+            } else {
+
+                if (root) {
+                    modals.htmlDialog(
+                        root,
+                        'Problema na identificação do usuário! Tente recarregar a página.',
+                        modals.msgboxButtons.okOnly,
+                        modals.msgboxIcons.warning,
+                        'Mensagem!',
+                        {
+                            ok: (evt) => {
+                                window.location.reload();
+                            }
+                        });
+                }
+
+            }
+
+        } catch (error) {
+            console.error(`Erro ao curtir o post ${reviews[index].id}:`, error);
+        }
+    };
+
     const getCurrentUser = async () => {
+
         let user = await getAuth();
         if (user) {
             setCurrentUser(user);
             setUserId(user.id);
+            if (user) {
+                if (user.id) {
+                    const likes = await handleCheckUserLikes(user);
+                    await getReviews(likes);
+                }
+            } else {
+                navigate('/');
+            }
+
         } else {
             navigate('/');
         }
+
     }
 
     const handleSlideRight = () => {
@@ -89,26 +246,7 @@ const Home = () => {
             sliderRef.current.slickGoTo(nextSlideIndex);
         }
     };
-    const [liked, setLiked] = useState(false);
-
-    const handleLike = (event) => {
-        setLiked(!liked);
-        const idreview = event.target.getAttribute('data-review');
-        if (idreview) {
-            const postData = {
-                review_id: Number(idreview),
-                user_id: currentUser.id
-            }
-            const response = api.post('./api/reviews', postData);
-            if (response.data.id) {
-                const icon = event.target.getFirstElement();
-                if (icon) {
-
-                }
-            }
-        }
-    };
-
+   
     const getGames = async () => {
 
         try {
@@ -157,41 +295,40 @@ const Home = () => {
         return coresDasNotas[indice];
       };      
 
-    const getReviews = async () => {
-        try {
+    //const getReviews = async () => {
+    //    try {
 
-            const response = await api.get('./api/reviews');
-            if (response.data) {
-                const mappedReviews = await Promise.all(
-                    response.data.map(async (reviews) => {
-                        const userResponse = await api.get(`/api/users?id=${reviews.user_id}`);
-                        const gameResponse = await api.get(`/api/games?id=${reviews.game_id}`);
-                        //console.log(userResponse)
-                        //console.log(gameResponse)
-                        return {
-                            ...reviews,
-                            userPhoto: userResponse.data.photo_adr,
-                            username: userResponse.data.name,
-                            gameName: gameResponse.data.name,
+    //        const response = await api.get('./api/reviews');
+    //        if (response.data) {
+    //            const mappedReviews = await Promise.all(
+    //                response.data.map(async (reviews) => {
+    //                    const userResponse = await api.get(`/api/users?id=${reviews.user_id}`);
+    //                    const gameResponse = await api.get(`/api/games?id=${reviews.game_id}`);
+    //                    //console.log(userResponse)
+    //                    //console.log(gameResponse)
+    //                    return {
+    //                        ...reviews,
+    //                        userPhoto: userResponse.data.photo_adr,
+    //                        username: userResponse.data.name,
+    //                        gameName: gameResponse.data.name,
 
-                        };
-                    })
-                );
-                setReviews(mappedReviews);
-            } else {
-                setReviews([]);
-            }
-        } catch (err) {
-            setReviews([]);
-        }
-    }
+    //                    };
+    //                })
+    //            );
+    //            setReviews(mappedReviews);
+    //        } else {
+    //            setReviews([]);
+    //        }
+    //    } catch (err) {
+    //        setReviews([]);
+    //    }
+    //}
 
     useEffect(() => {
         const fetchData = async () => {
             loading.show();
             await getCurrentUser();
             await getGames();
-            await getReviews();
             loading.close();
         };
         fetchData(); // Chama a função fetchData quando o componente for montado
@@ -221,20 +358,21 @@ const Home = () => {
             </div> */}
             <div className="custom-container">
                 <div className="container__card-post">
-                    {reviews.map((review) => (
+                    {reviews.map((review, index) => (
                         <div className="card-post" key={review.id}>
                             <div className="container__foto-content">
                                 <div className="card-post__foto-container">
-                                    <a href={`perfil?id=${review.user_id}`}>
-                                        <img src={review.userPhoto} alt="Foto perfil" className="card-post__foto" />
+                                <a href={review.user_id == currentUser.id ? '/perfil' : `/perfil?id=${review.user_id}`}>
+                                        <img src={review.photo_adr} alt="Foto perfil" className="card-post__foto" />
                                     </a>
                                 </div>
                                 <div className="card-post__content-container">
-                                    <span className="card-post__user card-post__content">{review.username}</span>
-                                    <a href={`jogo?id=${review.game_id}`} className="card-post__game card-post__content">{review.gameName}</a>
+                                <a href={review.user_id == currentUser.id ? '/perfil' : `/perfil?id=${review.user_id}`} className='card-post__user card-post__content"'>{review.name}</a>
+                                    
+                                    <a href={`jogo?id=${review.game_id}`} className="card-post__game card-post__content">{review.game_name}</a>
                                     <div className="card-post__nota card-post__content" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
-                                    {review.grade}
-                                </div>
+                                        {review.grade}
+                                    </div>
                                 </div>
                             </div>
                             <div className="card-post__descricao-container">
@@ -249,11 +387,15 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                            <button className="post-card__like-button" data-review={review.id} onClick={handleLike}>
-                                <FontAwesomeIcon
-                                    icon={faHeart}
-                                    className={`post-card__heart-icon ${liked ? 'filled' : ''}`}
-                                />
+                            <button className="post-cardlike-button" data-review={review.id} onClick={(event) => handleLike(event, index)}>
+                                {/*<FontAwesomeIcon*/}
+                                {/*    icon={faHeart}*/}
+                                {/*    className={`post-card__heart-icon ${liked ? 'filled' : ''}`}*/}
+                                {/*/>*/}
+                                {review.userLiked ?
+                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#fff' }} /> :
+                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#5E4485' }} />}
+                                <span className='post-cardlike-likes'>{review.likes} Curtidas</span>
                             </button>
                         </div>
                     ))}

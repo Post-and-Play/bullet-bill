@@ -132,6 +132,7 @@ const AdminLogin = () => {
                             <button to="/home" className='botao btnEntrar btnPrincipal' type="button" onClick={handleButtonClick}>Entrar</button>
                             <div className="esqueciSenha_Container">
                                 <Link to="/recuperar-senha" className='esqueciSenha'>Esqueci a minha senha</Link>
+                                <Link to="/" className='voltarLogin'>Voltar para Login</Link>
                             </div>
                         </div>
                     </form>

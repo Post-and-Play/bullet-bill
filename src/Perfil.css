@@ -284,6 +284,14 @@ html {
     color: #633F9A
 }
 
+.perfil-post_remove {
+    position: absolute;
+    /* top: 10px; */
+    right: 0.5%;
+    font-size: 19px; /* Tamanho do ícone */
+    color: #060606ce; /* Cor do ícone de exclusão */
+    cursor: pointer;
+}
 
 /* Media Queries */
 /* Tablet */

@@ -289,6 +289,15 @@ img.jogo__post-foto-opiniao {
     height: auto;
 }
 
+.jogo__post-remove {
+    position: absolute;
+    /* top: 10px; */
+    right: 21.5%;
+    font-size: 19px; /* Tamanho do ícone */
+    color: #060606ce; /* Cor do ícone de exclusão */
+    cursor: pointer;
+}
+
 img.jogo__post-foto-opiniao {
     max-height: 10rem;
     max-width: 10rem;

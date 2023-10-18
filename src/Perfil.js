@@ -290,23 +290,39 @@ const Perfil = () => {
             return;
         }
 
-        // Converta ambos os IDs para números inteiros
-        const userIdInt = parseInt(userIdU);
-        const currentUserID = parseInt(currentUser.id);
+        if (root) {
+            modals.htmlDialog(
+                root,
+                'Remover essa postagem?',
+                modals.msgboxButtons.yesNo,
+                modals.msgboxIcons.question,
+                'Mensagem!',
+                {
+                    yes: async (evt) => {
+                        // Converta ambos os IDs para números inteiros
+                        const userIdInt = parseInt(userIdU);
+                        const currentUserID = parseInt(currentUser.id);
 
-        if (currentUserID === postUserId) {
-            console.log("Permissão concedida. IDs correspondem.");
-            try {
-                await api.delete(`/api/review?id=${userIdInt}`);
+                        if (currentUserID === postUserId) {
+                            console.log("Permissão concedida. IDs correspondem.");
+                            try {
+                                await api.delete(`/api/review?id=${userIdInt}`);
 
-                // Atualize o estado `posts` para refletir que a revisão foi removida
-                setPosts((prevPosts) => prevPosts.filter((prevPost) => prevPost.id !== userIdInt));
-            } catch (error) {
-                console.error('Erro ao deletar a revisão:', error);
-            }
-        } else {
-            console.error("Você não tem permissão para excluir esta revisão.");
+                                // Atualize o estado `posts` para refletir que a revisão foi removida
+                                setPosts((prevPosts) => prevPosts.filter((prevPost) => prevPost.id !== userIdInt));
+                            } catch (error) {
+                                console.error('Erro ao deletar a revisão:', error);
+                            }
+                        } else {
+                            console.error("Você não tem permissão para excluir esta revisão.");
+                        }
+                    },
+                    no: (evt) => {
+                        return;
+                    }
+                });
         }
+       
     };
 
     useEffect(() => {

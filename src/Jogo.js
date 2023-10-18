@@ -483,25 +483,43 @@ const Jogo = () => {
             return;
         }
 
-        // Converta ambos os IDs para números inteiros
-        const postIdInt = parseInt(postId);
-        const currentUserID = parseInt(currentUser.id);
 
-        if (currentUserID === postUserId) {
-            console.log("Permissão concedida. IDs correspondem.");
-            try {
-                await api.delete(`/api/review?id=${postIdInt}`);
+        if (root) {
+            modals.htmlDialog(
+                root,
+                'Remover essa postagem?',
+                modals.msgboxButtons.yesNo,
+                modals.msgboxIcons.question,
+                'Mensagem!',
+                {
+                    yes: async (evt) => {
+                        // Converta ambos os IDs para números inteiros
+                        const postIdInt = parseInt(postId);
+                        const currentUserID = parseInt(currentUser.id);
 
-                setReviews((prevReviews) => prevReviews.filter((prevReview) => prevReview.id !== postIdInt));
-                window.location.reload();
-                loading.show();
-                loading.close();
-            } catch (error) {
-                console.error('Erro ao deletar a revisão:', error);
-            }
-        } else {
-            console.error("Você não tem permissão para excluir esta revisão.");
+                        if (currentUserID === postUserId) {
+                            console.log("Permissão concedida. IDs correspondem.");
+                            try {
+                                await api.delete(`/api/review?id=${postIdInt}`);
+
+                                setReviews((prevReviews) => prevReviews.filter((prevReview) => prevReview.id !== postIdInt));
+                                window.location.reload();
+                                loading.show();
+                                loading.close();
+                            } catch (error) {
+                                console.error('Erro ao deletar a revisão:', error);
+                            }
+                        } else {
+                            console.error("Você não tem permissão para excluir esta revisão.");
+                        }
+                    },
+                    no: (evt) => {
+                        return;
+                    }
+                });
         }
+
+       
     };
 
     useEffect(() => {
@@ -632,10 +650,10 @@ const Jogo = () => {
                                     {review.grade}
                                 </div>
                                 <div class="jogo__post-remove">
-                                    {currentUser && currentUser.id === review.postUserId && (
+                                    {currentUser && currentUser.id === review.user_id && (
                                         <FaTrash
                                             className="delete-icon"
-                                            onClick={() => handleDeleteReview(review.id, review.postUserId)} // Use uma função anônima
+                                            onClick={() => handleDeleteReview(review.id, review.user_id)} // Use uma função anônima
                                         />
                                     )}
                                 </div>

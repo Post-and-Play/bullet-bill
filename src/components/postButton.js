@@ -21,7 +21,7 @@ const PostButton = ({ currentUser }) => {
     const [postBox, setPostBox] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const [opiniao, setOpiniao] = useState('');
-    const [selectedNota, setSelectedNota] = useState(null);
+    const [selectedNota, setSelectedNota] = useState();
     const [selectedColor, setSelectedColor] = useState('');
     const [file, setFile] = useState(null);
     const [isFormValid, setIsFormValid] = useState(false);
@@ -60,7 +60,7 @@ const PostButton = ({ currentUser }) => {
     //Função que muda as cores dos controles na sequencia do clique
     const handleNotaClick = (event) => {
         const note = parseFloat(event.target.getAttribute('data-note'))
-        
+        console.log(note)
             //alert(note);
             const notes = document.getElementsByClassName('postBox__nota');
             if (notes.length >=0) {

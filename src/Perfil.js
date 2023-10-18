@@ -13,9 +13,8 @@ import Lightbox from './components/LightBox';
 import api from './services/Api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getAuth } from './services/Auth';
-import { FaUserPlus, FaCheck} from 'react-icons/fa';
+import { FaUserPlus, FaCheck, FaTrash } from 'react-icons/fa';
 import { Modals } from './components/Modals';
-import { FaTrash } from 'react-icons/fa';
 
 const Perfil = () => {
 
@@ -27,30 +26,26 @@ const Perfil = () => {
       const params = new URLSearchParams(search);
       const initialUserId = params.get('id');
 
-      const [currentUser, setCurrentUser] = useState();
-      const [following, setFollowing] = useState();
-      const [followingId, setFollowingId] = useState(null);
-      const [reviews, setReviews] = useState([]);
-      const [liked, setLiked] = useState('');
-      const [name, setName] = useState('');
-      const [followed, setFollowed] = useState('');
-      const [description, setDescription] = useState('');
-      const [profileImage, setProfileImage] = useState(null);
-      const [bannerImage, setBannerImage] = useState(null);
-      const [steamNick, setSteamNick] = useState('');
-      const [epicGamesNick, setEpicGamesNick] = useState('');
-      const [twitchNick, setTwitchNick] = useState('');
-      const [githubNick, setGithubNick] = useState('');
-      const [discordNick, setDiscordNick] = useState('');
-      const [posts, setPosts] = useState([]);
-      const [lightboxImage, setLightboxImage] = useState(null);
-      const [averageRating, setAverageRating] = useState(0); // Média de notas
-      const [roundedAverageRating, setRoundedAverageRating] = useState();
-      const [userIdU,setUserIdU] = useState(initialUserId);
-      const [userId, setUserId] = useState(initialUserId);
-      
-      const navigate = useNavigate();
-      const isPerfilPessoal = userId ? false : true;
+    const [currentUser, setCurrentUser] = useState();
+    const [following, setFollowing] = useState();
+    const [followingId, setFollowingId] = useState(null);
+    const [liked, setLiked] = useState('');
+    const [name, setName] = useState('');
+    const [followed, setFollowed] = useState('');
+    const [description, setDescription] = useState('');
+    const [profileImage, setProfileImage] = useState(null);
+    const [bannerImage, setBannerImage] = useState(null);
+    const [steamNick, setSteamNick] = useState('');
+    const [epicGamesNick, setEpicGamesNick] = useState('');
+    const [twitchNick, setTwitchNick] = useState('');
+    const [githubNick, setGithubNick] = useState('');
+    const [discordNick, setDiscordNick] = useState('');
+    const [posts, setPosts] = useState([]);
+    const [lightboxImage, setLightboxImage] = useState(null);
+    const [userIdU, setUserIdU] = useState(initialUserId);
+    const [userId, setUserId] = useState(initialUserId);
+    const navigate = useNavigate();
+    const isPerfilPessoal = userId ? false : true;
 
       const handleCheckFollowing = async (user, userid) => {
          try {
@@ -294,28 +289,44 @@ const Perfil = () => {
     };
 
     const handleDeleteReview = async (userIdU, postUserId) => {
-      if (!currentUser || !currentUser.id) {
-        console.error("ID do usuário não é válido:", currentUser);
-        return;
-      }
-    
-      // Converta ambos os IDs para números inteiros
-      const userIdInt = parseInt(userIdU);
-      const currentUserID = parseInt(currentUser.id);
-    
-      if (currentUserID === postUserId) {
-        console.log("Permissão concedida. IDs correspondem.");
-        try {
-          await api.delete(`/api/review?id=${userIdInt}`);
-    
-          // Atualize o estado `posts` para refletir que a revisão foi removida
-          setPosts((prevPosts) => prevPosts.filter((prevPost) => prevPost.id !== userIdInt));
-        } catch (error) {
-          console.error('Erro ao deletar a revisão:', error);
+        if (!currentUser || !currentUser.id) {
+            console.error("ID do usuário não é válido:", currentUser);
+            return;
         }
-      } else {
-        console.error("Você não tem permissão para excluir esta revisão.");
-      }
+
+        if (root) {
+            modals.htmlDialog(
+                root,
+                'Remover essa postagem?',
+                modals.msgboxButtons.yesNo,
+                modals.msgboxIcons.question,
+                'Mensagem!',
+                {
+                    yes: async (evt) => {
+                        // Converta ambos os IDs para números inteiros
+                        const userIdInt = parseInt(userIdU);
+                        const currentUserID = parseInt(currentUser.id);
+
+                        if (currentUserID === postUserId) {
+                            console.log("Permissão concedida. IDs correspondem.");
+                            try {
+                                await api.delete(`/api/review?id=${userIdInt}`);
+
+                                // Atualize o estado `posts` para refletir que a revisão foi removida
+                                setPosts((prevPosts) => prevPosts.filter((prevPost) => prevPost.id !== userIdInt));
+                            } catch (error) {
+                                console.error('Erro ao deletar a revisão:', error);
+                            }
+                        } else {
+                            console.error("Você não tem permissão para excluir esta revisão.");
+                        }
+                    },
+                    no: (evt) => {
+                        return;
+                    }
+                });
+        }
+       
     };
     
 
@@ -412,22 +423,20 @@ const Perfil = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="perfil-post-card__descricao">
-                    <p alt="Opiniao" className="perfil-post-card__descricao-txt">{post.opinion}</p>
-                    {post.image_adr && (
-                      <img src={post.image_adr} alt="Foto perfil" className="perfil-post-card__descricao-img" onClick={() => setLightboxImage(post.image_adr)} />
-                    )}
-                  </div>
-                  
-                  <div className="perfil-post_remove">
-                  {userIdU === currentUser.id && (
-                    <FaTrash
-                      className="delete-icon"
-                      onClick={() => handleDeleteReview(post.id, post.user_id)}
-                    />
-                  )}
-                </div>
-
+                    <div className="perfil-post-card__descricao">
+                        <p alt="Opiniao" className="perfil-post-card__descricao-txt">{post.opinion}</p>
+                        {post.image_adr && (
+                          <img src={post.image_adr} alt="Foto perfil" className="perfil-post-card__descricao-img" onClick={() => setLightboxImage(post.image_adr)} />
+                        )}
+                    </div>
+                    <div className="perfil-post_remove">
+                        {userIdU === currentUser.id && (
+                            <FaTrash
+                                className="delete-icon"
+                                onClick={() => handleDeleteReview(post.id, post.user_id)}
+                            />
+                        )}
+                    </div>
                 </article>
               ))}
             </div>

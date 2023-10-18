@@ -289,6 +289,15 @@ img.jogo__post-foto-opiniao {
     height: auto;
 }
 
+.jogo__post-remove {
+    position: absolute;
+    /* top: 10px; */
+    right: 21.5%;
+    font-size: 19px; /* Tamanho do ícone */
+    color: #060606ce; /* Cor do ícone de exclusão */
+    cursor: pointer;
+}
+
 img.jogo__post-foto-opiniao {
     max-height: 10rem;
     max-width: 10rem;
@@ -311,12 +320,19 @@ img.jogo__post-foto-opiniao {
     cursor: pointer;
     outline: none;
     margin-top: 15px;
+    width: max-content;
 }
 
-.post-cardheart-icon {
+.post-cardlike-icon {
+    font-size: 26px;
+    transition: color 0.3s;
+    margin-right: 8px;
+}
+
+
+.post-card__heart-icon {
     color: #633f9a2c;
-    font-size: 30px;
-    /* border-radius: #000000; */
+    font-size: 18px;
     transition: color 0.3s;
     margin-right: 8px;
 }
@@ -334,7 +350,8 @@ img.jogo__post-foto-opiniao {
     cursor: pointer;
     padding: 5px 10px;
     transition: background-color 0.3s ease-in-out;
-    border-radius: 50px;
+    border-radius: 5px;
+    height: 40px;
 }
 
 

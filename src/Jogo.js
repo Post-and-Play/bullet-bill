@@ -9,6 +9,8 @@ import { Icon } from '@iconify/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { FaTrash } from 'react-icons/fa';
+
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
 import Lightbox  from './components/LightBox';
 import React, { useRef, useState, useEffect } from 'react';
@@ -103,30 +105,13 @@ const Jogo = () => {
     const handleCheckUserLikes = async (user) => {
         const response = await api.get(`/api/likes/user?id=${user.id}`);
         if (response.status === 200) {
-            await setUserLikes(response.data);
-            return response.data;
-            // console.log(response.data);
+            //console.log(response.data);
+            setUserLikes(response.data);
+            return response.data;        
         } else {
             console.error(response);
+            setUserLikes([]);
             return [];
-        }
-    }
-
-    const getCurrentUser = async () => {
-        let user = await getAuth();
-        if (user) {
-            setCurrentUser(user);
-            if (user) {
-                if (user.id && gameId) {
-                    await handleCheckFavorite(user);       
-                    await handleCheckUserLikes(user);
-                }
-            } else {
-                navigate('/');
-            }
-
-        } else {
-            navigate('/');
         }
     }
 
@@ -203,7 +188,7 @@ const Jogo = () => {
         return coresDasNotas[indice];
     };      
 
-    const getReviews = async (gameId) => {
+    const getReviews = async (gameId, likes) => {
 
         if (!gameId) {
             console.error("gameId não é válido:", gameId);
@@ -216,22 +201,15 @@ const Jogo = () => {
             const response = await api.get(`/api/reviews/game?id=${gameId}`);
            
             if (response.status === 200) {
-                const filteredReviews = response.data //.filter((review) => review.game_id === parseInt(gameId));
+                const filteredReviews = response.data;
                 if (filteredReviews.length > 0) {
 
-                    const mappedReviews = await Promise.all(
-                        filteredReviews.map((review) => {
-
-                            // Verifique se o usuário atual curtiu esta revisão
-                            const userLiked = userLikes.find((a) => { return a.review_id == review.id }) ? true : false;
-
-                            return {
-                                ...review,
-                                userLiked: userLiked,
-                                // Adicione informações sobre se o usuário atual curtiu ou não esta revisão
-                            };
-                        })
-                    );
+                    const mappedReviews = await filteredReviews.map((review) => {
+                        return {
+                            ...review,
+                            userLiked: likes.find((like) => { return like.review_id === review.id }) ? true : false,
+                        };
+                    });
 
                     const totalRating = mappedReviews.reduce((acc, review) => acc + review.grade, 0);
                     const averageRating = totalRating / mappedReviews.length;
@@ -246,32 +224,39 @@ const Jogo = () => {
 
                     console.log(mappedReviews);
 
+                    return mappedReviews;
+
                 } else {
+                    setReviews([]);
                     console.log('Has not reviews');
+                    return [];
                 }
                
             } else {
                 setReviews([]);
                 console.error(response);
+                return [];
             }
 
         } catch (err) {
             setReviews([]);
             console.error(err);
+            return [];
         }
 
     };
 
     const mediaColor = getMediaColor(averageRating);
 
-    const handleLike = async (index) => {
+    const handleLike = async (e, index) => {
+        e.preventDefault();
 
         try {
 
             if (currentUser) {
 
                 //console.log(review);
-                if (index) {
+                if (index >= 0) {
 
                     if (reviews[index].userLiked === true) {
 
@@ -281,8 +266,20 @@ const Jogo = () => {
                         });
 
                         if (response.status === 200) {
-                            reviews[index].userLiked = false;
-                            reviews[index].likes += 1;
+                         
+                            //reviews[index].userLiked = false;
+                            //reviews[index].likes -= 1;
+
+                            setReviews(reviews.map((review, i) => {
+                                if (i === index) {
+                                    review.userLiked = false;
+                                    review.likes -= 1;
+                                }
+                                return { ...review }
+                            }));
+
+                            //console.log(reviews[index]);
+
                         }
 
                     } else {
@@ -294,19 +291,27 @@ const Jogo = () => {
                         });
 
                         if (response.status === 200) {
-                            reviews[index].userLiked = true;
-                            reviews[index].likes -= 1;
+
+                            //reviews[index].userLiked = true;
+                            //reviews[index].likes -= 1;
+
+                            setReviews(reviews.map((review, i) => {
+                                if (i === index) {
+                                    review.userLiked = true;
+                                    review.likes += 1;
+                                }
+                                return { ...review }
+                            }));
+
+                            //console.log(reviews[index]);
                         }
 
                     }
 
-                    setReviews(reviews);
 
                 } else {
                     console.log('indice não encontrado: ' + index);
                 }
-
-               
 
             } else {
 
@@ -414,7 +419,25 @@ const Jogo = () => {
                 setCoverAdr(response.data.cover_adr);
                 setTopAdr(response.data.top_adr);
                 setRating(response.data.rating);
-                setReviews(response.data.reviews);           
+                setReviews(response.data.reviews);   
+
+                let user = await getAuth();
+                if (user) {
+                    setCurrentUser(user);
+                    if (user) {
+                        if (user.id && gameId) {
+                            await handleCheckFavorite(user);
+                            const likes = await handleCheckUserLikes(user);
+                            await getReviews(gameId, likes);   
+                        }
+                    } else {
+                        navigate('/');
+                    }
+
+                } else {
+                    navigate('/');
+                }
+
             }
             else {
                 if (root) {
@@ -451,6 +474,54 @@ const Jogo = () => {
 
     }
 
+    const handleDeleteReview = async (postId, postUserId) => {
+        console.log("postId:", postId);
+        console.log("currentUser:", currentUser.id);
+        console.log("postUserId:", postUserId);
+        if (!postId || !currentUser || !currentUser.id) {
+            console.error("ID da publicação ou ID do usuário não é válido:", postId, currentUser);
+            return;
+        }
+
+
+        if (root) {
+            modals.htmlDialog(
+                root,
+                'Remover essa postagem?',
+                modals.msgboxButtons.yesNo,
+                modals.msgboxIcons.question,
+                'Mensagem!',
+                {
+                    yes: async (evt) => {
+                        // Converta ambos os IDs para números inteiros
+                        const postIdInt = parseInt(postId);
+                        const currentUserID = parseInt(currentUser.id);
+
+                        if (currentUserID === postUserId) {
+                            console.log("Permissão concedida. IDs correspondem.");
+                            try {
+                                await api.delete(`/api/review?id=${postIdInt}`);
+
+                                setReviews((prevReviews) => prevReviews.filter((prevReview) => prevReview.id !== postIdInt));
+                                window.location.reload();
+                                loading.show();
+                                loading.close();
+                            } catch (error) {
+                                console.error('Erro ao deletar a revisão:', error);
+                            }
+                        } else {
+                            console.error("Você não tem permissão para excluir esta revisão.");
+                        }
+                    },
+                    no: (evt) => {
+                        return;
+                    }
+                });
+        }
+
+       
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             // Defina o ID do jogo com base em como você está obtendo o ID do jogo da página atual
@@ -475,12 +546,11 @@ const Jogo = () => {
             }
             
             await setGameId(Number(initialGameId));
-            await getCurrentUser();
             await getCurrentGame();
-            await getReviews(initialGameId);   
 
             // Mova a atualização do estado de genderArray para dentro desta função de efeito
             // após a chamada de getCurrentGame()
+           
             if (genders) {
                 const categories = genders.split(',').map((category) => category.trim());
                 setGenderArray(categories);
@@ -490,10 +560,12 @@ const Jogo = () => {
         }
     
         fetchData();
+
     }, []);
     
     //console.log('genders:', genders);
     //console.log('genderArray:', genderArray);
+   
 
     return (
         <div>
@@ -573,9 +645,17 @@ const Jogo = () => {
                                 <img src={review.photo_adr} alt="Foto perfil" className="jogo__post-foto-user" />
                             </a>
                             <div className="jogo__post-info-user">
-                                <p className="jogo__post-nomeUser">{review.name}</p>
+                                <p className="jogo__post-nomeUser">{review.username}</p>
                                 <div className="jogo__post-nota" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
                                     {review.grade}
+                                </div>
+                                <div class="jogo__post-remove">
+                                    {currentUser && currentUser.id === review.user_id && (
+                                        <FaTrash
+                                            className="delete-icon"
+                                            onClick={() => handleDeleteReview(review.id, review.user_id)} // Use uma função anônima
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -592,10 +672,10 @@ const Jogo = () => {
                             </div>
                         </div>                     
                         <div className="post-cardlike-button-container">
-                            <button className="post-cardlike-button" onClick={() => { handleLike(index) }}>
+                            <button className="post-cardlike-button" onClick={(event) => { handleLike(event, index) }}>
                                 {review.userLiked ? 
-                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardheart-icon filled`} style={{ color: '#4d2c80' }} /> :
-                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardheart-icon filled`} style={{ color: '#ddd' }} />}                          
+                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#795FA1' }} /> :
+                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#ddd' }} />}                          
                                 <span className='post-cardlike-likes'>{review.likes} Curtidas</span>
                             </button>
                         </div>

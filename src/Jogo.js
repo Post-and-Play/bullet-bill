@@ -103,30 +103,13 @@ const Jogo = () => {
     const handleCheckUserLikes = async (user) => {
         const response = await api.get(`/api/likes/user?id=${user.id}`);
         if (response.status === 200) {
-            await setUserLikes(response.data);
-            return response.data;
-            // console.log(response.data);
+            //console.log(response.data);
+            setUserLikes(response.data);
+            return response.data;        
         } else {
             console.error(response);
+            setUserLikes([]);
             return [];
-        }
-    }
-
-    const getCurrentUser = async () => {
-        let user = await getAuth();
-        if (user) {
-            setCurrentUser(user);
-            if (user) {
-                if (user.id && gameId) {
-                    await handleCheckFavorite(user);       
-                    await handleCheckUserLikes(user);
-                }
-            } else {
-                navigate('/');
-            }
-
-        } else {
-            navigate('/');
         }
     }
 
@@ -203,7 +186,7 @@ const Jogo = () => {
         return coresDasNotas[indice];
     };      
 
-    const getReviews = async (gameId) => {
+    const getReviews = async (gameId, likes) => {
 
         if (!gameId) {
             console.error("gameId não é válido:", gameId);
@@ -216,22 +199,15 @@ const Jogo = () => {
             const response = await api.get(`/api/reviews/game?id=${gameId}`);
            
             if (response.status === 200) {
-                const filteredReviews = response.data //.filter((review) => review.game_id === parseInt(gameId));
+                const filteredReviews = response.data;
                 if (filteredReviews.length > 0) {
 
-                    const mappedReviews = await Promise.all(
-                        filteredReviews.map((review) => {
-
-                            // Verifique se o usuário atual curtiu esta revisão
-                            const userLiked = userLikes.find((a) => { return a.review_id == review.id }) ? true : false;
-
-                            return {
-                                ...review,
-                                userLiked: userLiked,
-                                // Adicione informações sobre se o usuário atual curtiu ou não esta revisão
-                            };
-                        })
-                    );
+                    const mappedReviews = await filteredReviews.map((review) => {
+                        return {
+                            ...review,
+                            userLiked: likes.find((like) => { return like.review_id === review.id }) ? true : false,
+                        };
+                    });
 
                     const totalRating = mappedReviews.reduce((acc, review) => acc + review.grade, 0);
                     const averageRating = totalRating / mappedReviews.length;
@@ -246,32 +222,39 @@ const Jogo = () => {
 
                     console.log(mappedReviews);
 
+                    return mappedReviews;
+
                 } else {
+                    setReviews([]);
                     console.log('Has not reviews');
+                    return [];
                 }
                
             } else {
                 setReviews([]);
                 console.error(response);
+                return [];
             }
 
         } catch (err) {
             setReviews([]);
             console.error(err);
+            return [];
         }
 
     };
 
     const mediaColor = getMediaColor(averageRating);
 
-    const handleLike = async (index) => {
+    const handleLike = async (e, index) => {
+        e.preventDefault();
 
         try {
 
             if (currentUser) {
 
                 //console.log(review);
-                if (index) {
+                if (index >= 0) {
 
                     if (reviews[index].userLiked === true) {
 
@@ -281,8 +264,20 @@ const Jogo = () => {
                         });
 
                         if (response.status === 200) {
-                            reviews[index].userLiked = false;
-                            reviews[index].likes += 1;
+                         
+                            //reviews[index].userLiked = false;
+                            //reviews[index].likes -= 1;
+
+                            setReviews(reviews.map((review, i) => {
+                                if (i === index) {
+                                    review.userLiked = false;
+                                    review.likes -= 1;
+                                }
+                                return { ...review }
+                            }));
+
+                            //console.log(reviews[index]);
+
                         }
 
                     } else {
@@ -294,19 +289,27 @@ const Jogo = () => {
                         });
 
                         if (response.status === 200) {
-                            reviews[index].userLiked = true;
-                            reviews[index].likes -= 1;
+
+                            //reviews[index].userLiked = true;
+                            //reviews[index].likes -= 1;
+
+                            setReviews(reviews.map((review, i) => {
+                                if (i === index) {
+                                    review.userLiked = true;
+                                    review.likes += 1;
+                                }
+                                return { ...review }
+                            }));
+
+                            //console.log(reviews[index]);
                         }
 
                     }
 
-                    setReviews(reviews);
 
                 } else {
                     console.log('indice não encontrado: ' + index);
                 }
-
-               
 
             } else {
 
@@ -414,7 +417,25 @@ const Jogo = () => {
                 setCoverAdr(response.data.cover_adr);
                 setTopAdr(response.data.top_adr);
                 setRating(response.data.rating);
-                setReviews(response.data.reviews);           
+                setReviews(response.data.reviews);   
+
+                let user = await getAuth();
+                if (user) {
+                    setCurrentUser(user);
+                    if (user) {
+                        if (user.id && gameId) {
+                            await handleCheckFavorite(user);
+                            const likes = await handleCheckUserLikes(user);
+                            await getReviews(gameId, likes);   
+                        }
+                    } else {
+                        navigate('/');
+                    }
+
+                } else {
+                    navigate('/');
+                }
+
             }
             else {
                 if (root) {
@@ -475,12 +496,11 @@ const Jogo = () => {
             }
             
             await setGameId(Number(initialGameId));
-            await getCurrentUser();
             await getCurrentGame();
-            await getReviews(initialGameId);   
 
             // Mova a atualização do estado de genderArray para dentro desta função de efeito
             // após a chamada de getCurrentGame()
+           
             if (genders) {
                 const categories = genders.split(',').map((category) => category.trim());
                 setGenderArray(categories);
@@ -490,10 +510,12 @@ const Jogo = () => {
         }
     
         fetchData();
+
     }, []);
     
     //console.log('genders:', genders);
     //console.log('genderArray:', genderArray);
+   
 
     return (
         <div>
@@ -592,10 +614,10 @@ const Jogo = () => {
                             </div>
                         </div>                     
                         <div className="post-cardlike-button-container">
-                            <button className="post-cardlike-button" onClick={() => { handleLike(index) }}>
+                            <button className="post-cardlike-button" onClick={(event) => { handleLike(event, index) }}>
                                 {review.userLiked ? 
-                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardheart-icon filled`} style={{ color: '#4d2c80' }} /> :
-                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardheart-icon filled`} style={{ color: '#ddd' }} />}                          
+                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#795FA1' }} /> :
+                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#ddd' }} />}                          
                                 <span className='post-cardlike-likes'>{review.likes} Curtidas</span>
                             </button>
                         </div>

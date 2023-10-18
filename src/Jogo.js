@@ -6,9 +6,11 @@ import Navbar from './components/navbar';
 import PostButton from './components/postButton'
 
 import { Icon } from '@iconify/react';
-import { FontAwesomeIcon, FaTrash } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { FaTrash } from 'react-icons/fa';
+
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
 import Lightbox  from './components/LightBox';
 import React, { useRef, useState, useEffect } from 'react';

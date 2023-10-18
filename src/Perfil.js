@@ -12,7 +12,7 @@ import Navbar from './components/navbar';
 import Lightbox from './components/LightBox';
 import api from './services/Api';
 import { getAuth } from './services/Auth';
-import { FaUserPlus, FaCheck } from 'react-icons/fa';
+import { FaUserPlus, FaCheck, FaTrash } from 'react-icons/fa';
 import { Modals } from './components/Modals';
 
 const Perfil = () => {
@@ -283,6 +283,31 @@ const Perfil = () => {
         }
     };
 
+    const handleDeleteReview = async (userIdU, postUserId) => {
+        if (!currentUser || !currentUser.id) {
+            console.error("ID do usuário não é válido:", currentUser);
+            return;
+        }
+
+        // Converta ambos os IDs para números inteiros
+        const userIdInt = parseInt(userIdU);
+        const currentUserID = parseInt(currentUser.id);
+
+        if (currentUserID === postUserId) {
+            console.log("Permissão concedida. IDs correspondem.");
+            try {
+                await api.delete(`/api/review?id=${userIdInt}`);
+
+                // Atualize o estado `posts` para refletir que a revisão foi removida
+                setPosts((prevPosts) => prevPosts.filter((prevPost) => prevPost.id !== userIdInt));
+            } catch (error) {
+                console.error('Erro ao deletar a revisão:', error);
+            }
+        } else {
+            console.error("Você não tem permissão para excluir esta revisão.");
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             loading.show();
@@ -376,12 +401,20 @@ const Perfil = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="perfil-post-card__descricao">
-                    <p alt="Opiniao" className="perfil-post-card__descricao-txt">{post.opinion}</p>
-                    {post.image_adr && (
-                      <img src={post.image_adr} alt="Foto perfil" className="perfil-post-card__descricao-img" onClick={() => setLightboxImage(post.image_adr)} />
-                    )}
-                  </div>
+                    <div className="perfil-post-card__descricao">
+                        <p alt="Opiniao" className="perfil-post-card__descricao-txt">{post.opinion}</p>
+                        {post.image_adr && (
+                          <img src={post.image_adr} alt="Foto perfil" className="perfil-post-card__descricao-img" onClick={() => setLightboxImage(post.image_adr)} />
+                        )}
+                    </div>
+                    <div className="perfil-post_remove">
+                        {userIdU === currentUser.id && (
+                            <FaTrash
+                                className="delete-icon"
+                                onClick={() => handleDeleteReview(post.id, post.user_id)}
+                            />
+                        )}
+                    </div>
                 </article>
               ))}
             </div>

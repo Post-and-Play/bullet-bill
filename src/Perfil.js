@@ -41,7 +41,7 @@ const Perfil = () => {
     const [discordNick, setDiscordNick] = useState('');
     const [posts, setPosts] = useState([]);
     const [lightboxImage, setLightboxImage] = useState(null);
-
+    const [userIdU, setUserIdU] = useState(initialUserId);
     const [userId, setUserId] = useState(initialUserId);
     const navigate = useNavigate();
     const isPerfilPessoal = userId ? false : true;
@@ -109,6 +109,7 @@ const Perfil = () => {
 
                 }
             } else {
+                setUserIdU(user.id);
                 setUserId(null);
                 setName(user.name);
                 setFollowed(user.followed);

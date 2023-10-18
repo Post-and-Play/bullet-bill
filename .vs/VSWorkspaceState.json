@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\src"
+    ""
   ],
-<<<<<<< HEAD
-=======
-  "SelectedNode": "\\src\\Jogo.js",
->>>>>>> origin/wesley-alteracao
+  "SelectedNode": "\\package-lock.json",
   "PreviewInSolutionExplorer": false
 }

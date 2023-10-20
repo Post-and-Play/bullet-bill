@@ -39,21 +39,28 @@ const ProfileMenu = ({ currentUser }) => {
 
           {menuVisible && (
             <ul className="profile__menu">
-              <li>
-                <Link to="/perfil" className="menu__link">Ver Perfil</Link>
-              </li>
-              <li>
-                <Link to="/indicar-jogo" className="menu__link">Indicar um jogo</Link>
-              </li>
-                      <li onClick={() => {
-                          logout();
-                          if (window.location.pathname.includes('/admin')) {
-                              window.location.assign('/admin');
-                          }
-                          else {
-                              window.location.assign('/');
-                          }
-                      }}>
+                <li>
+                    {window.location.pathname.includes('/admin') ? 
+                        <Link to="/admin/perfil" className="menu__link">Ver Perfil</Link> :
+                        <Link to="/perfil" className="menu__link">Ver Perfil</Link>
+                    }
+                </li>
+             
+                {!window.location.pathname.includes('/admin') ?
+                    <li>
+                        <Link to="/indicar-jogo" className="menu__link">Indicar um jogo</Link>
+                    </li> : <br />
+                }
+            
+                <li onClick={() => {
+                    logout();
+                    if (window.location.pathname.includes('/admin')) {
+                        window.location.assign('/admin');
+                    }
+                    else {
+                        window.location.assign('/');
+                    }
+                }}>
                 <p className="menu__link">Sair</p>
               </li>
             </ul>

@@ -14,6 +14,9 @@ import Favoritos from './Favoritos';
 import Indicar from './Indicar';
 import Admin from './Admin';
 import AdminLogin from './AdminLogin';
+import AdminRecuperarSenha from './AdminRecuperarSenha';
+import AdminRedefinirSenha from './AdminRedefinirSenha';
+import AdminPerfil from './AdminPerfil';
 
 function App() {
   return (
@@ -32,8 +35,10 @@ function App() {
         <Route path="/indicar-jogo" element={<Indicar />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<Admin />} />
+        <Route path="/admin/recuperar-senha" element={<AdminRecuperarSenha />} />
+        <Route path="/admin/redefinir-senha" element={<AdminRedefinirSenha />} />
+        <Route path="/admin/perfil" element={<AdminPerfil />} />
         {/* <Route path="/admin/jogos-indicados" element={<Admin />} /> */}
-
       </Routes>
     </>
   );

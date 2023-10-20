@@ -14,6 +14,13 @@
     flex-direction: column;
 }
 
+.headerForm {
+    width: 100%;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+}
+
 .labelContainer {
     display: flex;
     flex-direction: column;
@@ -35,10 +42,12 @@
 
 .btnEnviar,
 .btnVoltar {
+    height: 50px;
     width: 40%;
     padding: 13px 50px;
     color: #fff;
     text-decoration: none;
+    margin: 10px 0;
 }
 
 .btnEnviar:hover,

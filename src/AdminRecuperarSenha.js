@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { Modals } from './components/Modals';
 import api from './services/Api';
 
-const RecuperarSenha = () => {
+const AdminRecuperarSenha = () => {
 
     const root = document.getElementById('root');
     const modals = new Modals();
@@ -37,7 +37,7 @@ const RecuperarSenha = () => {
         } else {
 
             loading.show()
-            const response = await api.get(`/api/forgot?mail=${emailInput.trim()}`);
+            const response = await api.get(`/api/admins/forgot?mail=${emailInput.trim()}`);
             if (response.status === 200) {
                 console.log(response.data);
 
@@ -51,7 +51,7 @@ const RecuperarSenha = () => {
                         {
                             ok: (evt) => {
                                 loading.close()
-                                navigate("/");
+                                navigate("/admin");
                             }
                         });
                 }
@@ -64,7 +64,7 @@ const RecuperarSenha = () => {
     };
 
     const handleVoltarClick = (e) => {
-        navigate("/");
+        navigate("/admin");
     }
 
     return (
@@ -95,4 +95,4 @@ const RecuperarSenha = () => {
     )
 }
 
-export default RecuperarSenha
+export default AdminRecuperarSenha

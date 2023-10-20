@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { Modals } from './components/Modals';
 import api from './services/Api';
 
-const RedefinirSenha = () => {
+const AdminRedefinirSenha = () => {
 
     const root = document.getElementById('root');
     const modals = new Modals();
@@ -48,7 +48,7 @@ const RedefinirSenha = () => {
             try
             {
                 loading.show();
-                const response = await api.post(`/api/recover?id=${userId}`, {
+                const response = await api.post(`/api/admins/recover?id=${userId}`, {
                     password: senhaInput.trim(),
                     security_key: securityKey
                 });
@@ -64,7 +64,7 @@ const RedefinirSenha = () => {
                             {
                                 ok: (evt) => {
                                     loading.close()
-                                    navigate("/");
+                                    navigate("/admin");
                                 }
                             });
                     }
@@ -79,7 +79,7 @@ const RedefinirSenha = () => {
                             {
                                 ok: (evt) => {
                                     loading.close()
-                                    navigate("/");
+                                    navigate("/admin");
                                 }
                             });
                     }
@@ -96,7 +96,7 @@ const RedefinirSenha = () => {
         const fetchData = async () => {
             try {
                 loading.show();
-                const response = await api.get(`/api/recover?key=${securityKey}`);
+                const response = await api.get(`/api/admins/recover?key=${securityKey}`);
                 if (response.status === 200) {
                     setUserId(response.data.id);
                 } else {
@@ -110,7 +110,7 @@ const RedefinirSenha = () => {
                             {
                                 ok: (evt) => {
                                     loading.close()
-                                    navigate("/");
+                                    navigate("/admin");
                                 }
                             });
                     }
@@ -129,7 +129,7 @@ const RedefinirSenha = () => {
                         {
                             ok: (evt) => {
                                 loading.close()
-                                navigate("/");
+                                navigate("/admin");
                             }
                         });
                 }
@@ -164,4 +164,4 @@ const RedefinirSenha = () => {
     );
 }
 
-export default RedefinirSenha;
+export default AdminRedefinirSenha;

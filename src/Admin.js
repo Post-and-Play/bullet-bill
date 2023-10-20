@@ -83,59 +83,42 @@ const Admin = () => {
 
                 // Certifique-se de que o jogo foi encontrado e possui um `user_id`
                 if (activeGame && activeGame.user_id) {
+                    const approvedData = {
+                        id: activeGame.id,
+                        user_id: activeGame.user_id,
+                        name: nomeInput,
+                        genders: categoriaInput,
+                        description: descricaoInput,
+                        creator: nomeEmpresaInput,
+                        is_free: isFree,
+                        approved: true,
+                        top_adr: selectedProfileImage,
+                        cover_adr: selectedBannerImage
+                    };
 
-                    //const approvedData = {
-                    //    id: activeGame.id,
-                    //    user_id: activeGame.user_id,
-                    //    name: nomeInput,
-                    //    genders: categoriaInput,
-                    //    description: descricaoInput,
-                    //    creator: nomeEmpresaInput,
-                    //    is_free: isFree,
-                    //    approved: true,
-                    //    top_adr: selectedProfileImage,
-                    //    cover_adr: selectedBannerImage
-                    //};
+                    // Enviar `approvedData` como corpo da solicitação PUT
+                    await api.delete(`/api/recommendeds?id=${activeItem}`);
 
                     // Passo 2: Criar uma nova linha na tabela 'games'
                     const newGameData = {
                         name: nomeInput,
                         genders: categoriaInput,
                         description: descricaoInput,
-                        cover_adr: selectedProfileImage, // Deve ser um valor vazio, como você mencionou
+                        cover_adr: selectedBannerImage, // Deve ser um valor vazio, como você mencionou
                         top_adr: selectedBannerImage, // Deve ser um valor vazio, como você mencionou
                         rating: 0,
                         reviews: 0,
                     };
 
-                   const response = await api.post('/api/games', newGameData);
+                    await api.post('/api/games', newGameData);
 
-                   if (response.status === 200) {
+                    // Limpar os campos
+                    limparCampos();
 
-
-                        // Limpar os campos
-                        limparCampos();
-
-                        // Atualizar a lista de jogos após a aprovação
-                       await getIndicatedGames();
-
-                       if (root) {
-                           modals.htmlDialog(
-                               root,
-                               'Jogo aprovado!',
-                               modals.msgboxButtons.okOnly,
-                               modals.msgboxIcons.check,
-                               'Mensagem!',
-                               {
-                                   ok: async (evt) => {
-                                       await api.delete(`/api/recommendeds?id=${activeItem}`);
-                                   }
-                               });
-                       }
-
-                    }
+                    // Atualizar a lista de jogos após a aprovação
+                    await getIndicatedGames();
+                    loading.close();
                 }
-                loading.close();
             } catch (error) {
                 console.error('Erro ao aprovar o jogo indicado:', error);
                 loading.close();

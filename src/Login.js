@@ -135,6 +135,10 @@ const Login = () => {
                             <button to="/home" className='botao btnEntrar btnPrincipal' type="button" onClick={handleButtonClick}>Entrar</button>
                             <div className="esqueciSenha_Container">
                                 <Link to="/recuperar-senha" className='esqueciSenha'>Esqueci a minha senha</Link>
+                                <Link to="/admin" className='admin'>Sou Administador</Link>
+                            </div>
+                            <div className="admin_Container">
+                                
                             </div>
                             <div className="row naoPossuiLogin">
                                 <p>Não possui login?</p>

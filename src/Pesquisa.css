@@ -11,11 +11,14 @@
     text-decoration: none;
     color: black;
     cursor: pointer;
+    background-color: transparent;
+    transition: filter 0.2s ease-in;
 }
 
 .pesquisa__jogo-link:hover {
-  color: black;
-  filter: brightness(0.7);
+  
+  filter: brightness(0.65);
+  
 }
 
 .pesquisa__jogo {
@@ -24,7 +27,7 @@
   display: flex;
   flex-direction: column;
   margin: 40px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  
 }
 
 .pesquisa__jogo-foto {
@@ -32,6 +35,8 @@
   height: 380px;
   object-fit: cover;
   pointer-events: none;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
 }
 
 .pesquisa__jogo-info-container {
@@ -43,7 +48,11 @@
 }
 
 .pesquisa__jogo-titulo {
+  font-weight: bold;
+  color: #060606c5;
   margin-bottom: 8px;
+  display:flex;
+  justify-content: left;
 }
 
 .pesquisa__categoria-container {

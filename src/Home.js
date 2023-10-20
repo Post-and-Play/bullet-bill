@@ -96,7 +96,7 @@ const Home = () => {
 
                     setReviews(mappedReviews);
 
-                    //console.log(mappedReviews);
+                    console.log(mappedReviews);
 
                     return mappedReviews;
 
@@ -121,10 +121,7 @@ const Home = () => {
     };
 
     const handleLike = async (e, index) => {
-
-        const loadingElm = await new modals.htmlLoadingElment(e.target);
-        await loadingElm.show();
-        await setTimeout(() => { }, 3000);
+        e.preventDefault();
 
         try {
 
@@ -141,6 +138,10 @@ const Home = () => {
                         });
 
                         if (response.status === 200) {
+
+                            //reviews[index].userLiked = false;
+                            //reviews[index].likes -= 1;
+
                             setReviews(reviews.map((review, i) => {
                                 if (i === index) {
                                     review.userLiked = false;
@@ -148,6 +149,9 @@ const Home = () => {
                                 }
                                 return { ...review }
                             }));
+
+                            //console.log(reviews[index]);
+
                         }
 
                     } else {
@@ -159,6 +163,10 @@ const Home = () => {
                         });
 
                         if (response.status === 200) {
+
+                            //reviews[index].userLiked = true;
+                            //reviews[index].likes -= 1;
+
                             setReviews(reviews.map((review, i) => {
                                 if (i === index) {
                                     review.userLiked = true;
@@ -166,6 +174,8 @@ const Home = () => {
                                 }
                                 return { ...review }
                             }));
+
+                            //console.log(reviews[index]);
                         }
 
                     }
@@ -196,8 +206,6 @@ const Home = () => {
         } catch (error) {
             console.error(`Erro ao curtir o post ${reviews[index].id}:`, error);
         }
-
-        await loadingElm.close();
     };
 
     const getCurrentUser = async () => {
@@ -354,12 +362,13 @@ const Home = () => {
                         <div className="card-post" key={review.id}>
                             <div className="container__foto-content">
                                 <div className="card-post__foto-container">
-                                    <a href={`perfil?id=${review.user_id}`}>
+                                <a href={review.user_id == currentUser.id ? '/perfil' : `/perfil?id=${review.user_id}`}>
                                         <img src={review.photo_adr} alt="Foto perfil" className="card-post__foto" />
                                     </a>
                                 </div>
                                 <div className="card-post__content-container">
-                                    <span className="card-post__user card-post__content">{review.name}</span>
+                                <a href={review.user_id == currentUser.id ? '/perfil' : `/perfil?id=${review.user_id}`} className='card-post__user card-post__content"'>{review.name}</a>
+                                    
                                     <a href={`jogo?id=${review.game_id}`} className="card-post__game card-post__content">{review.game_name}</a>
                                     <div className="card-post__nota card-post__content" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
                                         {review.grade}
@@ -384,8 +393,8 @@ const Home = () => {
                                 {/*    className={`post-card__heart-icon ${liked ? 'filled' : ''}`}*/}
                                 {/*/>*/}
                                 {review.userLiked ?
-                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: 'greenyellow' }} /> :
-                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#ddd' }} />}
+                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#fff' }} /> :
+                                    <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#5E4485' }} />}
                                 <span className='post-cardlike-likes'>{review.likes} Curtidas</span>
                             </button>
                         </div>

@@ -645,7 +645,8 @@ const Jogo = () => {
                                 <img src={review.photo_adr} alt="Foto perfil" className="jogo__post-foto-user" />
                             </a>
                             <div className="jogo__post-info-user">
-                                <p className="jogo__post-nomeUser">{review.username}</p>
+                                <p className="jogo__post-nomeUser">{review.name}</p>
+                                {console.log(review)}
                                 <div className="jogo__post-nota" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
                                     {review.grade}
                                 </div>

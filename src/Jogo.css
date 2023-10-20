@@ -85,6 +85,7 @@
     color: #fff;
     font-weight: bold;
     margin-left: 15px;
+    text-shadow: 0px 0px 3px black;
 }
 
 .jogo__categoria-container {
@@ -100,6 +101,12 @@
     margin-right: 10px;
     margin-bottom: 15px;
     cursor: pointer;
+    
+}
+
+.pesquisa__categoria{
+    font-weight: bold;
+    color: #04030382;
 }
 
 .jogo__rank-container {
@@ -128,9 +135,21 @@
     color: rgba(34, 31, 31, 1);
 }
 
+.jogo__rank-ranking{
+    font-weight: bold;
+    color: #633F9A;
+    text-shadow: 
+               -1px -1px 0px #9675c7, 
+               -1px 1px 0px #9675c7,                    
+                1px -1px 0px #9675c7,                  
+                1px 0px 0px #9675c7;
+}
+
 .jogo__sinopse-texto {
     flex-grow: 1;
     text-align: center;
+    font-weight: bold;
+    color: #060606ac;
 }
 
 .quoteIcon-right {
@@ -227,6 +246,8 @@
 .jogo__post-info-user {
     display: flex;
     flex-direction: column;
+    font-weight: bold;
+    color: #060606d3;
 }
 
 .jogo__post-nomeUser {

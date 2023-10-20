@@ -113,6 +113,22 @@
     display: inline-block;
 }
 
+.admin_Container{
+    width: 0%;
+    display: inline-block;
+}
+.voltarLogin{ 
+    float: left;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+}
+.admin{
+    float: left;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+}
 .esqueciSenha {
     float: right;
     color: #fff;

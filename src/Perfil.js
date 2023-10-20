@@ -18,13 +18,13 @@ import { Modals } from './components/Modals';
 
 const Perfil = () => {
 
-    const root = document.getElementById('root');
-    const modals = new Modals();
-    const loading = new modals.htmlLoading(root);
+      const root = document.getElementById('root');
+      const modals = new Modals();
+      const loading = new modals.htmlLoading(root);
 
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
-    const initialUserId = params.get('id');
+      const search = window.location.search;
+      const params = new URLSearchParams(search);
+      const initialUserId = params.get('id');
 
     const [currentUser, setCurrentUser] = useState();
     const [following, setFollowing] = useState();
@@ -42,42 +42,43 @@ const Perfil = () => {
     const [discordNick, setDiscordNick] = useState('');
     const [posts, setPosts] = useState([]);
     const [lightboxImage, setLightboxImage] = useState(null);
-    const [userIdU, setUserIdU] = useState(initialUserId);
+    const [userIdU, setUserIdU] = useState(initialUserId); //you
     const [userId, setUserId] = useState(initialUserId);
     const navigate = useNavigate();
     const isPerfilPessoal = userId ? false : true;
+    const [followingCount, setFollowingCount] = useState();
 
-    const handleCheckFollowing = async (user, userid) => {
-        try {
-            if (!user.id || !userid) {
-            console.error('IDs de usuário inválidos');
-            return;
-        }
+      const handleCheckFollowing = async (user, userid) => {
+         try {
+             if (!user.id || !userId) {
+                console.error('IDs de usuário inválidos');
+                return;
+           }
 
-        // Verifique se o `userId` não é o mesmo que o `currentUser.id`
-            if (user.id === userid) {
-            console.error('Você não pode verificar se segue a si mesmo.');
-            return;
-        }
+           // Verifique se o `userId` não é o mesmo que o `currentUser.id`
+             if (user.id === userId) {
+               console.error('Você não pode verificar se segue a si mesmo.');
+                return;
+           }
 
-        // Envie uma solicitação à API para verificar se o usuário atual segue o usuário da página atual
-            const response = await api.get(`/api/follow?following_user_id=${user.id}&followed_user_id=${userid}`);
+           // Envie uma solicitação à API para verificar se o usuário atual segue o usuário da página atual
+             const response = await api.get(`/api/follow?following_user_id=${user.id}&followed_user_id=${userid}`);
 
-        if (response.data.id) {
-                // O usuário atual já segue o usuário da página atual
-                setFollowingId(response.data.id);
-                setFollowing(true);
-        } else {
-                // O usuário atual não segue o usuário da página atual
-                setFollowing(false);
-        }
-        } catch (error) {
-            console.error('Erro ao verificar se o usuário segue:', error);
-            setFollowing(false);
-        }
-    };
+           if (response.data.id) {
+                 // O usuário atual já segue o usuário da página atual
+                 setFollowingId(response.data.id);
+                 setFollowing(true);
+           } else {
+                 // O usuário atual não segue o usuário da página atual
+                 setFollowing(false);
+           }
+         } catch (error) {
+             console.error('Erro ao verificar se o usuário segue:', error);
+             setFollowing(false);
+         }
+       };
 
-    const getCurrentUser = async () => {
+      const getCurrentUser = async () => {
         let user = await getAuth();
         if (user) {
 
@@ -90,11 +91,11 @@ const Perfil = () => {
                     setFollowed(userPerfil.followed);
                     setFollowing(userPerfil.following);
                     setDescription(userPerfil.description);
-                    setTwitchNick(userPerfil.twitch_userPerfil);
-                    setDiscordNick(userPerfil.discord_userPerfil);
-                    setEpicGamesNick(userPerfil.epic_userPerfil);
-                    setSteamNick(userPerfil.steam_userPerfil);
-                    setGithubNick(userPerfil.github_userPerfil);
+                    setTwitchNick(userPerfil.twitch_user);
+                    setDiscordNick(userPerfil.discord_user);
+                    setEpicGamesNick(userPerfil.epic_user);
+                    setSteamNick(userPerfil.steam_user);
+                    setGithubNick(userPerfil.github_user);
                     setProfileImage(userPerfil.photo_adr);
                     setBannerImage(userPerfil.top_adr);
                     await getPosts(userPerfil.id);
@@ -126,13 +127,13 @@ const Perfil = () => {
                 await getPosts(user.id);
             }
 
-        } else {
-            navigate('/home');
-        }
+          } else {
+              navigate('/home');
+          }
 
-    };
+        };
 
-    const getUserData = async () => {
+      const getUserData = async () => {
         try {
             const response = await api.get(`/api/users?id=${userId}`);
             if (response.data.id) {
@@ -143,31 +144,31 @@ const Perfil = () => {
             console.log(err.message);
             return null
         }
-    }
+      }
 
-    const coresDasNotas = [
-        "#A70000",
-        "#AF1C00",
-        "#B83500",
-        "#C04D00",
-        "#C86500",
-        "#D07C00",
-        "#D89400",
-        "#E0AB00",
-        "#E8C300",
-        "#F0DA00",
-        "#F9F200",
-        "#FFFC00",
-        "#FFFC00",
-        "#C4FA00",
-        "#C4FA00",
-        "#88F800",
-        "#6AE700",
-        "#4CE600",
-        "#2EE500",
-        "#10D400",
-        "#0094DC"
-    ];
+      const coresDasNotas = [
+            "#A70000",
+            "#AF1C00",
+            "#B83500",
+            "#C04D00",
+            "#C86500",
+            "#D07C00",
+            "#D89400",
+            "#E0AB00",
+            "#E8C300",
+            "#F0DA00",
+            "#F9F200",
+            "#FFFC00",
+            "#FFFC00",
+            "#C4FA00",
+            "#C4FA00",
+            "#88F800",
+            "#6AE700",
+            "#4CE600",
+            "#2EE500",
+            "#10D400",
+            "#0094DC"
+        ];
 
     const getCoresDasNotas = (nota) => {
         // Calcula o índice arredondado com base na nota
@@ -185,7 +186,7 @@ const Perfil = () => {
             }
 
             // Verifique se o `userId` não é o mesmo que o `currentUser.id`
-            if (currentUser.id === userId) {
+            if (currentUser.id == userId) {
                 console.error('Você não pode seguir a si mesmo.');
                 return;
             }
@@ -226,9 +227,10 @@ const Perfil = () => {
                 console.error('IDs de usuário inválidos');
                 return;
             }
+            console.log(userId, currentUser.id)
 
             // Verifique se o `userId` não é o mesmo que o `currentUser.id`
-            if (currentUser.id === userId) {
+            if (currentUser.id == userId) {
                 console.error('Você não pode deixar de seguir a si mesmo.');
                 return;
             }
@@ -236,19 +238,38 @@ const Perfil = () => {
             // Execute a solicitação DELETE à API para deixar de seguir o usuário
             const response = await api.delete(`/api/follow?id=${followingId}`);
 
+            console.log(followingId)
             if (response.data.OK) {
                 // A ação de deixar de seguir foi bem-sucedida.
                 // Atualize o estado `following` para refletir que o usuário não está mais seguindo.
                 setFollowing(false);
                 await getCurrentUser();
             } else {
-                console.error('Falha ao deixar de seguir o usuário:', response.data.message);
+              window.location.reload()
+                // console.error('Falha ao deixar de seguir o usuário:', response.data.message);
+                
             }
         } catch (error) {
             console.error('Erro ao deixar de seguir o usuário:', error);
+            window.location.reload()
         }
     };
 
+    // Função para obter o número de seguidores
+    const getFollowingCount = async () => {
+      try {
+          if (userId) {
+              const response = await api.get(`/api/users?id=${userId}`);
+              if (response.data.id) {
+                  setFollowingCount(response.data.following);
+              } else {
+                  setFollowingCount(0);
+              }
+          }
+      } catch (error) {
+          console.error('Erro ao obter o número de seguidores:', error);
+      }
+  };
     const getPosts = async (userId) => {
         try {
             console.log("userId in getReviews:", userId);
@@ -262,8 +283,7 @@ const Perfil = () => {
                 filteredPosts.map(async (post) => {
                 const userResponse = await api.get(`/api/users?id=${post.user_id}`);
                 const gameResponse = await api.get(`/api/games?id=${post.game_id}`);
-                console.log(userResponse);
-                console.log(gameResponse);
+              
                 return {
                     ...post,
                     userPhoto: userResponse.data.photo_adr,
@@ -329,16 +349,18 @@ const Perfil = () => {
        
     };
     
+
     useEffect(() => {
         const fetchData = async () => {
             loading.show();
             await getCurrentUser();
+            await getFollowingCount()
             loading.close();
         };
         fetchData();
     }, []);
 
-    return (
+      return (
         <div className="perfil__page-container">
           <Navbar currentUser={currentUser} />
           <header className="perfil-banner__container">
@@ -364,7 +386,8 @@ const Perfil = () => {
                 </div>
                 <div className="perfil-info__follow-container">
                   <p className="perfil-info__folllow">{followed} seguidores</p>
-                  <p className="perfil-info__folllow">{following} seguindo</p>
+                  <p className="perfil-info__folllow">{followingCount} seguindo</p>
+                  {console.log(followingCount)}
                 </div>
               </section>
               <section className="perfil-info__info-container">
@@ -448,7 +471,7 @@ const Perfil = () => {
           )}
           <PostButton currentUser={currentUser} />
         </div>
-    );
+      );
 };
 
 export default Perfil;

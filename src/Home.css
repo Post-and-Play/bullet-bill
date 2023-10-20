@@ -105,6 +105,9 @@
 
 .card-post__user {
     font-size: 20px;
+    text-decoration: none;
+    color:white;
+    
 }
 
 .card-post__game {

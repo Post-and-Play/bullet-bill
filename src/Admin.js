@@ -9,8 +9,6 @@ import { Modals } from './components/Modals';
 import { Icon } from '@iconify/react';
 
 const Admin = () => {
-    // Defina um estado para rastrear a opção selecionada
-
     const root = document.getElementById('root');
     const modals = new Modals();
     const loading = new modals.htmlLoading(root);
@@ -25,17 +23,16 @@ const Admin = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [activeItem, setActiveItem] = useState(null);
     const [jogos, setJogos] = useState([]);
+    const [filteredJogos, setFilteredJogos] = useState([]);
     const [users, setUsers] = useState([]);
     const [admins, setAdmins] = useState({});
-    // const adminsArray = Object.values(admins);
-    const [isFree, setIsFree] = useState(false); // Defina o valor inicial como false
-    const [isAdmin, setIsAdmin] = useState(false); // Defina o valor inicial como false
+    const [isFree, setIsFree] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [selectedProfileImage, setSelectedProfileImage] = useState(null);
     const [selectedBannerImage, setSelectedBannerImage] = useState(null);
     const [isChecked, setIsChecked] = useState(false);
     const [camposObrigatoriosPopup, setCamposObrigatoriosPopup] = useState(false);
-
-
+    const [searchTimeout, setSearchTimeout] = useState(null);
 
     const navigate = useNavigate();
 
@@ -48,21 +45,39 @@ const Admin = () => {
         }
     }
 
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
+    const handleSearchAdminChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        filterAdmins(value);
+    };
+
+    const handleSearchUsersChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        filterAllUsers(value);
+    };
+
+    const handleSearchGamesChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        filterJogos(value);
+    };
+
+    const handleSearchRecommendGamesChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        filterJogosRecomendados(value);
     };
 
     const handleDeclineClick = async (e) => {
         if (activeItem) {
             try {
                 loading.show();
-                // Fazer uma solicitação DELETE para excluir o jogo indicado com base no ID
                 await api.delete(`/api/recommendeds?id=${activeItem}`);
 
                 limparCampos()
 
-                // Atualizar a lista de jogos após a exclusão
-                await getIndicatedGames();
+                await filterJogosRecomendados('');
                 loading.close();
             } catch (error) {
                 console.error('Erro ao reprovar o jogo indicado:', error);
@@ -76,12 +91,8 @@ const Admin = () => {
             try {
                 loading.show();
 
-                // Obtenha o jogo ativo
                 const activeGame = jogos.find((jogo) => jogo.id === activeItem);
 
-                console.log("activeGame: ", activeGame)
-
-                // Certifique-se de que o jogo foi encontrado e possui um `user_id`
                 if (activeGame && activeGame.user_id) {
                     const approvedData = {
                         id: activeGame.id,
@@ -96,27 +107,23 @@ const Admin = () => {
                         cover_adr: selectedBannerImage
                     };
 
-                    // Enviar `approvedData` como corpo da solicitação PUT
                     await api.delete(`/api/recommendeds?id=${activeItem}`);
 
-                    // Passo 2: Criar uma nova linha na tabela 'games'
                     const newGameData = {
                         name: nomeInput,
                         genders: categoriaInput,
                         description: descricaoInput,
-                        cover_adr: selectedBannerImage, // Deve ser um valor vazio, como você mencionou
-                        top_adr: selectedBannerImage, // Deve ser um valor vazio, como você mencionou
+                        cover_adr: selectedBannerImage,
+                        top_adr: selectedBannerImage,
                         rating: 0,
                         reviews: 0,
                     };
 
                     await api.post('/api/games', newGameData);
 
-                    // Limpar os campos
                     limparCampos();
 
-                    // Atualizar a lista de jogos após a aprovação
-                    await getIndicatedGames();
+                    await filterJogosRecomendados('');
                     loading.close();
                 }
             } catch (error) {
@@ -130,13 +137,11 @@ const Admin = () => {
         if (activeItem) {
             try {
                 loading.show();
-                // Fazer uma solicitação DELETE para excluir o jogo indicado com base no ID
                 await api.delete(`/api/users?id=${activeItem}`);
 
-                limparCampos()
+                await filterAllUsers('');
 
-                // Atualizar a lista de jogos após a exclusão
-                await getAllUsers();
+                limparCampos()
                 loading.close();
             } catch (error) {
                 console.error('Erro ao reprovar o jogo indicado:', error);
@@ -149,97 +154,156 @@ const Admin = () => {
         limparCampos();
     }
 
-
     const handleOpcaoSelecionada = async (opcao) => {
         setOpcaoSelecionada(opcao);
         limparCampos()
         if (opcao === 'jogos-indicados') {
-            await getIndicatedGames();
+            await filterJogosRecomendados(searchTerm);
         }
         if (opcao === 'editar-jogo') {
-            await getAllGames();
+            await filterJogos(searchTerm);
+        }
+        if (opcao === 'deletar-jogo') {
+            await filterJogos(searchTerm);
         }
         if (opcao === 'add-adm') {
-            await getAllUsers();
+            await filterUsers(searchTerm);
         }
         if (opcao === 'editar-adm') {
-            await getAllAdmins();
+            await filterAdmins(searchTerm);
         }
         if (opcao === 'deletar-user') {
-            await getAllUsers();
+            await filterAllUsers(searchTerm);
         }
     };
 
-    const getIndicatedGames = async () => {
+    const filterJogosRecomendados = async (searchTerm) => {
         try {
-            loading.show();
-            const response = await api.get('/api/recommendeds/search');
-            // console.log("api getIndicatedGames:", response.data[].approved === false);
-            if (response.data) {
-                setJogos(response.data);
+            let response;
+
+            if (searchTerm !== '') {
+                const regex = new RegExp(`^${searchTerm}`, 'i');
+
+                response = await api.get(`/api/recommendeds/search`);
+
+                const filteredData = response.data.filter((jogo) => regex.test(jogo.name));
+                setJogos(filteredData);
             } else {
-                setJogos([]);
+                response = await api.get('/api/recommendeds/search');
+
+                const filteredData = response.data;
+                setJogos(filteredData);
             }
-            loading.close();
         } catch (error) {
             console.error('Erro ao buscar jogos indicados:', error);
-            setJogos([]);
-            loading.close();
         }
     };
 
-    const getAllGames = async () => {
+    const filterJogos = async (searchTerm) => {
         try {
-            loading.show();
-            const response = await api.get('/api/games/search');
-            if (response.data) {
-                console.log("api getAllGames:", response.data)
-                setJogos(response.data);
-            } else {
-                setJogos([]); // Certifique-se de que 'setJogos' seja chamado em caso de resposta vazia
-            }
-            loading.close();
-        } catch (error) {
-            console.error('Erro ao buscar todos os jogos:', error);
-            setJogos([]); // Trate o erro definindo 'jogos' como um array vazio ou outra ação apropriada.
-            loading.close();
-        }
-    }
+            let response;
 
-    const getAllUsers = async () => {
-        try {
-            loading.show();
-            const response = await api.get('/api/users/list');
-            if (response.data) {
-                console.log("api getAllUsers:", response.data)
-                setUsers(response.data);
-            } else {
-                setUsers([]); // Certifique-se de que 'setJogos' seja chamado em caso de resposta vazia
-            }
-            loading.close();
-        } catch (error) {
-            console.error('Erro ao buscar todos os jogos:', error);
-            setUsers([]); // Trate o erro definindo 'jogos' como um array vazio ou outra ação apropriada.
-            loading.close();
-        }
-    }
+            if (searchTerm !== '') {
+                const regex = new RegExp(`^${searchTerm}`, 'i');
 
-    const getAllAdmins = async () => {
-        try {
-            loading.show();
-            const response = await api.get('/api/admins');
-            if (response.data) {
-                setAdmins(response.data);
+                response = await api.get('/api/games/search');
+
+                const filteredData = response.data.filter((jogo) => regex.test(jogo.name));
+                setJogos(filteredData);
             } else {
-                setAdmins({}); // Certifique-se de que 'setJogos' seja chamado em caso de resposta vazia
+                response = await api.get('/api/games/search');
+
+                const filteredData = response.data;
+                setJogos(filteredData);
             }
-            loading.close();
         } catch (error) {
-            console.error('Erro ao buscar todos os jogos:', error);
-            setAdmins({}); // Trate o erro definindo 'jogos' como um array vazio ou outra ação apropriada.
-            loading.close();
+            console.error('Erro ao buscar jogos indicados:', error);
         }
-    }
+    };
+
+    const filterUsers = async () => {
+        try {
+            if (searchTerm) {
+                const regex = new RegExp(`^${searchTerm}`, 'i');
+
+                const usersResponse = await api.get(`/api/users/list`);
+                const adminsResponse = await api.get(`/api/admins/list`);
+
+                if (usersResponse.data && adminsResponse.data) {
+                    const adminEmails = new Set(adminsResponse.data.map(admin => admin.mail));
+
+                    const filteredUsers = usersResponse.data.filter(user => {
+                        return !adminEmails.has(user.mail) && regex.test(user.name);
+                    });
+
+                    setUsers(filteredUsers);
+                } else {
+                    setUsers([]);
+                }
+            } else {
+                const usersResponse = await api.get(`/api/users/list`);
+                const adminsResponse = await api.get(`/api/admins/list`);
+
+                if (usersResponse.data && adminsResponse.data) {
+                    const adminEmails = new Set(adminsResponse.data.map(admin => admin.mail));
+
+                    const filteredUsers = usersResponse.data.filter(user => {
+                        return !adminEmails.has(user.mail);
+                    });
+
+                    setUsers(filteredUsers);
+                } else {
+                    setUsers([]);
+                }
+            }
+        } catch (error) {
+            console.error('Erro ao buscar usuários:', error);
+        }
+    };
+
+    const filterAllUsers = async (searchTerm) => {
+        try {
+            let response;
+
+            if (searchTerm !== '') {
+                const regex = new RegExp(`^${searchTerm}`, 'i');
+
+                response = await api.get(`/api/users/list`);
+
+                const filteredData = response.data.filter((user) => regex.test(user.name));
+                setUsers(filteredData);
+            } else {
+                response = await api.get('/api/users/list');
+
+                const filteredData = response.data;
+                setUsers(filteredData);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar jogos indicados:', error);
+        }
+    };
+
+    const filterAdmins = async (searchTerm) => {
+        try {
+            let response;
+
+            if (searchTerm !== '') {
+                const regex = new RegExp(`^${searchTerm}`, 'i');
+
+                response = await api.get(`/api/admins/list`);
+
+                const filteredData = response.data.filter((admin) => regex.test(admin.name));
+                setAdmins(filteredData);
+            } else {
+                response = await api.get('/api/admins/list');
+
+                const filteredData = response.data;
+                setAdmins(filteredData);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar admins:', error);
+        }
+    };
 
     const handleInputChange = (event, setInput) => {
         setInput(event.target.value);
@@ -256,14 +320,36 @@ const Admin = () => {
         setSelectedBannerImage(jogo.cover_adr);
     };
 
-    const handleUserClick = (user) => {
+    const handleUserClick = async (user) => {
         setActiveItem(user.id);
         setNomeInput(user.name);
         setNickNameInput(user.user_name);
+
+        try {
+            loading.show();
+
+            const responseUser = await api.get(`/api/users?email=${user.mail}`);
+
+            const responseAdmin = await api.get(`/api/admins?email=${user.mail}`);
+
+            console.log("responseUser: ", responseUser);
+            console.log("responseAdmin: ", responseAdmin);
+
+            const isUser = responseUser.data.length > 0;
+            const isAdmin = responseAdmin.data.length > 0;
+
+            setIsAdmin(isUser && isAdmin);
+
+            loading.close();
+        } catch (error) {
+            console.error('Erro ao verificar o email:', error);
+            loading.close();
+        }
     };
 
     const handleAdminClick = (admin) => {
         setActiveItem(admin.id);
+        setNomeInput(admin.name);
         setNickNameInput(admin.name);
     };
 
@@ -277,38 +363,36 @@ const Admin = () => {
         setIsChecked(false);
         setSelectedBannerImage('');
         setSelectedProfileImage('');
+        setSearchTerm('');
     };
 
     const handleProfileImageChange = (e) => {
-        const file = e.target.files[0]; // Obtenha o arquivo selecionado
+        const file = e.target.files[0];
 
         if (file) {
             const reader = new FileReader();
 
             reader.onloadend = () => {
-                // Quando a leitura estiver concluída, o resultado será armazenado em event.target.result
                 const base64String = reader.result;
-                setSelectedProfileImage(base64String); // Define a imagem de perfil no estado
+                setSelectedProfileImage(base64String);
             };
 
-            reader.readAsDataURL(file); // Inicie a leitura do arquivo como base64
+            reader.readAsDataURL(file);
         }
     };
 
 
     const handleBannerImageChange = (e) => {
-        const file = e.target.files[0]; // Obtenha o arquivo selecionado
-
+        const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
 
             reader.onloadend = () => {
-                // Quando a leitura estiver concluída, o resultado será armazenado em event.target.result
                 const base64String = reader.result;
-                setSelectedBannerImage(base64String); // Define a imagem de capa no estado
+                setSelectedBannerImage(base64String);
             };
 
-            reader.readAsDataURL(file); // Inicie a leitura do arquivo como base64
+            reader.readAsDataURL(file);
         }
     };
 
@@ -346,10 +430,8 @@ const Admin = () => {
 
         try {
             loading.show();
-            // Enviar os dados para a API
             const response = await api.post(`/api/games`, postData);
             if (response.data.id) {
-                // Postagem bem-sucedida
                 if (root) {
                     modals.htmlDialog(
                         root,
@@ -359,12 +441,11 @@ const Admin = () => {
                         'Mensagem!',
                         {
                             ok: (evt) => {
-                                navigate('/home');
+                                window.location.reload();
                             }
                         });
                 }
             } else {
-                // Lidar com erros de postagem
                 if (root) {
                     modals.htmlDialog(
                         root,
@@ -384,6 +465,138 @@ const Admin = () => {
             console.error('Erro ao indicar:', err);
         }
     };
+
+    const handleDeleteGameClick = async (e) => {
+        if (activeItem) {
+            try {
+                loading.show();
+                await api.delete(`/api/games?id=${activeItem}`);
+
+                limparCampos()
+
+                await filterJogos('');
+                loading.close();
+            } catch (error) {
+                console.error('Erro ao reprovar o jogo indicado:', error);
+                loading.close();
+            }
+        }
+    }
+
+    const handleEditGameClick = async () => {
+        if (activeItem) {
+            try {
+                if (!selectedProfileImage || !selectedBannerImage) {
+                    console.error('Por favor, selecione tanto uma foto de perfil quanto uma foto de capa.');
+                    return;
+                }
+
+                loading.show();
+
+                const responseGet = await api.get(`/api/games?id=${activeItem}`);
+                if (responseGet.data) {
+                    const gameData = responseGet.data;
+                    const reviews = gameData.reviews;
+                    const rating = gameData.rating;
+
+                    const dadosAtualizados = {
+                        name: nomeInput,
+                        genders: categoriaInput,
+                        description: descricaoInput,
+                        // is_free: isFree,
+                        cover_adr: selectedBannerImage,
+                        top_adr: selectedProfileImage,
+                        reviews: reviews,
+                        rating: rating,
+                    };
+
+                    const response = await api.put(`/api/games?id=${activeItem}`, dadosAtualizados);
+
+                    if (response.data.success) {
+                        console.log("Informações atualizadas com sucesso!");
+                    } else {
+                        console.error('Erro na atualização das informações:', response.data.error);
+                    }
+
+                    limparCampos();
+                    loading.close();
+                    setJogos(filterJogos(''));
+                } else {
+                    console.error('Erro ao obter os valores atuais de "reviews" e "rating" do banco de dados');
+                    loading.close();
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar as informações:', error);
+                loading.close();
+            }
+        }
+    };
+
+
+    const handleAddAdminClick = async (e) => {
+        e.preventDefault();
+
+        try {
+            loading.show();
+
+            const responseUser = await api.get(`/api/users?id=${activeItem}`);
+
+            console.log(responseUser)
+
+            if (responseUser.data) {
+                const userData = responseUser.data;
+
+                const password = userData.password;
+                const mail = userData.mail;
+                const photo_adr = userData.photo_adr;
+
+                const novoAdmin = {
+                    name: nomeInput,
+                    password: password,
+                    mail: mail,
+                    photo_adr: photo_adr,
+                };
+
+                const response = await api.post('/api/admins', novoAdmin);
+
+                if (response.data.success) {
+                    console.log("Novo admin criado com sucesso!");
+                } else {
+                    console.error('Erro na criação do admin:', response.data.error);
+                }
+
+                await filterUsers('');
+                limparCampos();
+            } else {
+                console.error('Erro ao obter informações do usuário ativo');
+            }
+
+            loading.close();
+        } catch (error) {
+            console.error('Erro na criação do administrador:', error);
+            loading.close();
+        }
+    }
+
+
+    const handleRemoveAdminClick = async (e) => {
+        if (activeItem) {
+            try {
+                loading.show();
+
+                await api.delete(`/api/admins?id=${activeItem}`);
+
+                await filterAdmins('');
+
+                limparCampos()
+
+                loading.close();
+            } catch (error) {
+                console.error('Erro ao reprovar o jogo indicado:', error);
+                loading.close();
+            }
+        }
+    }
 
     const handleCheckboxChange = () => {
         setIsChecked(!isAdmin);
@@ -418,6 +631,9 @@ const Admin = () => {
                             <li className={`admin__menu-option ${opcaoSelecionada === 'editar-jogo' ? 'ativo' : ''}`} onClick={() => handleOpcaoSelecionada('editar-jogo')}>
                                 <p className="admin__menu-option-text">Editar jogo</p>
                             </li>
+                            <li className={`admin__menu-option ${opcaoSelecionada === 'deletar-jogo' ? 'ativo' : ''}`} onClick={() => handleOpcaoSelecionada('deletar-jogo')}>
+                                <p className="admin__menu-option-text">Deletar jogo</p>
+                            </li>
                             <li className={`admin__menu-option ${opcaoSelecionada === 'add-adm' ? 'ativo' : ''}`} onClick={() => handleOpcaoSelecionada('add-adm')}>
                                 <p className="admin__menu-option-text">Adicionar administrador</p>
                             </li>
@@ -432,8 +648,6 @@ const Admin = () => {
 
                     <div className="conteudo-relacionado">
                         {opcaoSelecionada === 'jogos-indicados' && (
-                            // Renderizándo o conteúdo relacionado à opção 'Jogos indicados'
-                            // GridView
                             <>
                                 <div className="admin__gridView-container">
                                     <div className="admin__gridView">
@@ -441,11 +655,12 @@ const Admin = () => {
                                             type="text"
                                             placeholder="Pesquisar..."
                                             className="admin__search-input"
+                                            value={searchTerm}
+                                            onChange={handleSearchRecommendGamesChange}
                                         />
                                         {Object.values(jogos).length > 0 ? (
                                             Object.values(jogos).map((jogo) => (
                                                 <li key={jogo.id} className="admin__gridView-cell" onClick={() => handleJogoClick(jogo)}>
-                                                    <p className="gridView-id">{jogo.id}</p>
                                                     <p className="gridView-game">{jogo.name}</p>
                                                 </li>
                                             ))
@@ -485,9 +700,8 @@ const Admin = () => {
                                                 <div className="admin__profileImageWrap">
                                                     {selectedProfileImage && (
                                                         <div className="admin__image-preview admin__image-preview__perfil">
-                                                            <img src={selectedProfileImage} alt="Imagem de perfil" onClick={() => handleClearImage(setSelectedProfileImage)} />
-                                                            <label className="admin__overlay" onClick={() => handleClearImage(setSelectedProfileImage)}>
-                                                                <Icon icon="ph:pencil" />
+                                                            <img src={selectedProfileImage} alt="Imagem de perfil" />
+                                                            <label className="admin__overlay" >
                                                             </label>
                                                         </div>
                                                     )}
@@ -499,9 +713,8 @@ const Admin = () => {
                                                 <div className="admin__bannerImageWrap">
                                                     {selectedBannerImage && (
                                                         <div className="admin__image-preview image-preview__banner">
-                                                            <img src={selectedBannerImage} alt="Imagem de capa" onClick={() => handleClearImage(setSelectedBannerImage)} />
-                                                            <label className="admin__overlay" onClick={() => handleClearImage(setSelectedBannerImage)}>
-                                                                <Icon icon="ph:pencil" />
+                                                            <img src={selectedBannerImage} alt="Imagem de capa" />
+                                                            <label className="admin__overlay" >
                                                             </label>
                                                         </div>
                                                     )}
@@ -594,8 +807,6 @@ const Admin = () => {
                             </div>
                         )}
                         {opcaoSelecionada === 'editar-jogo' && (
-                            // Renderizándo o conteúdo relacionado à opção 'Jogos indicados'
-                            // GridView
                             <>
                                 <div className="admin__gridView-container">
                                     <div className="admin__gridView">
@@ -603,6 +814,119 @@ const Admin = () => {
                                             type="text"
                                             placeholder="Pesquisar..."
                                             className="admin__search-input"
+                                            value={searchTerm}
+                                            onChange={handleSearchGamesChange}
+                                        />
+                                        {jogos.length > 0 ? (
+                                            jogos.map((jogo) => (
+                                                <li key={jogo.id} className="admin__gridView-cell" onClick={() => handleJogoClick(jogo)}>
+                                                    <p className="gridView-game">{jogo.name}</p>
+                                                </li>
+                                            ))
+                                        ) : (
+                                            <p className='gridView-nonResult'>Não existem jogos cadastrados</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="admin-card__container ">
+                                    <div className="admin__card">
+                                        <div className="admin__row">
+                                            <label htmlFor="nome" className='admin__label'>Nome:</label>
+                                            <input type="text" name="nome" id="nome" className='admin__input' value={nomeInput} onChange={(e) => handleInputChange(e, setNomeInput)}
+                                                disabled={!activeItem} />
+                                        </div>
+                                        <div className="admin__row">
+                                            <label htmlFor="descricao" className='admin__label'>Descrição:</label>
+                                            <textarea type="text" value={descricaoInput} name="descricao" id="descricao" className='admin__textarea' rows={4} cols={50} onChange={(e) => handleInputChange(e, setDescricaoInput)}
+                                                disabled={!activeItem} />
+                                        </div>
+                                        <div className="admin__row">
+                                            <label htmlFor="categoria" className='admin__label'>Categoria(s):</label>
+                                            <input type="text" value={categoriaInput} name='categoria' id='descricao' className='admin__input' onChange={(e) => handleInputChange(e, setCategoriaInput)}
+                                                disabled={!activeItem} />
+                                        </div>
+                                        {/* <div className="admin__row">
+                                            <label className="container-check indicar__label" >
+                                                <input id="checkbox_con" type="checkbox" checked={isFree} onChange={handleCheckboxChange} disabled={!activeItem} />
+                                                <span className="checkmark"></span> Jogo gratuito
+                                            </label>
+                                        </div> */}
+                                        <div className='admin__row-imgs'>
+                                            <div className="admin__profileImageContainer">
+                                                <p className="admin__profileImageText">Foto de perfil</p>
+                                                <div className="admin__profileImageWrap">
+                                                    {selectedProfileImage && (
+                                                        <div className="admin__image-preview admin__image-preview__perfil">
+                                                            <img src={selectedProfileImage} alt="Imagem de perfil" onClick={() => handleClearImage(setSelectedProfileImage)} />
+                                                            <label className="admin__overlay" onClick={() => handleClearImage(setSelectedProfileImage)}>
+                                                                <Icon icon="ph:pencil" />
+                                                            </label>
+                                                        </div>
+                                                    )}
+                                                    {!selectedProfileImage && (
+                                                        <label htmlFor="indicar__perfil" className="admin__file-input-label">
+                                                            <Icon icon="ph:pencil" />
+                                                            <input
+                                                                type="file"
+                                                                name="indicar__perfil"
+                                                                id="indicar__perfil"
+                                                                accept="image/*"
+                                                                style={{ display: 'none' }}
+                                                                disabled={!activeItem}
+                                                                onChange={handleProfileImageChange}
+                                                            />
+                                                        </label>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className="admin__bannerImageContainer">
+                                                <p className="admin__bannerImageText">Foto de capa</p>
+                                                <div className="admin__bannerImageWrap">
+                                                    {selectedBannerImage && (
+                                                        <div className="admin__image-preview image-preview__banner">
+                                                            <img src={selectedBannerImage} alt="Imagem de capa" onClick={() => handleClearImage(setSelectedBannerImage)} />
+                                                            <label className="admin__overlay" onClick={() => handleClearImage(setSelectedBannerImage)}>
+                                                                <Icon icon="ph:pencil" />
+                                                            </label>
+                                                        </div>
+                                                    )}
+                                                    {!selectedBannerImage && (
+                                                        <label htmlFor="indicar__baner" className="admin__file-input-label">
+                                                            <Icon icon="ph:pencil" />
+                                                            <input
+                                                                type="file"
+                                                                name="indicar__baner"
+                                                                id="indicar__baner"
+                                                                accept="image/*"
+                                                                style={{ display: 'none' }}
+                                                                disabled={!activeItem}
+                                                                onChange={handleBannerImageChange}
+                                                            />
+                                                        </label>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="admin__btn-container">
+                                            <button className='indicar__btn-aprovar' onClick={handleEditGameClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Confirmar</button>
+                                            <button className='indicar__btn-reprovar' onClick={handleCancelClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                        {opcaoSelecionada === 'deletar-jogo' && (
+                            <>
+                                <div className="admin__gridView-container">
+                                    <div className="admin__gridView">
+                                        <input
+                                            type="text"
+                                            placeholder="Pesquisar..."
+                                            className="admin__search-input"
+                                            value={searchTerm}
+                                            onChange={handleSearchGamesChange}
                                         />
                                         {jogos.length > 0 ? (
                                             jogos.map((jogo) => (
@@ -632,13 +956,40 @@ const Admin = () => {
                                         </div>
                                         <div className="admin__row">
                                             <label className="container-check indicar__label" >
-                                                <input id="checkbox_con" type="checkbox" checked={isFree} onChange={handleCheckboxChange} />
+                                                <input id="checkbox_con" type="checkbox" checked={isFree} disabled={true} />
                                                 <span className="checkmark"></span> Jogo gratuito
                                             </label>
                                         </div>
+                                        <div className='admin__row-imgs'>
+                                            <div className="admin__profileImageContainer">
+                                                <p className="admin__profileImageText">Foto de perfil</p>
+                                                <div className="admin__profileImageWrap">
+                                                    {selectedProfileImage && (
+                                                        <div className="admin__image-preview admin__image-preview__perfil">
+                                                            <img src={selectedProfileImage} alt="Imagem de perfil" />
+                                                            <label className="admin__overlay" >
+                                                            </label>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className="admin__bannerImageContainer">
+                                                <p className="admin__bannerImageText">Foto de capa</p>
+                                                <div className="admin__bannerImageWrap">
+                                                    {selectedBannerImage && (
+                                                        <div className="admin__image-preview image-preview__banner">
+                                                            <img src={selectedBannerImage} alt="Imagem de capa" />
+                                                            <label className="admin__overlay" >
+                                                            </label>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div className="admin__btn-container">
-                                            <button className='indicar__btn-aprovar' disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Confirmar</button>
-                                            <button className='indicar__btn-reprovar' disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Cancelar</button>
+                                            <button className='indicar__btn-aprovar' onClick={handleDeleteGameClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Deletar</button>
+                                            <button className='indicar__btn-reprovar' onClick={handleCancelClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Cancelar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -652,6 +1003,8 @@ const Admin = () => {
                                             type="text"
                                             placeholder="Pesquisar..."
                                             className="admin__search-input"
+                                            value={searchTerm}
+                                            onChange={handleSearchUsersChange}
                                         />
                                         {users.length > 0 ? (
                                             users.map((user) => (
@@ -675,23 +1028,15 @@ const Admin = () => {
                                             <label htmlFor="nickNameInput" className='admin__label'>Nickname(s):</label>
                                             <input type="text" value={nickNameInput} name='nickNameInput' id='nickNameInput' className='admin__input' readOnly />
                                         </div>
-                                        <div className="admin__row">
-                                            <label className="container-check indicar__label" >
-                                                <input id="checkbox_con" type="checkbox" onChange={handleCheckboxChange} />
-                                                <span className="checkmark"></span> Administrador
-                                            </label>
-                                        </div>
                                         <div className="admin__btn-container">
-                                            <button className='indicar__btn-aprovar' disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Confirmar</button>
-                                            <button className='indicar__btn-reprovar' disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Cancelar</button>
+                                            <button className='indicar__btn-aprovar' onClick={handleAddAdminClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Adicionar</button>
+                                            <button className='indicar__btn-reprovar' onClick={handleCancelClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Cancelar</button>
                                         </div>
                                     </div>
                                 </div>
                             </>
                         )}
                         {opcaoSelecionada === 'editar-adm' && (
-                            // Renderizándo o conteúdo relacionado à opção 'Jogos indicados'
-                            // GridView
                             <>
                                 <div className="admin__gridView-container">
                                     <div className="admin__gridView">
@@ -699,12 +1044,16 @@ const Admin = () => {
                                             type="text"
                                             placeholder="Pesquisar..."
                                             className="admin__search-input"
+                                            value={searchTerm}
+                                            onChange={handleSearchAdminChange}
                                         />
 
-                                        {admins.id ? (
-                                            <li className="admin__gridView-cell" onClick={() => handleAdminClick(admins)}>
-                                                <p className="gridView-game">{admins.name}</p>
-                                            </li>
+                                        {admins.length > 0 ? (
+                                            admins.map((admin) => (
+                                                <li key={admin.id} className="admin__gridView-cell" onClick={() => handleAdminClick(admin)}>
+                                                    <p className="gridView-game">{admin.name}</p>
+                                                </li>
+                                            ))
                                         ) : (
                                             <p className='gridView-nonResult'>Não existem admins cadastrados</p>
                                         )}
@@ -714,18 +1063,16 @@ const Admin = () => {
                                 <div className="admin-card__container ">
                                     <div className="admin__card">
                                         <div className="admin__row">
+                                            <label htmlFor="nome" className='admin__label'>Nome:</label>
+                                            <input type="text" name="nome" id="nome" className='admin__input' value={nomeInput} readOnly />
+                                        </div>
+                                        <div className="admin__row">
                                             <label htmlFor="nickNameInput" className='admin__label'>Nickname(s):</label>
                                             <input type="text" value={nickNameInput} name='nickNameInput' id='nickNameInput' className='admin__input' readOnly />
                                         </div>
-                                        <div className="admin__row">
-                                            <label className="container-check indicar__label" >
-                                                <input id="checkbox_con" type="checkbox" onChange={handleCheckboxChange} />
-                                                <span className="checkmark"></span> Administrador
-                                            </label>
-                                        </div>
                                         <div className="admin__btn-container">
-                                            <button className='indicar__btn-aprovar' disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Confirmar</button>
-                                            <button className='indicar__btn-reprovar' disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Cancelar</button>
+                                            <button className='indicar__btn-aprovar' onClick={handleRemoveAdminClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Remover</button>
+                                            <button className='indicar__btn-reprovar' onClick={handleCancelClick} disabled={!activeItem} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Cancelar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -739,6 +1086,8 @@ const Admin = () => {
                                             type="text"
                                             placeholder="Pesquisar..."
                                             className="admin__search-input"
+                                            value={searchTerm}
+                                            onChange={handleSearchUsersChange}
                                         />
                                         {users.length > 0 ? (
                                             users.map((user) => (

@@ -36,7 +36,7 @@ const Cadastro = () => {
 
     const root = document.getElementById('root');
     const modals = new Modals();
-   /* const loading = new modals.htmlLoading(root);*/
+    /* const loading = new modals.htmlLoading(root);*/
 
     const handleInputChange = (event, setInput) => {
         setInput(event.target.value);
@@ -87,7 +87,7 @@ const Cadastro = () => {
         } else {
             e.preventDefault();
             creatUser();
-            
+
         }
     };
 
@@ -112,7 +112,7 @@ const Cadastro = () => {
             user_name: nomeUserInput,
             password: senhaInput,
             mail: emailInput,
-            birth_date: anoInput + '-' + mesInput + '-' + diaInput 
+            birth_date: anoInput + '-' + mesInput + '-' + diaInput
         }).then(function (response) {
             console.log(response);
 
@@ -129,7 +129,7 @@ const Cadastro = () => {
                         }
                     });
             }
-                       
+
         }).catch(function (error) {
             console.log(error);
 
@@ -175,7 +175,7 @@ const Cadastro = () => {
                             <label className='cadastro__data-container'>
                                 <p className='labelCadastro'>Data de nascimento</p>
                                 <div className="cadastro__select-data-container">
-                                    <input className='inputCadastro inputData inputDia' placeholder='1' type="number" name='dia' value={diaInput} onChange={(e) => handleInputChange(e, setDiaInput)} ></input>
+                                    <input className='inputCadastro inputData inputDia' placeholder='1' type="number" name='dia' value={diaInput} min={"1"} max={"31"} onChange={(e) => handleInputChange(e, setDiaInput)} ></input>
                                     <select className='inputCadastro inputData inputMes' placeholder='Jan' name="mes" id="mes" value={mesInput} onChange={(e) => handleInputChange(e, setMesInput)}>
                                         <option value="1">Jan</option>
                                         <option value="2">Fev</option>
@@ -190,7 +190,7 @@ const Cadastro = () => {
                                         <option value="11">Nov</option>
                                         <option value="12">Dez</option>
                                     </select>
-                                    <input className='inputCadastro inputData inputAno lastInput' placeholder='2023' type="number" name='ano' value={anoInput} onChange={(e) => handleInputChange(e, setAnoInput)} ></input>
+                                    <input className='inputCadastro inputData inputAno lastInput' placeholder='2023' type="number" name='ano' value={anoInput} onChange={(e) => handleInputChange(e, setAnoInput)} min={1800}></input>
                                 </div>
                             </label>
                         </div>

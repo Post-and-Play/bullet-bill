@@ -175,3 +175,8 @@
     color: #492979;
     font-size: 40px;
 }
+
+.indicar__profileImageText,
+.indicar__bannerImageText {
+    color: #fff;
+}

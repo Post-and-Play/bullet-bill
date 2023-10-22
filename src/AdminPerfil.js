@@ -1,11 +1,8 @@
 import './Perfil.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Steam from './icons/steam.png';
-import Discord from './icons/discord.png';
-import EpicGames from './icons/epic-games.png';
-import Twitch from './icons/twitch.png';
-import Github from './icons/github.png';
+import Banner from './image/banner.png';
+import FotoPerfil from './image/foto.png';
 import ConfigButton from './components/ConfigButton';
 import PostButton from './components/postButton';
 import Navbar from './components/navbar';
@@ -46,6 +43,14 @@ const AdminPerfil = () => {
 
     };
 
+    const handleBannerError = (event) => {
+        event.target.src = Banner;
+    }
+
+    const handleImageError = (event) => {
+        event.target.src = FotoPerfil;
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             loading.show();
@@ -59,9 +64,9 @@ const AdminPerfil = () => {
         <div className="perfil__page-container">
           <Navbar currentUser={currentUser} />
           <header className="perfil-banner__container">
-            <img src={bannerImage} alt="Banner usuário" className="perfil-banner__banner" />
+            <img src={bannerImage} alt="Banner usuário" className="perfil-banner__banner" onError={handleBannerError} />
             <div className="perfil-banner__foto">
-              <img src={profileImage} alt="Foto perfil" className="perfil__foto" />
+                <img src={profileImage} alt="Foto perfil" className="perfil__foto" onError={handleImageError}  />
             </div>
             <ConfigButton currentUser={currentUser} />
           </header>

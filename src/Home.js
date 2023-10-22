@@ -295,35 +295,6 @@ const Home = () => {
         return coresDasNotas[indice];
       };      
 
-    //const getReviews = async () => {
-    //    try {
-
-    //        const response = await api.get('./api/reviews');
-    //        if (response.data) {
-    //            const mappedReviews = await Promise.all(
-    //                response.data.map(async (reviews) => {
-    //                    const userResponse = await api.get(`/api/users?id=${reviews.user_id}`);
-    //                    const gameResponse = await api.get(`/api/games?id=${reviews.game_id}`);
-    //                    //console.log(userResponse)
-    //                    //console.log(gameResponse)
-    //                    return {
-    //                        ...reviews,
-    //                        userPhoto: userResponse.data.photo_adr,
-    //                        username: userResponse.data.name,
-    //                        gameName: gameResponse.data.name,
-
-    //                    };
-    //                })
-    //            );
-    //            setReviews(mappedReviews);
-    //        } else {
-    //            setReviews([]);
-    //        }
-    //    } catch (err) {
-    //        setReviews([]);
-    //    }
-    //}
-
     useEffect(() => {
         const fetchData = async () => {
             loading.show();

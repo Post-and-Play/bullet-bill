@@ -4,6 +4,8 @@ ul {
 
 .navbar-profileicon {
     position: relative;
+    align-items: center;
+    display: flex;
 }
 
 .profile__picture {
@@ -16,7 +18,7 @@ ul {
 
 .profile__menu {
   position: absolute;
-  top: 52px; 
+  top: 50px; 
   right: -12px;
   background-color: #795FA1;
   list-style: none;

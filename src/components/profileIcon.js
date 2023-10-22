@@ -4,9 +4,6 @@ import '../components/profileIcon.css';
 
 import FotoPerfil from '../image/foto.png'
 import { logout } from '../services/Auth';
-import api from '../services/Api';
-import { getUser } from '../services/Auth';
-import { Modals } from '../components/Modals';
 import { Icon } from '@iconify/react';
 
 
@@ -19,22 +16,31 @@ const ProfileMenu = ({ currentUser }) => {
         setMenuVisible(!menuVisible);
     };
 
+    const handleImageError = (event) => {
+        event.target.src = FotoPerfil;
+    }
+
     useEffect(() => {
         if (currentUser)
             setProfileImage(currentUser.photo_adr);
     }, [currentUser]);
+
+    //window.addEventListener('click', () => { if (menuVisible === true ) setMenuVisible(false) })
   
     return (
         <div className="navbar-profileicon">
-          <a href="favoritos">
-            <Icon icon="ri:heart-line" color="#b0afe6" width="45" height="45" hFlip={true} />
-          </a>
-
+            {!window.location.pathname.includes('/admin') ?
+                <a href="favoritos">
+                    <Icon icon="ri:heart-line" color="#b0afe6" width="45" height="45" hFlip={true} />
+                </a> : <br />
+            }
+        
           <img
-            src={profileImage}
-            alt="Foto de Perfil"
-            className="profile__picture"
-            onClick={toggleMenu}
+                src={profileImage}
+                alt="Foto de Perfil"
+                className="profile__picture"
+                onClick={toggleMenu}
+                onError={handleImageError}
           />
 
           {menuVisible && (

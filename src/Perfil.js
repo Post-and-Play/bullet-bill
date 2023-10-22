@@ -1,6 +1,8 @@
 import './Perfil.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Banner from './image/banner.png';
+import FotoPerfil from './image/foto.png';
 import Steam from './icons/steam.png';
 import Discord from './icons/discord.png';
 import EpicGames from './icons/epic-games.png';
@@ -18,13 +20,13 @@ import { Modals } from './components/Modals';
 
 const Perfil = () => {
 
-      const root = document.getElementById('root');
-      const modals = new Modals();
-      const loading = new modals.htmlLoading(root);
+    const root = document.getElementById('root');
+    const modals = new Modals();
+    const loading = new modals.htmlLoading(root);
 
-      const search = window.location.search;
-      const params = new URLSearchParams(search);
-      const initialUserId = params.get('id');
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const initialUserId = params.get('id');
 
     const [currentUser, setCurrentUser] = useState();
     const [following, setFollowing] = useState();
@@ -48,37 +50,37 @@ const Perfil = () => {
     const isPerfilPessoal = userId ? false : true;
     const [followingCount, setFollowingCount] = useState();
 
-      const handleCheckFollowing = async (user, userid) => {
-         try {
-             if (!user.id || !userId) {
-                console.error('IDs de usuário inválidos');
-                return;
-           }
+    const handleCheckFollowing = async (user, userid) => {
+        try {
+            if (!user.id || !userId) {
+            console.error('IDs de usuário inválidos');
+            return;
+        }
 
-           // Verifique se o `userId` não é o mesmo que o `currentUser.id`
-             if (user.id === userId) {
-               console.error('Você não pode verificar se segue a si mesmo.');
-                return;
-           }
+        // Verifique se o `userId` não é o mesmo que o `currentUser.id`
+            if (user.id === userId) {
+            console.error('Você não pode verificar se segue a si mesmo.');
+            return;
+        }
 
-           // Envie uma solicitação à API para verificar se o usuário atual segue o usuário da página atual
-             const response = await api.get(`/api/follow?following_user_id=${user.id}&followed_user_id=${userid}`);
+        // Envie uma solicitação à API para verificar se o usuário atual segue o usuário da página atual
+            const response = await api.get(`/api/follow?following_user_id=${user.id}&followed_user_id=${userid}`);
 
-           if (response.data.id) {
-                 // O usuário atual já segue o usuário da página atual
-                 setFollowingId(response.data.id);
-                 setFollowing(true);
-           } else {
-                 // O usuário atual não segue o usuário da página atual
-                 setFollowing(false);
-           }
-         } catch (error) {
-             console.error('Erro ao verificar se o usuário segue:', error);
-             setFollowing(false);
-         }
-       };
+        if (response.data.id) {
+                // O usuário atual já segue o usuário da página atual
+                setFollowingId(response.data.id);
+                setFollowing(true);
+        } else {
+                // O usuário atual não segue o usuário da página atual
+                setFollowing(false);
+        }
+        } catch (error) {
+            console.error('Erro ao verificar se o usuário segue:', error);
+            setFollowing(false);
+        }
+    };
 
-      const getCurrentUser = async () => {
+    const getCurrentUser = async () => {
         let user = await getAuth();
         if (user) {
 
@@ -127,13 +129,13 @@ const Perfil = () => {
                 await getPosts(user.id);
             }
 
-          } else {
-              navigate('/home');
-          }
+        } else {
+            navigate('/home');
+        }
 
-        };
+    };
 
-      const getUserData = async () => {
+    const getUserData = async () => {
         try {
             const response = await api.get(`/api/users?id=${userId}`);
             if (response.data.id) {
@@ -144,31 +146,31 @@ const Perfil = () => {
             console.log(err.message);
             return null
         }
-      }
+    }
 
-      const coresDasNotas = [
-            "#A70000",
-            "#AF1C00",
-            "#B83500",
-            "#C04D00",
-            "#C86500",
-            "#D07C00",
-            "#D89400",
-            "#E0AB00",
-            "#E8C300",
-            "#F0DA00",
-            "#F9F200",
-            "#FFFC00",
-            "#FFFC00",
-            "#C4FA00",
-            "#C4FA00",
-            "#88F800",
-            "#6AE700",
-            "#4CE600",
-            "#2EE500",
-            "#10D400",
-            "#0094DC"
-        ];
+    const coresDasNotas = [
+        "#A70000",
+        "#AF1C00",
+        "#B83500",
+        "#C04D00",
+        "#C86500",
+        "#D07C00",
+        "#D89400",
+        "#E0AB00",
+        "#E8C300",
+        "#F0DA00",
+        "#F9F200",
+        "#FFFC00",
+        "#FFFC00",
+        "#C4FA00",
+        "#C4FA00",
+        "#88F800",
+        "#6AE700",
+        "#4CE600",
+        "#2EE500",
+        "#10D400",
+        "#0094DC"
+    ];
 
     const getCoresDasNotas = (nota) => {
         // Calcula o índice arredondado com base na nota
@@ -269,7 +271,8 @@ const Perfil = () => {
       } catch (error) {
           console.error('Erro ao obter o número de seguidores:', error);
       }
-  };
+    };
+
     const getPosts = async (userId) => {
         try {
             console.log("userId in getReviews:", userId);
@@ -348,7 +351,14 @@ const Perfil = () => {
         }
        
     };
-    
+
+    const handleBannerError = (event) => {
+        event.target.src = Banner;
+    }
+
+    const handleImageError = (event) => {
+        event.target.src = FotoPerfil;
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -363,10 +373,10 @@ const Perfil = () => {
       return (
         <div className="perfil__page-container">
           <Navbar currentUser={currentUser} />
-          <header className="perfil-banner__container">
-            <img src={bannerImage} alt="Banner usuário" className="perfil-banner__banner" />
+            <header className="perfil-banner__container">
+            <img src={bannerImage} alt="Banner usuário" className="perfil-banner__banner" onError={handleBannerError} />
             <div className="perfil-banner__foto">
-              <img src={profileImage} alt="Foto perfil" className="perfil__foto" />
+               <img src={profileImage} alt="Foto perfil" className="perfil__foto" onError={handleImageError} />
             </div>
             {!userId ? <ConfigButton currentUser={currentUser} /> : <br />}
           </header>

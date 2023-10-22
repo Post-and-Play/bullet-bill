@@ -1,7 +1,7 @@
 import './Perfil.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Banner from './image/banner.png';
+import Banner from './image/banner0.png';
 import FotoPerfil from './image/foto.png';
 import Steam from './icons/steam.png';
 import Discord from './icons/discord.png';
@@ -374,7 +374,7 @@ const Perfil = () => {
         <div className="perfil__page-container">
           <Navbar currentUser={currentUser} />
             <header className="perfil-banner__container">
-            <img src={bannerImage} alt="Banner usuário" className="perfil-banner__banner" onError={handleBannerError} />
+            <img src={!bannerImage ? Banner : bannerImage} alt="Banner usuário" className="perfil-banner__banner" onError={handleBannerError} />
             <div className="perfil-banner__foto">
                <img src={profileImage} alt="Foto perfil" className="perfil__foto" onError={handleImageError} />
             </div>

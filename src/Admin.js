@@ -614,7 +614,7 @@ const Admin = () => {
 
     return (
         <div>
-            <Navbar currentUser={currentUser} />
+            <Navbar hideSearchbar={true} currentUser={currentUser} />
             <div className="admin__container">
                 <div className="admin__content-container">
                     <div className="admin__menu-container">

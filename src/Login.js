@@ -23,6 +23,10 @@ const Login = () => {
         setInput(event.target.value);
     };
 
+    const handleCheck = (event) => {
+        setConectadoInput(!conectadoInput);
+    }
+
     const handleButtonClick = (e) => {
         if (emailInput.trim() === '' || senhaInput.trim() === '') {
             e.preventDefault();
@@ -93,7 +97,7 @@ const Login = () => {
 
     return (
         <div>
-            <Navbar hideSearchbar={true} />
+            <Navbar hideProfileIcon={true} hideSearchbar={true} />
             <div className="login__container">
                 <div className="login-page__container">
                     <div className="destaqueContainer">
@@ -124,10 +128,8 @@ const Login = () => {
                             </label>
                             <div className="row">
                                 <div>
-                                    {/*<input type="checkbox" name="" id="checkbox_con" onChange={(e) => handleInputChange(e, setConectadoInput)} />*/}
-                                    {/*<p className='manterConectado'>Mantenha-me conectado</p>*/}
                                     <label className="container-check" >
-                                        <input id="checkbox_con" type="checkbox" onChange={(e) => handleInputChange(e, setConectadoInput)} />
+                                        <input id="checkbox_con" type="checkbox" onClick={handleCheck} checked={conectadoInput} />
                                         <span className="checkmark"></span> Mantenha-me conectado
                                     </label> 
                                 </div>

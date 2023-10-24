@@ -132,7 +132,7 @@ const Home = () => {
 
                     if (reviews[index].userLiked === true) {
 
-                        const response = await api.delete(`/api/like?user_id=${reviews[index].user_id}&review_id=${reviews[index].id}`, {
+                        const response = await api.delete(`/api/like?user_id=${currentUser.id}&review_id=${reviews[index].id}`, {
                             user_id: currentUser.id, // Certifique-se de ter o ID do usuário disponível
                             review_id: reviews[index].id // Certifique-se de ter o ID da revisão disponível
                         });

@@ -139,7 +139,7 @@ const PostButton = ({ currentUser }) => {
 
             loading.show();
             // Enviar os dados para a API
-            const response = await api.post(`/api/review?id=${postData.game_id}`, postData);
+            const response = await api.post(`/api/review`, postData);
 
             if (response.data.id) {
                 // Postagem bem-sucedida

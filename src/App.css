@@ -16,6 +16,14 @@ h1, h2, h3, h4, h5, h6, p, label {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
 }
+
+.row {
+    display:flex;
+    width: 100%;
+    flex-direction: row;
+    padding: 6px;
+    margin: 8px 0;
+}
 /* nav {
   background-color: #795FA1;
   display: flex;
@@ -166,7 +174,11 @@ input[type="text"], input[type="number"], input[type="date"], input[type="passwo
     display: flex;
 }
 
-
+.container-recaptcha {
+    align-items: center;
+    padding: 4px;
+    margin: 6px 0;
+}
 
 /* Media Queries */
 /* Celular */
@@ -180,7 +192,15 @@ input[type="text"], input[type="number"], input[type="date"], input[type="passwo
     height: 1.875rem;
     width: 1.875rem;
   }
+
+    .row {
+        flex-direction: column;
+    }
 }
 
+@media(max-width: 500px) {
+
+   
+}
 /* Tablet */
 @media(min-width: 768px) and (max-width: 1023px) {}

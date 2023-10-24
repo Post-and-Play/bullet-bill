@@ -13,10 +13,10 @@
 }
 
 .cadastro {
-    margin-top: 50px;
+    margin-top: 30px;
     background-color: #795FA1;
     height: auto;
-    width: 50%;
+/*    width: 50%;*/
     left: 0;
     right: 0;
     padding: 28px;
@@ -256,7 +256,7 @@
 /* Tablet */
 @media(max-width: 1024px) {
     .cadastro {
-        width: 45vw;
+      /*  width: 45vw;*/
         margin-bottom: 3.125rem;
         justify-content: center;
     }
@@ -299,7 +299,7 @@
 
     .cadastro__botao {
         width: 100%;
-        margin-bottom: 50px;
+        margin-bottom: 20px;
     }
 
     .termosUso {

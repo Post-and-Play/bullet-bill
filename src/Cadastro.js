@@ -1,13 +1,11 @@
+import '../src/Cadastro.css';
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import '../src/Cadastro.css';
-//import 'bootstrap/dist/css/bootstrap.min.css';
-
+import ReCAPTCHA from "react-google-recaptcha";
+import { recaptchaSiteKey } from './services/Auth';
 import Navbar from './components/navbar';
-// i
 import CloseIcon from '../src/icons/close.svg';
-
 import api from './services/Api';
 import { Modals } from './components/Modals';
 
@@ -31,6 +29,8 @@ const Cadastro = () => {
     const [redirecionar, setRedirecionar] = useState(false);
 
     const [anoAtual] = useState(new Date().getFullYear());
+    const [desafioRecaptcha, setDesafioRecaptcha] = useState(false);
+    const [captcha, setCaptcha] = useState();
 
     const navigate = useNavigate();
 
@@ -45,6 +45,11 @@ const Cadastro = () => {
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
     };
+
+    const handleCaptcha = (value) => {
+        setCaptcha(value);
+        //console.log("Captcha value:", value);
+    }
 
     const handleButtonClick = (e) => {
         const anoDigitado = parseInt(anoInput.trim());
@@ -83,6 +88,12 @@ const Cadastro = () => {
             setIdadePopup(true);
             setTimeout(() => {
                 setIdadePopup(false);
+            }, 3000);
+        } else if (!captcha) {
+            e.preventDefault()
+            setDesafioRecaptcha(true);
+            setTimeout(() => {
+                setDesafioRecaptcha(false);
             }, 3000);
         } else {
             e.preventDefault();
@@ -153,7 +164,7 @@ const Cadastro = () => {
 
     return (
         <div>
-            <Navbar hideSearchbar={true} />
+            <Navbar hideSearchbar={true} hideProfileIcon={true} title={ 'Registre-se como usuário' } />
             <div className="cadastro__page-container">
                 <form className='cadastro'>
                     <div className="cadastro__container">
@@ -215,11 +226,17 @@ const Cadastro = () => {
                             </label>
                         </div>
                         <div className="row">
-                            <label>
+                            <label className="container-check">
                                 <input className='termos termosCB' type="checkbox" name="name" checked={isChecked} onChange={handleCheckboxChange} />
+                                <span className="checkmark"></span>
                                 <p className='termos termosTexto' onClick={handleClick}>Li e aceito os <em className='termos termosDestaque'>termos de uso</em></p>
                             </label>
+                            <ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />
                         </div>
+                        {/*<div className="row container-recaptcha" >*/}
+                        {/*    <ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />*/}
+                        {/*</div>*/}
+
                         <div className="cadastro__botao-container">
                             <button className='botao cadastro__botao cadastro__btnVoltar' type="button" onClick={handleBackClick}>Voltar</button>
                             <button className='botao cadastro__botao cadastro__btnCadastrar' type="submit" value="Cadastrar" onClick={handleButtonClick} >Cadastrar</button>

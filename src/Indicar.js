@@ -169,7 +169,7 @@ const Indicar = () => {
 
     return (
         <div>
-            <Navbar currentUser={currentUser} />
+            <Navbar hideSearchbar={true} currentUser={currentUser} title={'Indique o jogo' } />
             <form action='/jogo'>
                 <div className="indicar__card-container">
                     <div className="indicar__card">

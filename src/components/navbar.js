@@ -6,7 +6,7 @@ import Logo from '../image/PAP.png';
 import ProfileIcon from '../components/profileIcon';
 import Searchbar from '../components/searchbar';
 
-const navbar = ({ hideSearchbar, hideProfileIcon, currentUser }) => {
+const navbar = ({ hideSearchbar, hideProfileIcon, currentUser, title }) => {
     return (
         <div>
             <nav className='nav__navbar'>
@@ -16,7 +16,8 @@ const navbar = ({ hideSearchbar, hideProfileIcon, currentUser }) => {
                     </Link>
                 </div>
                 <div className="search__bar">
-                    {!hideSearchbar && <Searchbar currentUser={currentUser} />}
+                    {title ? <h2>{title}</h2> : !hideSearchbar && <Searchbar currentUser={currentUser} /> }
+                   {/* {!hideSearchbar && <Searchbar currentUser={currentUser} />}*/}
                 </div>
                 <div className="profile__icon">
                     {!hideProfileIcon  && <ProfileIcon currentUser={currentUser} />}

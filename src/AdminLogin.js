@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { login, getAuth, CONECT_KEY, recaptchaSiteKey } from './services/Auth';
+import ReCAPTCHA from "react-google-recaptcha";
 
 const AdminLogin = () => {
 
@@ -16,6 +17,8 @@ const AdminLogin = () => {
     const [senhaInput, setSenhaInput] = useState('');
     const [conectadoInput, setConectadoInput] = useState(false);
     const [camposObrigatoriosPopup, setCamposObrigatoriosPopup] = useState(false);
+    const [desafioRecaptcha, setDesafioRecaptcha] = useState(false);
+    const [captcha, setCaptcha] = useState();
 
     const navigate = useNavigate();
 
@@ -33,6 +36,12 @@ const AdminLogin = () => {
             setCamposObrigatoriosPopup(true);
             setTimeout(() => {
                 setCamposObrigatoriosPopup(false);
+            }, 3000);
+        } else if (!captcha) {
+            e.preventDefault()
+            setDesafioRecaptcha(true);
+            setTimeout(() => {
+                setDesafioRecaptcha(false);
             }, 3000);
         } else {
             e.preventDefault();
@@ -76,6 +85,11 @@ const AdminLogin = () => {
             }
         }, 100);
 
+    }
+
+    const handleCaptcha = (value) => {
+        setCaptcha(value);
+        //console.log("Captcha value:", value);
     }
 
     useEffect(() => {
@@ -131,16 +145,22 @@ const AdminLogin = () => {
                                     </label> 
                                 </div>
                             </div>
+
+                            <div className="row container-recaptcha" >
+                                <ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />
+                            </div>
+
                             <button to="/home" className='botao btnEntrar btnPrincipal' type="button" onClick={handleButtonClick}>Entrar</button>
                             <div className="esqueciSenha_Container">
                                 <Link to="/recuperar-senha" className='esqueciSenha'>Esqueci a minha senha</Link>
-                                <Link to="/" className='voltarLogin'>Voltar para Login</Link>
+                                <Link to="/" className='voltarLogin'>Voltar para login de usuário</Link>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
             {camposObrigatoriosPopup && <div className='cadastro__camposPopup'>Por favor, preencha todos os campos.</div>}
+            {desafioRecaptcha && <div className='cadastro__camposPopup'>Por favor, resolva o desafio recaptcha.</div>}
         </div>
     )
 }

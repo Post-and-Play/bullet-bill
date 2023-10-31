@@ -146,9 +146,9 @@ const AdminLogin = () => {
                                 </div>
                             </div>
 
-                            {/*<div className="row container-recaptcha" >*/}
-                            {/*    <ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />*/}
-                            {/*</div>*/}
+                            <div className="row container-recaptcha" >
+                                <ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />
+                            </div>
 
                             <button to="/home" className='botao btnEntrar btnPrincipal' type="button" onClick={handleButtonClick}>Entrar</button>
                             <div className="esqueciSenha_Container">

@@ -231,7 +231,7 @@ const Cadastro = () => {
                                 <span className="checkmark"></span>
                                 <p className='termos termosTexto' onClick={handleClick}>Li e aceito os <em className='termos termosDestaque'>termos de uso</em></p>
                             </label>
-                            {/*<ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />*/}
+                            <ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />
                         </div>
                         {/*<div className="row container-recaptcha" >*/}
                         {/*    <ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />*/}

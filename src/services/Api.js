@@ -12,9 +12,9 @@ import axios from 'axios';
 import { getStorage } from "./Auth";
 
 const test = process.env.REACT_APP_ISTEST;
-var apiUrl = test == 1 ? process.env.REACT_APP_API_TEST : process.env.REACT_APP_API;
+var apiUrl = process.env.REACT_APP_ISTEST == "1" ? process.env.REACT_APP_API_TEST : process.env.REACT_APP_API;
 
-//console.log('test: ' + test);
+console.log('apiUrl: ' + apiUrl);
 
 const api = axios.create({
     baseURL: apiUrl

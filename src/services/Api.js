@@ -11,8 +11,8 @@
 import axios from 'axios';
 import { getStorage } from "./Auth";
 
-const test = true //process.env.REACT_APP_ISTEST;
-var apiUrl = test ? process.env.REACT_APP_API_TEST : process.env.REACT_APP_API;
+const test = process.env.REACT_APP_ISTEST;
+var apiUrl = test == 1 ? process.env.REACT_APP_API_TEST : process.env.REACT_APP_API;
 
 //console.log('test: ' + test);
 

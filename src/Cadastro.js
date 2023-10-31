@@ -1,9 +1,9 @@
 import '../src/Cadastro.css';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
-import { recaptchaSiteKey } from './services/Auth';
+import { recaptchaSiteKey, verifyRecaptcha } from './services/Auth';
 import Navbar from './components/navbar';
 import CloseIcon from '../src/icons/close.svg';
 import api from './services/Api';
@@ -27,6 +27,7 @@ const Cadastro = () => {
     const [termosPopup, setTermosPopup] = useState(false);
     const [idadePopup, setIdadePopup] = useState(false);
     const [redirecionar, setRedirecionar] = useState(false);
+    const [ipAddress, setIPAddress] = useState('');
 
     const [anoAtual] = useState(new Date().getFullYear());
     const [desafioRecaptcha, setDesafioRecaptcha] = useState(false);
@@ -46,8 +47,11 @@ const Cadastro = () => {
         setIsChecked(!isChecked);
     };
 
-    const handleCaptcha = (value) => {
-        setCaptcha(value);
+    const handleCaptcha = async (value) => {
+        const verify = await verifyRecaptcha(value, ipAddress);
+        if (verify) {
+            setCaptcha(value);
+        }
         //console.log("Captcha value:", value);
     }
 
@@ -161,6 +165,13 @@ const Cadastro = () => {
         });
 
     }
+
+    useEffect(() => {
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => setIPAddress(data.ip))
+            .catch(error => console.log(error))
+    }, [])
 
     return (
         <div>

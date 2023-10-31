@@ -6,7 +6,7 @@ import Ilustration from './image/ilustration.png';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { login, getAuth, CONECT_KEY, recaptchaSiteKey } from './services/Auth';
+import { login, getAuth, CONECT_KEY, recaptchaSiteKey, verifyRecaptcha } from './services/Auth';
 import ReCAPTCHA from "react-google-recaptcha";
 
 const AdminLogin = () => {
@@ -19,8 +19,11 @@ const AdminLogin = () => {
     const [camposObrigatoriosPopup, setCamposObrigatoriosPopup] = useState(false);
     const [desafioRecaptcha, setDesafioRecaptcha] = useState(false);
     const [captcha, setCaptcha] = useState();
+    const [ipAddress, setIPAddress] = useState('');
 
     const navigate = useNavigate();
+
+    //console.log(ipAddress);
 
     const handleInputChange = (event, setInput) => {
         setInput(event.target.value);
@@ -87,8 +90,11 @@ const AdminLogin = () => {
 
     }
 
-    const handleCaptcha = (value) => {
-        setCaptcha(value);
+    const handleCaptcha = async (value) => { 
+        const verify = await verifyRecaptcha(value, ipAddress);
+        if (verify) {
+            setCaptcha(value);
+        }
         //console.log("Captcha value:", value);
     }
 
@@ -105,6 +111,10 @@ const AdminLogin = () => {
                 }
             }
         }
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => setIPAddress(data.ip))
+            .catch(error => console.log(error))
         fetchData();
         animateStickers();
     }, [])

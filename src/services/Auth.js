@@ -292,3 +292,25 @@ export const getAuth = async () => {
     }
 
 }
+
+export const verifyRecaptcha = async (Token, ipAddress) => {
+
+    try {
+        const response = await api.post('https://www.google.com/recaptcha/api/siteverify', {
+            secret: recaptchaSiteKey,
+            response: Token,
+            remoteip: ipAddress
+        });
+
+        if (response.status === 200) {
+            return true
+        } else {
+            console.error(response)
+            return false;
+        }
+    } catch (err) {
+        console.error(err)
+        return false;
+    }
+   
+}

@@ -296,18 +296,32 @@ export const getAuth = async () => {
 export const verifyRecaptcha = async (Token, ipAddress) => {
 
     try {
-        const response = await api.post('https://www.google.com/recaptcha/api/siteverify', {
-            secret: recaptchaSiteKey,
-            response: Token,
-            remoteip: ipAddress
-        });
 
-        if (response.status === 200) {
-            return true
-        } else {
-            console.error(response)
-            return false;
-        }
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                secret: recaptchaSiteKey,
+                response: Token,
+                remoteip: ipAddress
+            }),
+        };
+
+        await fetch('https://www.google.com/recaptcha/api/siteverify', options)
+            .then(response => {
+                if (!response.ok) {
+                    throw Error(response.status);
+                }
+                return response.json();
+            })
+            .catch(error => {
+                throw Error(error);
+            });
+
+        return true;
+
     } catch (err) {
         console.error(err)
         return false;

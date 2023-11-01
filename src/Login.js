@@ -129,15 +129,15 @@ const Login = () => {
                             <div className="row">
                                 <div>
                                     <label className="container-check" >
-                                        <input id="checkbox_con" type="checkbox" onClick={handleCheck} checked={conectadoInput} />
+                                        <input id="checkbox_con" type="checkbox" onClick={handleCheck} checked={conectadoInput} onChange={() => { }} />
                                         <span className="checkmark"></span> Mantenha-me conectado
                                     </label> 
                                 </div>
                             </div>
                             <button to="/home" className='botao btnEntrar btnPrincipal' type="button" onClick={handleButtonClick}>Entrar</button>
                             <div className="esqueciSenha_Container">
-                                <Link to="/recuperar-senha" className='esqueciSenha'>Esqueci a minha senha</Link>
-                                <Link to="/admin" className='admin'>Sou Administador</Link>
+                                <Link to="/recuperar-senha" className='esqueciSenha'>Esqueci a senha</Link>
+                                <Link to="/admin" className='admin'>Sou administador</Link>
                             </div>
                             <div className="admin_Container">
                                 

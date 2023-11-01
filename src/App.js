@@ -17,6 +17,7 @@ import AdminLogin from './AdminLogin';
 import AdminRecuperarSenha from './AdminRecuperarSenha';
 import AdminRedefinirSenha from './AdminRedefinirSenha';
 import AdminPerfil from './AdminPerfil';
+import VerificarEmail from './VerificarEmail';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/admin/recuperar-senha" element={<AdminRecuperarSenha />} />
         <Route path="/admin/redefinir-senha" element={<AdminRedefinirSenha />} />
         <Route path="/admin/perfil" element={<AdminPerfil />} />
+        <Route path="/verificar-email" element={<VerificarEmail />} />
         {/* <Route path="/admin/jogos-indicados" element={<Admin />} /> */}
       </Routes>
     </>

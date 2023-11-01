@@ -116,7 +116,7 @@ input[type="text"], input[type="number"], input[type="date"], input[type="passwo
 
 /* The container */
 .container-check {
-    display: grid;
+    display: flex;
     position: relative;
     min-height: 30px;
     padding: 2px 6px;

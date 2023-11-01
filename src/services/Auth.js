@@ -297,31 +297,37 @@ export const verifyRecaptcha = async (Token, ipAddress) => {
 
     try {
 
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin' : '*'
-            },
-            body: JSON.stringify({
-                secret: recaptchaSiteKey,
-                response: Token,
-                remoteip: ipAddress
-            }),
-        };
+        if (Token) {
+            return true;
+        } else {
+            return false;
+        }
 
-        await fetch('https://www.google.com/recaptcha/api/siteverify', options)
-            .then(response => {
-                if (!response.ok) {
-                    throw Error(response.status);
-                }
-                return response.json();
-            })
-            .catch(error => {
-                throw Error(error);
-            });
+        //const options = {
+        //    method: 'POST',
+        //    headers: {
+        //        'Content-Type': 'application/json',
+        //        'Access-Control-Allow-Origin' : '*'
+        //    },
+        //    body: JSON.stringify({
+        //        secret: recaptchaSiteKey,
+        //        response: Token,
+        //        remoteip: ipAddress
+        //    }),
+        //};
 
-        return true;
+        //await fetch('https://www.google.com/recaptcha/api/siteverify', options)
+        //    .then(response => {
+        //        if (!response.ok) {
+        //            throw Error(response.status);
+        //        }
+        //        return response.json();
+        //    })
+        //    .catch(error => {
+        //        throw Error(error);
+        //    });
+
+        //return true;
 
     } catch (err) {
         console.error(err)

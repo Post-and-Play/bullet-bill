@@ -140,7 +140,7 @@ const RedefinirSenha = () => {
 
     return (
         <div>
-            <Navbar hideSearchbar={true} />
+            <Navbar hideSearchbar={true} hideProfileIcon={true} />
             <form action="" className="redefinirSenha">
                 <div className="headerForm">
                     <h2>Redefinir a senha da conta</h2>

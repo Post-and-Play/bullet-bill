@@ -13,6 +13,8 @@ const Cadastro = () => {
     const [nomeInput, setNomeInput] = useState('');
     const [sobrenomeInput, setSobrenomeInput] = useState('');
     const [nomeUserInput, setNomeUserInput] = useState('');
+    const [dateInput, setDateInput] = useState(new Date());
+
     const [diaInput, setDiaInput] = useState('');
     const [mesInput, setMesInput] = useState('');
     const [anoInput, setAnoInput] = useState('');
@@ -60,8 +62,7 @@ const Cadastro = () => {
         const maiorIdade = anoAtual - anoDigitado;
 
         if (nomeInput.trim() === '' || sobrenomeInput.trim() === '' ||
-            nomeUserInput.trim() === '' || diaInput.trim() === '' ||
-            anoInput.trim() === '' || emailInput.trim() === '' ||
+            nomeUserInput.trim() === '' || dateInput.trim() === '' ||
             confirmEmailInput.trim() === '' || senhaInput.trim() === '' ||
             confirmSenhaInput.trim() === '') {
             e.preventDefault();
@@ -121,20 +122,20 @@ const Cadastro = () => {
     }
 
     const creatUser = async () => {
-
+        //anoInput + '-' + mesInput + '-' + diaInput
         await api.post('./api/users', {
             name: nomeInput + ' ' + sobrenomeInput,
             user_name: nomeUserInput,
             password: senhaInput,
             mail: emailInput,
-            birth_date: anoInput + '-' + mesInput + '-' + diaInput
+            birth_date: dateInput
         }).then(function (response) {
             console.log(response);
 
             if (root) {
                 modals.htmlDialog(
                     root,
-                    'Sua conta foi criada com sucesso!',
+                    'Sua conta foi criada com sucesso!\n\rConfirme seu cadastro através das instruções enviadas ao seu e-mail.',
                     modals.msgboxButtons.okOnly,
                     modals.msgboxIcons.check,
                     'Mensagem!',
@@ -175,7 +176,7 @@ const Cadastro = () => {
 
     return (
         <div>
-            <Navbar hideSearchbar={true} hideProfileIcon={true} title={ 'Registre-se como usuário' } />
+            <Navbar hideSearchbar={true} hideProfileIcon={true} title={ 'Criar uma conta' } />
             <div className="cadastro__page-container">
                 <form className='cadastro'>
                     <div className="cadastro__container">
@@ -196,24 +197,25 @@ const Cadastro = () => {
                             </label>
                             <label className='cadastro__data-container'>
                                 <p className='labelCadastro'>Data de nascimento</p>
-                                <div className="cadastro__select-data-container">
-                                    <input className='inputCadastro inputData inputDia' placeholder='1' type="number" name='dia' value={diaInput} min={"1"} max={"31"} onChange={(e) => handleInputChange(e, setDiaInput)} ></input>
-                                    <select className='inputCadastro inputData inputMes' placeholder='Jan' name="mes" id="mes" value={mesInput} onChange={(e) => handleInputChange(e, setMesInput)}>
-                                        <option value="1">Jan</option>
-                                        <option value="2">Fev</option>
-                                        <option value="3">Mar</option>
-                                        <option value="4">Abr</option>
-                                        <option value="5">Mai</option>
-                                        <option value="6">Jun</option>
-                                        <option value="7">Jul</option>
-                                        <option value="8">Ago</option>
-                                        <option value="9">Set</option>
-                                        <option value="10">Out</option>
-                                        <option value="11">Nov</option>
-                                        <option value="12">Dez</option>
-                                    </select>
-                                    <input className='inputCadastro inputData inputAno lastInput' placeholder='2023' type="number" name='ano' value={anoInput} onChange={(e) => handleInputChange(e, setAnoInput)} min={1800}></input>
-                                </div>
+                                <input className='inputCadastro inputData' type="date" name='data' value={dateInput} onChange={(e) => handleInputChange(e, setDateInput)} />
+                                {/*<div className="cadastro__select-data-container">*/}
+                                    {/*<input className='inputCadastro inputData inputDia' placeholder='1' type="number" name='dia' value={diaInput} min={"1"} max={"31"} onChange={(e) => handleInputChange(e, setDiaInput)} ></input>*/}
+                                    {/*<select className='inputCadastro inputData inputMes' placeholder='Jan' name="mes" id="mes" value={mesInput} onChange={(e) => handleInputChange(e, setMesInput)}>*/}
+                                    {/*    <option value="1">Jan</option>*/}
+                                    {/*    <option value="2">Fev</option>*/}
+                                    {/*    <option value="3">Mar</option>*/}
+                                    {/*    <option value="4">Abr</option>*/}
+                                    {/*    <option value="5">Mai</option>*/}
+                                    {/*    <option value="6">Jun</option>*/}
+                                    {/*    <option value="7">Jul</option>*/}
+                                    {/*    <option value="8">Ago</option>*/}
+                                    {/*    <option value="9">Set</option>*/}
+                                    {/*    <option value="10">Out</option>*/}
+                                    {/*    <option value="11">Nov</option>*/}
+                                    {/*    <option value="12">Dez</option>*/}
+                                    {/*</select>*/}
+                                    {/*<input className='inputCadastro inputData inputAno lastInput' placeholder='2023' type="number" name='ano' value={anoInput} onChange={(e) => handleInputChange(e, setAnoInput)} min={1800}></input>*/}
+                               {/* </div>*/}
                             </label>
                         </div>
                         <div className="cadastro__row-container">
@@ -236,18 +238,17 @@ const Cadastro = () => {
                                 <input className='inputCadastro lastInput' placeholder='Confirme a sua senha' type="password" name="senhaC" value={confirmSenhaInput} onChange={(e) => handleInputChange(e, setConfirmSenhaInput)} />
                             </label>
                         </div>
-                        <div className="row">
+                        <div className="cadastro__row-container">
                             <label className="container-check">
                                 <input className='termos termosCB' type="checkbox" name="name" checked={isChecked} onChange={handleCheckboxChange} />
                                 <span className="checkmark"></span>
                                 <p className='termos termosTexto' onClick={handleClick}>Li e aceito os <em className='termos termosDestaque'>termos de uso</em></p>
                             </label>
-                            <ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />
+                            <div className="container-recaptcha" >
+                                <ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />
+                            </div>
                         </div>
-                        {/*<div className="row container-recaptcha" >*/}
-                        {/*    <ReCAPTCHA sitekey={recaptchaSiteKey} onChange={handleCaptcha} />*/}
-                        {/*</div>*/}
-
+                
                         <div className="cadastro__botao-container">
                             <button className='botao cadastro__botao cadastro__btnVoltar' type="button" onClick={handleBackClick}>Voltar</button>
                             <button className='botao cadastro__botao cadastro__btnCadastrar' type="submit" value="Cadastrar" onClick={handleButtonClick} >Cadastrar</button>
@@ -304,6 +305,7 @@ const Cadastro = () => {
             {emailIgualPopup && <div className='cadastro__camposPopup'>Os emails devem ser iguais!</div>}
             {senhaIgualPopup && <div className='cadastro__camposPopup'>As senhas devem ser iguais!</div>}
             {termosPopup && <div className='cadastro__camposPopup'>Os termos de uso devem ser aceitos!</div>}
+            {desafioRecaptcha && <div className='cadastro__camposPopup'>Por favor, resolva o desafio recaptcha.</div>}
         </div >
     )
 }

@@ -1,4 +1,4 @@
-.redefinirSenha {
+.redefinirSenha, .verifyEmail {
     width: 30rem;
     height: auto;
     left: 0;
@@ -13,6 +13,35 @@
     display: flex;
     flex-direction: column;
 }
+
+.verifyEmail-inner {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.verifyEmail-inner h3, .verifyEmail-inner h1 {
+    margin: 1rem 0;
+}
+
+
+    .btnIrLogin {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        outline: none;
+        border: none;
+        background-color: #B0AFE6;
+        width: 100%;
+        height: 50px !important;
+        color: #fff;
+        font-weight: 600;
+        padding: 0.5rem;
+        border-radius: 0.9375rem;
+        margin: 0;
+        text-decoration: none;
+    }
 
 .headerForm {
     width: 100%;

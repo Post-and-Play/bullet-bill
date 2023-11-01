@@ -3,6 +3,8 @@
 import '../src/Login.css';
 import Navbar from './components/navbar';
 import Ilustration from './image/ilustration.png';
+import { Icon } from '@iconify/react';
+import arrowLeft from '@iconify-icons/ic/arrow-back';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -137,7 +139,7 @@ const AdminLogin = () => {
                             </div>
                         </div>
                     </div>
-                    <form className='login'>
+                    <form className='login-admin'>
                         <div className="login__container">
                             <label className='labelContainer'>
                                 <p className='textoInput'>Email</p>
@@ -150,7 +152,7 @@ const AdminLogin = () => {
                             <div className="row">
                                 <div>
                                     <label className="container-check" >
-                                        <input id="checkbox_con" type="checkbox" onClick={handleCheck} checked={conectadoInput} />
+                                        <input id="checkbox_con" type="checkbox" onClick={handleCheck} checked={conectadoInput} onChange={() => { }} />
                                         <span className="checkmark"></span>Mantenha-me conectado
                                     </label> 
                                 </div>
@@ -162,8 +164,8 @@ const AdminLogin = () => {
 
                             <button to="/home" className='botao btnEntrar btnPrincipal' type="button" onClick={handleButtonClick}>Entrar</button>
                             <div className="esqueciSenha_Container">
-                                <Link to="/recuperar-senha" className='esqueciSenha'>Esqueci a minha senha</Link>
-                                <Link to="/" className='voltarLogin'>Voltar para login de usuário</Link>
+                                <Link to="/recuperar-senha" className='esqueciSenha'>Esqueci a senha</Link>
+                                <Link to="/" className='voltarLogin'><Icon icon={arrowLeft} /> Login de usuário</Link>
                             </div>
                         </div>
                     </form>

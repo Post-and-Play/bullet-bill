@@ -976,10 +976,10 @@ const Admin = () => {
     const handleUpdateAdmin = async () => {
         if (activeItem || adicionar) {
             try {
-                if (!selectedProfileImage) {
-                    console.error('Por favor, selecione uma foto de perfil.');
-                    return;
-                }
+                //if (!selectedProfileImage) {
+                //    console.error('Por favor, selecione uma foto de perfil.');
+                //    return;
+                //}
 
                 const updateData = {
                     name: nomeAdminInput,
@@ -1149,7 +1149,6 @@ const Admin = () => {
         // Retorna a cor correspondente no array de cores
         return coresDasNotas[indice];
     };      
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -1550,7 +1549,7 @@ const Admin = () => {
                                         placeholder="Pesquisar..."
                                         className="admin__search-input"
                                         value={searchTerm}
-                                        onChange={handleSearchGamesChange}
+                                        onChange={handleSearchUsersChange}
                                     />
                                 </div>
                                 <div className="admin__gridView">

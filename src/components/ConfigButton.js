@@ -351,8 +351,7 @@ const ConfigButton = ({ currentUser }) => {
                                 <img className="bannerImage" src={bannerImage} alt="Imagem de fundo" />
                             ) : (<br/>)}
                          </div>
-
-                                          </div>
+                      </div>
 
                   </div>
                   <div>

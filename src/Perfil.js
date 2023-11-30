@@ -14,8 +14,9 @@ import Navbar from './components/navbar';
 import Lightbox from './components/LightBox';
 import api from './services/Api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
 import { getAuth } from './services/Auth';
-import { FaUserPlus, FaCheck, FaTrash } from 'react-icons/fa';
 import { Modals } from './components/Modals';
 
 const Perfil = () => {
@@ -371,7 +372,7 @@ const Perfil = () => {
     }, []);
 
       return (
-        <div className="perfil__page-container">
+          <div className="container-root">
           <Navbar currentUser={currentUser} />
             <header className="perfil-banner__container">
             <img src={!bannerImage ? Banner : bannerImage} alt="Banner usuário" className="perfil-banner__banner" onError={handleBannerError} />
@@ -463,10 +464,11 @@ const Perfil = () => {
                     </div>
                     <div className="perfil-post_remove">
                         {userIdU === currentUser.id && (
-                            <FaTrash
-                                className="delete-icon"
-                                onClick={() => handleDeleteReview(post.id, post.user_id)}
-                            />
+                              <FontAwesomeIcon
+                                            icon={faTrash}
+                                            className='delete-icon'
+                                            onClick={() => handleDeleteReview(post.id, post.user_id)} // Use uma função anônima
+                                        />
                         )}
                     </div>
                 </article>

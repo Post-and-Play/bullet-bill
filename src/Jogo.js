@@ -4,12 +4,9 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import Navbar from './components/navbar';
 import PostButton from './components/postButton'
-
-import { Icon } from '@iconify/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import { FaTrash } from 'react-icons/fa';
+import { faHeart, faRankingStar, faThumbsUp, faTrash, faQuoteLeft, faQuoteRight } from '@fortawesome/free-solid-svg-icons';
+
 
 // import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
 import Lightbox  from './components/LightBox';
@@ -568,7 +565,7 @@ const Jogo = () => {
    
 
     return (
-        <div>
+        <div className="container-root">
             <Navbar currentUser={currentUser} />
             <div className="jogo__banner-container">
                 <img src={coverAdr} alt="Banner" className='jogo__banner' />
@@ -596,7 +593,8 @@ const Jogo = () => {
                             </div>
                             <div className="jogo__rank-container">
                                 <div className="jogo__rank">
-                                    <Icon icon="solar:ranking-linear" className='jogo__rank-icon' />
+                                    <FontAwesomeIcon icon={faRankingStar} className='jogo__rank-icon' />
+                                    {/*<Icon icon="solar:ranking-linear" className='jogo__rank-icon' />*/}
                                     <span className='jogo__rank-ranking'>{reviewCount} Reviews</span>
                                 </div>
                             </div>
@@ -614,9 +612,9 @@ const Jogo = () => {
                     </div>
                     <div className="jogo__sinopse-container">
                         <div className="jogo__sinopse">
-                            <Icon icon="mingcute:quote-left-fill" className='jogo__sinopse-quoteIcon quoteIcon-left' />
+                            <FontAwesomeIcon icon={faQuoteLeft} className='jogo__sinopse-quoteIcon quoteIcon-left' />
                             <p className='jogo__sinopse-texto'>{description}</p>
-                            <Icon icon="mingcute:quote-right-fill" className='jogo__sinopse-quoteIcon quoteIcon-right' />
+                            <FontAwesomeIcon icon={faQuoteRight} className='jogo__sinopse-quoteIcon quoteIcon-right' />
                         </div>
                     </div>
                     </div>
@@ -652,10 +650,12 @@ const Jogo = () => {
                                 </div>
                                 <div className="jogo__post-remove">
                                     {currentUser && currentUser.id === review.user_id && (
-                                        <FaTrash
-                                            className="delete-icon"
+                                        <FontAwesomeIcon
+                                            icon={faTrash}
+                                            className='delete-icon'
                                             onClick={() => handleDeleteReview(review.id, review.user_id)} // Use uma função anônima
                                         />
+
                                     )}
                                 </div>
                             </div>

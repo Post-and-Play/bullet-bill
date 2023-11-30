@@ -116,7 +116,7 @@ const Pesquisa = () => {
     }, []);
     
     return (
-        <div>
+        <div className="container-root">
             <Navbar currentUser={currentUser} />
             <div id="pesquisa_jogos" className="pesquisa__jogos-container">
                 {

@@ -1,15 +1,17 @@
 .nav__navbar {
+    top: 0px;
+    position: absolute;
     width: 100%;
     height: 5rem;
     background-color: #795FA1;
     padding: 1.25rem;
-    /* margin-bottom: 3.125rem; */
     color: #fff;
     box-shadow: 0rem 0.125rem 0.25rem rgba(0, 0, 0, 0.15);
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 2;
 }
 
 .nav-img__logo {

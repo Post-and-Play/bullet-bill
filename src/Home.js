@@ -306,7 +306,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div>
+        <div className="container-root">
             <Navbar currentUser={currentUser} />
             {/* <div className="home__bemAvaliado-slider">
                 <div className="home__bemAvaliado-container">

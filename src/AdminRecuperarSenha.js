@@ -68,7 +68,7 @@ const AdminRecuperarSenha = () => {
     }
 
     return (
-        <div>
+        <div className="container-root">
             <Navbar hideSearchbar={true} />
 
             <form action="" className="formEmail">

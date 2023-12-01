@@ -70,7 +70,7 @@ const Favoritos = () => {
     }, []);
 
     return (
-        <div>
+        <div className="container-root">
             <Navbar currentUser={currentUser} />
             <div className="favorito__jogos-container">
                 {games.length > 0 ?

@@ -8,7 +8,7 @@ import Searchbar from '../components/searchbar';
 
 const navbar = ({ hideSearchbar, hideProfileIcon, currentUser, title }) => {
     return (
-        <div>
+        <>
             <nav className='nav__navbar'>
                 <div className="nav__logo">
                     <Link to="/home">
@@ -23,7 +23,7 @@ const navbar = ({ hideSearchbar, hideProfileIcon, currentUser, title }) => {
                     {!hideProfileIcon  && <ProfileIcon currentUser={currentUser} />}
                 </div>
             </nav>
-        </div>
+        </>
     )
 }
 

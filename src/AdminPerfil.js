@@ -61,7 +61,7 @@ const AdminPerfil = () => {
     }, []);
 
     return (
-        <div className="perfil__page-container">
+        <div className="container-root">
           <Navbar currentUser={currentUser} />
           <header className="perfil-banner__container">
                 <img src={ !bannerImage ? Banner : bannerImage } alt="Banner usuário" className="perfil-banner__banner" onLoad={handleBannerError} />

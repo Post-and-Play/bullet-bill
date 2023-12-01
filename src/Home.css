@@ -18,27 +18,43 @@
 }
 .card__post-remove {
     position: absolute;
-    /* top: 10px; */
-    /* right: 21.5%; */
-    
     font-size: 19px; /* Tamanho do ícone */
     color: #060606ce; /* Cor do ícone de exclusão */
     cursor: pointer;
   }
-.custom-slider {
-    height: 40vh;
+/*.custom-slider {*/
+/*    height: 40vh;
+}*/
+
+
+.home__bemAvaliado-slider {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction:  column;
+    margin-top: 60px;
 }
 
-.home__bemAvaliado-slider,
 .home__bemAvaliado-container {
-    width: 100%;
+    width: 80%;
     height: auto;
     object-fit: cover;
+}
+
+.home__slider {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+    outline: none;
 }
 
 .slider-centered {
     margin: 0;
     width: 65% !important;
+    overflow: hidden
 }
 
 .slick-slide {
@@ -46,15 +62,15 @@
 }
 
 .home-image-slider__item {
-    width: 100%;
+    width: 210px !important;
+    height: 290px !important;
     display: flex;
-    justify-content: space-between;
     margin: 0 20px;
 }
 
 .home-image-slider__item img {
-    width: 220px;
-    height: 290px;
+    width: 100%;
+    height: 100%;
     border-radius: 20px;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
@@ -66,17 +82,32 @@
 .home-carousel-icon {
     cursor: pointer;
     margin: 0 20px;
+    width: 40px;
+    height: 80px;
+    transition: ease-in 0.2s;
+    background-size: cover;
 }
 
-.custom-container {
-    margin-top: 100px;
-    /* width: 100%; */
-    max-width: 100%;
-    /* Largura máxima personalizada */
-    margin-left: 5%;
-    margin-right: 5%;
-    /* Outros estilos personalizados */
+.home-carousel-icon:hover {
+    color: blueviolet;
+    height: 120px;
+    width: 60px
 }
+
+    .home-carousel-icon svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .custom-container {
+        margin-top: 100px;
+        /* width: 100%; */
+        max-width: 100%;
+        /* Largura máxima personalizada */
+        margin-left: 5%;
+        margin-right: 5%;
+        /* Outros estilos personalizados */
+    }
 
 .container__card-post {
     width: 100%;
@@ -99,11 +130,12 @@
 
 .card-post__foto {
     border-radius: 50%;
-    height: 40px;
-    width: 40px;
+    height: 60px;
+    width: 60px;
 }
 
 .card-post__user {
+    margin-left: 15px;
     font-size: 20px;
     text-decoration: none;
     color:white;

@@ -333,9 +333,6 @@
 }
 
 @media(max-width: 991px) {
-    .botao {
-        width: 100% !important;
-    }
 
     .login__blob {
         display: none;

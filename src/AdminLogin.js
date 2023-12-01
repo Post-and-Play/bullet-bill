@@ -33,6 +33,7 @@ const AdminLogin = () => {
 
     const handleCheck = (event) => {
         setConectadoInput(!conectadoInput);
+        localStorage.setItem(CONECT_KEY, !conectadoInput);
     }
 
     const handleButtonClick = (e) => {
@@ -106,11 +107,10 @@ const AdminLogin = () => {
                 navigate('/admin/dashboard');
             }
             else {
-                const con = localStorage.getItem(CONECT_KEY);
-                const checkbox_con = document.getElementById('checkbox_con');
-                if (checkbox_con) {
-                    checkbox_con.checked = con === 'on' ? true : false;
-                }
+                const con = await localStorage.getItem(CONECT_KEY);
+                if (con === 'true') {
+                    setConectadoInput(true)
+                } 
             }
         }
         fetch('https://api.ipify.org?format=json')
@@ -122,7 +122,7 @@ const AdminLogin = () => {
     }, [])
 
     return (
-        <div>
+        <div className="container-root">
             <Navbar hideProfileIcon={true} hideSearchbar={true} />
             <div className="login__container">
                 <div className="login-page__container">
@@ -152,7 +152,7 @@ const AdminLogin = () => {
                             <div className="row">
                                 <div>
                                     <label className="container-check" >
-                                        <input id="checkbox_con" type="checkbox" onClick={handleCheck} checked={conectadoInput} onChange={() => { }} />
+                                        <input id="checkbox_con" type="checkbox" onClick={handleCheck} checked={conectadoInput} onChange={handleCheck} />
                                         <span className="checkmark"></span>Mantenha-me conectado
                                     </label> 
                                 </div>

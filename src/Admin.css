@@ -1,7 +1,15 @@
+.root-admin-container {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    padding-top: 80px;
+}
+
 .admin__container {
     display: flex;
-    flex-direction: column;
-    /* align-items: center; */
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
 }
 
 .admin__content-container {
@@ -14,7 +22,7 @@
 /* Estilo para o menu vertical */
 .admin__menu-container {
     background-color: #795FA1;
-    width: 12.5rem;
+    width: 18.5rem;
     height: calc(100vh - 5rem);
     font-weight: 600;
     color: #fff;
@@ -26,14 +34,19 @@
     list-style: none;
     padding: 0;
     width: 100%;
+    margin: 0;
 }
 
 .admin__menu-option {
     cursor: pointer;
     padding: 20px;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+}
+
+.icon-option {
+    margin-right: 8px;
 }
 
 .admin__menu-option:hover {
@@ -43,6 +56,7 @@
 .admin__menu-option.ativo {
     filter: brightness(0.85);
     background-color: #604688;
+    color: aquamarine;
 }
 
 /* Novos estilos para colocar a admin-indicar__card-container ao lado do menu */
@@ -54,18 +68,43 @@
 
 /* GridView */
 .admin__gridView-container {
-    width: 25%;
-    border-right: solid 4px #795FA1;
-    margin-right: 50px;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    background-color: #eee;
+}
+
+.admin__toolbar-top {
+    background-color: #B0AFE6;
+    margin-bottom: 8px;
+    padding: 6px;
+    height: 4.0rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.toolbar-button {
+    padding: 8px 16px;
+    max-width: 200px;
+    margin-right: 10px;
 }
 
 /* Todo conteúdo do card de jogos indicados */
 .admin-card__container {
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #dfdfdff3; /* Black w/ opacity */
     display: flex;
     justify-content: center;
     margin: auto;
+    padding: 10px 20px;
+    transition: ease-in-out 1s;
+    z-index: 4;
 }
 
 .admin__search-input {
@@ -73,7 +112,7 @@
     border-bottom: 2px solid #e6e6e6;
     border-radius: 5px;
     width: 100%;
-    padding: 5px;
+    padding: 5px 8px;
 }
 
 .admin__gridView {
@@ -82,32 +121,85 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 12px;
+    overflow: scroll;
 }
 
 .admin__gridView-cell {
-    /* border-top: solid 2px #795FA1; */
-    border-bottom: solid 2px #795FA1;
+    background-color: #fff;
     display: flex;
-    flex-direction: row;
-    font-size: larger;
-    cursor: pointer;
     width: 100%;
-    padding: 15px;
+    height: 90px;
+    padding: 8px 16px;
+    flex-direction: row;
+    margin: 8px auto;
+    border-radius: 8px;
+    box-shadow: 0px 6px 6px 0px #aaaaaa33;
+    color: #444;
 }
 
-.admin__gridView-cell:hover,
+.admin__gridView-cell-button-container {
+    display: flex;
+    width: 40px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 8px;
+}
 
-.admin__gridView-cell.active {
+.admin__gridView-cell-image-container {
+    display: flex;
+    width: 90px;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 8px;
+}
+
+.admin__gridView-cell-image-container img {
+    overflow: hidden;
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.admin__gridView-cell-text-container {
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.admin__gridView-cell:hover, .admin__gridView-cell.active {
     background-color: #e0e0e0;
 }
 
 .gridView-id,
-.gridView-game {
-    padding: 10px;
+.gridView-game,
+.gridView-game-nota {
+    max-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 4px;
 }
 
-.gridView-game {
-    margin: auto;
+.gridView-game-nota {
+    max-height: none;
+    color: #fff;
+}
+
+
+    .admin__perfil-info__plataformas {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+.admin__perfil-info__plataformas img {
+    width: 1.563rem;
+    height: 1.563rem;
+    margin-right: 10px;
 }
 
 .admin__card {
@@ -115,18 +207,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    width: 100%;
+    padding: 12px 20px;
     height: auto;
+    max-width: 660px;
+    min-width: 460px;
     background-color: #795FA1;
     border-radius: 15px;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-    margin-top: 50px;
+    color: #fff;
 }
 
 .admin__row {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .admin__label {
@@ -203,7 +296,7 @@
 }
 
 .indicar__btn-reprovar {
-    background-color: transparent;
+    background-color: #B0AFE6;
     border: 2px solid #633F9A;
 }
 
@@ -300,4 +393,16 @@
 .admin__profileImageText,
 .admin__bannerImageText {
     color: #fff;
+}
+
+
+@media(max-width: 500px) {
+
+    .admin__menu-container {
+        width: 3.2rem;
+    }
+
+    .admin__menu-option-text {
+        display: none;
+    }
 }

@@ -19,6 +19,7 @@ export const recaptchaSiteKey = process.env.REACT_APP_RECAPTCHASECRETKEY;
 export const USER_KEY = "@pap-token";
 export const DATE_EXP = "@pap-expire";
 export const CONECT_KEY = "@pap-persist";
+export const MENU_KEY = "@pap-menu";
 
 //Verifica se existe dados no localStorage
 export const getStorage = () => {
@@ -88,7 +89,7 @@ export const getStorage = () => {
     let dTimeexp = new Date(localStorage.getItem(DATE_EXP));
     let dTimecur = new Date(dateTime);
 
-    if (con == 'on') {
+    if (con == 'true') {
 
         let today2 = new Date(new Date().valueOf() + 3600000);
 

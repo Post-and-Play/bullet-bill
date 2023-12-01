@@ -168,8 +168,8 @@ const Indicar = () => {
 
 
     return (
-        <div>
-            <Navbar hideSearchbar={true} currentUser={currentUser} title={'Indique o jogo' } />
+        <div className="container-root">
+            <Navbar hideSearchbar={true} currentUser={currentUser} title={'Indique um jogo' } />
             <form action='/jogo'>
                 <div className="indicar__card-container">
                     <div className="indicar__card">

@@ -175,7 +175,7 @@ const Cadastro = () => {
     }, [])
 
     return (
-        <div>
+        <div className="container-root">
             <Navbar hideSearchbar={true} hideProfileIcon={true} title={ 'Criar uma conta' } />
             <div className="cadastro__page-container">
                 <form className='cadastro'>

@@ -25,6 +25,7 @@ const Login = () => {
 
     const handleCheck = (event) => {
         setConectadoInput(!conectadoInput);
+        localStorage.setItem(CONECT_KEY, !conectadoInput);
     }
 
     const handleButtonClick = (e) => {
@@ -84,11 +85,10 @@ const Login = () => {
                 navigate('/home');
             }
             else {
-                const con = localStorage.getItem(CONECT_KEY);
-                const checkbox_con = document.getElementById('checkbox_con');
-                if (checkbox_con) {
-                    checkbox_con.checked = con === 'on' ? true : false;
-                }
+                const con = await localStorage.getItem(CONECT_KEY);
+                if (con === 'true') {
+                    setConectadoInput(true)
+                } 
             }
         }
         fetchData();
@@ -96,7 +96,7 @@ const Login = () => {
     }, [navigate])
 
     return (
-        <div>
+        <div className="container-root">
             <Navbar hideProfileIcon={true} hideSearchbar={true} />
             <div className="login__container">
                 <div className="login-page__container">
@@ -105,7 +105,7 @@ const Login = () => {
                         <h1 className='destaque tituloDestaque'>Olá!</h1>
                         <h3 className='destaque subDestaque'>Bem-Vindo ao Post and Playing</h3>
                         <p className='destaque textoDestaque'>
-                        o Post and Playing é uma comunidade dedicada a celebrar a paixão pelo gaming através de reviews, discussões e conexões, onde os gamers compartilham experiências, descobrem novos jogos e vivem uma jornada em um mundo de histórias únicas.
+                        O Post and Playing é uma comunidade dedicada a celebrar a paixão pelo gaming através de reviews, discussões e conexões, onde os gamers compartilham experiências, descobrem novos jogos e vivem uma jornada em um mundo de histórias únicas.
                         </p>
                         <p className='destaque textoDestaque'>
                             Junte-se a nós!
@@ -129,7 +129,7 @@ const Login = () => {
                             <div className="row">
                                 <div>
                                     <label className="container-check" >
-                                        <input id="checkbox_con" type="checkbox" onClick={handleCheck} checked={conectadoInput} onChange={() => { }} />
+                                        <input id="checkbox_con" type="checkbox" onClick={handleCheck} checked={conectadoInput} onChange={handleCheck} />
                                         <span className="checkmark"></span> Mantenha-me conectado
                                     </label> 
                                 </div>

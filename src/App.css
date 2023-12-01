@@ -10,6 +10,14 @@ body {
   height: 100vh;
 }
 
+hr {
+    width: 100px;
+    height: 3px;
+    background-color: blueviolet;
+    margin: 10px 0;
+}
+
+
 h1, h2, h3, h4, h5, h6, p, label {
     margin-block-start: 0.2em;
     margin-block-end: 0.2em;
@@ -24,6 +32,15 @@ h1, h2, h3, h4, h5, h6, p, label {
     padding: 6px;
     margin: 8px 0;
 }
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 20px auto;
+    align-items: center;
+}
+
 /* nav {
   background-color: #795FA1;
   display: flex;

@@ -158,6 +158,8 @@
 
 .jogo__semelhantes-slider {
     width: calc(100% - 80%);
+    min-width: 270px;
+    max-width: 290px;
     float: right;
     position: absolute;
     top: 150px;

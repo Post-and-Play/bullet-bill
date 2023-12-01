@@ -26,6 +26,8 @@ import { Modals } from './components/Modals';
 import { getAuth } from './services/Auth';
 import api from './services/Api'
 import Lightbox  from './components/LightBox';
+import Whirligig from 'react-whirligig';
+
 
 const Home = () => {
 
@@ -37,6 +39,7 @@ const Home = () => {
 
     const [reviews, setReviews] = useState([]);
     const [games, setGames] = useState([]);
+    const [ranking, setRanking] = useState([]);
     const [userId, setUserId] = useState(null);
     const sliderRef = useRef(null);
     const [lightboxImage, setLightboxImage] = useState(null);
@@ -46,10 +49,10 @@ const Home = () => {
 
     const settings = {
         infinite: true,
+        height: 300,
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
-        horizSwiping: true,
         horizSwiping: true,
         nextArrow: <></>,
         prevArrow: <></>,
@@ -261,6 +264,18 @@ const Home = () => {
             setGames([]);
         }
 
+        try {
+            const response = await api.get('./api/games/ranking');
+            if (response.data) {
+                setRanking(response.data);
+            }
+            else {
+                setRanking([]);
+            }
+        } catch (err) {
+            setRanking([]);
+        }
+
     }
 
     const coresDasNotas = [
@@ -305,29 +320,67 @@ const Home = () => {
         fetchData(); // Chama a função fetchData quando o componente for montado
     }, []);
 
+    let whirligig
+    const next = () => whirligig.next()
+    const prev = () => whirligig.prev()
+
     return (
         <div className="container-root">
             <Navbar currentUser={currentUser} />
-            {/* <div className="home__bemAvaliado-slider">
-                <div className="home__bemAvaliado-container">
-                    <div className="home-carousel-icon" onClick={handleSlideLeft} >
-                        <Icon icon="ep:arrow-up-bold" rotate={3} className="image-slider__image" />
-                    </div>
-                    <Slider ref={sliderRef} {...settings} className="slider-centered custom-slider">
-                        {images.map((image, index) => (
-                            <div key={index} className="home-image-slider__item">
-                                <a href="#" className='home-image-slider__link'>
-                                    <img src={image} alt={`Imagem ${index + 1}`} className="home-image-slider__image" />
-                                </a>
-                            </div>
-                        ))}
-                    </Slider>
-                    <div className="home-carousel-icon" onClick={handleSlideRight} >
-                        <Icon icon="ep:arrow-up-bold" rotate={1} />
-                    </div>
+
+            <div className="home__bemAvaliado-slider">
+                <div className="title-container">
+                    <h2>Jogos mais avaliados</h2>
+                    <hr />
                 </div>
-            </div> */}
+                <div className="home__bemAvaliado-container">
+                    {/*<div className="home-carousel-icon" onClick={handleSlideLeft} >*/}
+                    {/*    <Icon icon="ep:arrow-up-bold" rotate={3} className="image-slider__image" />*/}
+                    {/*</div>*/}
+                    {/*<Slider ref={sliderRef} {...settings} className="slider-centered custom-slider">*/}
+                    {/*    {images.map((image, index) => (*/}
+                    {/*        <div key={index} className="home-image-slider__item">*/}
+                    {/*            <a href={`/jogo?id=${index}`} className='home-image-slider__link'>*/}
+                    {/*                <img src={image} alt={`Imagem ${index + 1}`} className="home-image-slider__image" />*/}
+                    {/*            </a>*/}
+                    {/*        </div>*/}
+                    {/*    ))}*/}
+                    {/*</Slider>*/}
+                    {/*<div className="home-carousel-icon" onClick={handleSlideRight} >*/}
+                    {/*    <Icon icon="ep:arrow-up-bold" rotate={1} />*/}
+                    {/*</div>*/}
+                    <div className="home-carousel-icon" onClick={prev} >
+                        <Icon icon="ep:arrow-up-bold" rotate={3} />
+                    </div>
+                    <Whirligig
+                        className="home__slider" 
+                        visibleSlides={0}
+                        gutter="1em" 
+                        infinte={true}
+                        preventScroll={true} 
+                        animationDuration={300}
+                        ref={(_whirligigInstance) => { whirligig = _whirligigInstance }}
+                    >
+                        {ranking.map((game, index) => (
+                                <div key={index} className="home-image-slider__item">
+                                    <a href={`/jogo?id=${game.id}`} className='home-image-slider__link'>
+                                        <img src={game.top_adr} alt={`Imagem ${index + 1}`} className="home-image-slider__image" />
+                                    </a>
+                                </div>
+                            ))}
+                    </Whirligig>
+                    <div className="home-carousel-icon" onClick={next} >
+                        <Icon icon="ep:arrow-up-bold" rotate={1} />               
+                    </div>
+
+                </div>
+            </div> 
+
             <div className="custom-container">
+                <div className="title-container">
+                    <h2>Ultimas avaliações</h2>
+                    <hr />
+                </div>
                 <div className="container__card-post">
                     {reviews.map((review, index) => (
                         <div className="card-post" key={review.id}>

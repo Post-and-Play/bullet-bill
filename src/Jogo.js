@@ -2,13 +2,17 @@ import './Jogo.css'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+import LeagueOfLegends from './icons/Render background/Imagens/icon/icon - League of Legends.png'
+import CSGO from './icons/Render background/Imagens/icon/icon--CSGO.png'
+import EldenRing from './icons/Render background/Imagens/icon/icon--EldenRing.png'
+import Osu from './icons/Render background/Imagens/icon/icon--Osu.png'
+import Skyrim from './icons/Render background/Imagens/icon/icon--Skryim.png'
+
 import Navbar from './components/navbar';
 import PostButton from './components/postButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faRankingStar, faThumbsUp, faTrash, faQuoteLeft, faQuoteRight } from '@fortawesome/free-solid-svg-icons';
-
-
-// import arrowDownCircleFill from '@iconify-icons/bi/arrow-down-circle-fill';
+import { Icon } from '@iconify/react';
 import Lightbox  from './components/LightBox';
 import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
@@ -28,6 +32,8 @@ const Jogo = () => {
     const modals = new Modals();
     const loading = new modals.htmlLoading(root);
 
+    const [currentGame, setCurrentGame] = useState(null);
+
     const [gameId, setGameId] = useState(initialGameId);
     const [currentUser, setCurrentUser] = useState();
     const [reviews, setReviews] = useState([]);
@@ -38,7 +44,9 @@ const Jogo = () => {
     const [topAdr, setTopAdr] = useState('');
     const [rating, setRating] = useState('');
     const [genderArray, setGenderArray] = useState([]);
-   
+
+    const [similar, setSimilar] = useState([]);
+
     const [userId, setUserId] = useState();
     const [userLikes, setUserLikes] = useState([]);
     const [reviewId, setReviewId] = useState(0);
@@ -112,40 +120,35 @@ const Jogo = () => {
         }
     }
 
-    // const sliderRef = useRef(null);
+     const sliderRef = useRef(null);
 
-    // const settings = {
-    //     infinite: true,
-    //     speed: 500,
-    //     slidesToShow: 3,
-    //     slidesToScroll: 1,
-    //     vertical: true,
-    //     verticalSwiping: true,
-    //     nextArrow: <></>,
-    //     prevArrow: <></>,
-    // };
+     const settings = {
+         infinite: true,
+         speed: 500,
+         slidesToShow: 3,
+         slidesToScroll: 1,
+         vertical: true,
+         verticalSwiping: true,
+         nextArrow: <></>,
+         prevArrow: <></>,
+     };
 
-    // const images = [
-    //     LoopHero,
-    //     DuelLink,
-    //     Hearthstone,
-    //     FotoPerfil,
-    //     FotoPerfil,
-    //     FotoPerfil,
-    //     FotoPerfil,
-    //     FotoPerfil,
-    //     FotoPerfil
-    // ];
+    const images = [
+        LeagueOfLegends,
+        CSGO,
+        EldenRing,
+        Osu,
+        Skyrim
+    ];
 
-
-    // const handleSlideDown = (review) => {
-    //     if (sliderRef.current) {
-    //         const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
-    //         const slidesToShow = settings.slidesToShow;
-    //         const nextSlideIndex = slideIndex + slidesToShow;
-    //         sliderRef.current.slickGoTo(nextSlideIndex);
-    //     }
-    // };
+    const handleSlideDown = (review) => {
+         if (sliderRef.current) {
+             const slideIndex = sliderRef.current.innerSlider.state.currentSlide;
+             const slidesToShow = settings.slidesToShow;
+             const nextSlideIndex = slideIndex + slidesToShow;
+             sliderRef.current.slickGoTo(nextSlideIndex);
+         }
+     };
 
     const coresDasNotas = [
         "#A70000",
@@ -239,6 +242,41 @@ const Jogo = () => {
             setReviews([]);
             console.error(err);
             return [];
+        }
+
+    };
+
+    const getSimilar = async (game) => {
+
+        if (!game) {
+            console.error("game não é válido");
+            return;
+        }
+
+        try {
+
+            const genders = String(game.genders).split(',');
+            let gen = '';
+            if (genders.length > 0) {
+                gen = genders[0];
+                const response = await api.get(`/api/games/similar?gender=${gen}`);
+                if (response.status === 200) {
+                    setSimilar(response.data);
+                } else {
+                    setSimilar([]);
+                }
+            } else {
+                const response = await api.get(`/api/games`);
+                if (response.status === 200) {
+                    setSimilar(response.data);
+                } else {
+                    setSimilar([]);
+                }
+            }
+
+        } catch (err) {
+            setSimilar([]);
+            console.error(err);
         }
 
     };
@@ -410,6 +448,8 @@ const Jogo = () => {
 
             const response = await api.get('./api/games?id=' + gameId);
             if (response.data.id) {
+
+                setCurrentGame(response.data)
                 setName(response.data.name);
                 setGenders(response.data.genders);
                 setDescription(response.data.description);
@@ -434,6 +474,9 @@ const Jogo = () => {
                 } else {
                     navigate('/');
                 }
+
+                getSimilar(response.data);
+
 
             }
             else {
@@ -544,7 +587,7 @@ const Jogo = () => {
             
             await setGameId(Number(initialGameId));
             await getCurrentGame();
-
+          
             // Mova a atualização do estado de genderArray para dentro desta função de efeito
             // após a chamada de getCurrentGame()
            
@@ -619,13 +662,18 @@ const Jogo = () => {
                     </div>
                     </div>
             </div>
-            {/* <div className="jogo__semelhantes-slider">
+
+            <div className="jogo__semelhantes-slider">
+                <div className="title-container">
+                    <h3>Jogos semelhantes</h3>
+                    <hr />
+                </div>
                 <div className="jogo__semelhantes-container">
                     <Slider ref={sliderRef} {...settings} className="slider-centered">
-                        {images.map((image, index) => (
+                        {similar.map((g, index) => (
                             <div key={index} className="image-slider__item">
-                                <a href="#">
-                                    <img src={image} alt={`Imagem ${index + 1}`} className="image-slider__image" />
+                                <a href={`/jogo?id=${g.id}` } >
+                                    <img src={g.top_adr} alt={`Imagem ${index + 1}`} className="image-slider__image" />
                                 </a>
                             </div>
                         ))}
@@ -634,7 +682,8 @@ const Jogo = () => {
                         <Icon icon="ep:arrow-up-bold" rotate={2} />
                     </div>
                 </div>
-            </div> */}
+            </div> 
+
             <div className="jogo__posts-container">
                 {Array.isArray(reviews) && reviews.map((review, index) => (
                     <div className="jogo__post" key={index}>

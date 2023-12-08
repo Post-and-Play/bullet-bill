@@ -1180,12 +1180,12 @@ const Admin = () => {
                         }}>
                                 <FontAwesomeIcon icon={faHandPointUp} className="icon-option" /><p className="admin__menu-option-text">Jogos indicados</p>
                             </li>
-                        <li className={`admin__menu-option ${opcaoSelecionada === 'reviews' ? 'ativo' : ''}`} onClick={() => {
-                            handleOpcaoSelecionada('reviews')
-                            localStorage.setItem(MENU_KEY, 'reviews');
-                        }}>
-                                <FontAwesomeIcon icon={faRankingStar} className="icon-option" /><p className="admin__menu-option-text">Reviews</p>
-                            </li>
+                        {/*<li className={`admin__menu-option ${opcaoSelecionada === 'reviews' ? 'ativo' : ''}`} onClick={() => {*/}
+                        {/*    handleOpcaoSelecionada('reviews')*/}
+                        {/*    localStorage.setItem(MENU_KEY, 'reviews');*/}
+                        {/*}}>*/}
+                        {/*        <FontAwesomeIcon icon={faRankingStar} className="icon-option" /><p className="admin__menu-option-text">Reviews</p>*/}
+                        {/*    </li>*/}
                         <li className={`admin__menu-option ${opcaoSelecionada === 'users' ? 'ativo' : ''}`} onClick={() => {
                             handleOpcaoSelecionada('users')
                             localStorage.setItem(MENU_KEY, 'users');
@@ -1439,96 +1439,96 @@ const Admin = () => {
 
                             </>
                         )}
-                    {/*    {opcaoSelecionada === 'reviews' && (*/}
-                    {/*        <>*/}
-                    {/*            <div className="admin__gridView-container">*/}
-                    {/*                <div className="admin__toolbar-top">*/}
-                    {/*                    <input*/}
-                    {/*                        type="text"*/}
-                    {/*                        placeholder="Pesquisar..."*/}
-                    {/*                        className="admin__search-input"*/}
-                    {/*                        value={searchTerm}*/}
-                    {/*                        onChange={handleSearchReviewsChange}*/}
-                    {/*                    />*/}
-                    {/*                </div>*/}
-                    {/*                <div className="admin__gridView">*/}
-                    {/*                    {reviews.length > 0 ? (*/}
-                    {/*                        reviews.map((review) => (*/}
-                    {/*                            <li key={review.id} className="admin__gridView-cell">*/}
-                    {/*                                    <div className="admin__gridView-cell-button-container">*/}
-                    {/*                                    <FontAwesomeIcon icon={faEye} onClick={() => handleReviewViewClick(review)} />*/}
-                    {/*                                    </div>*/}
-                    {/*                                    <div className="admin__gridView-cell-button-container">*/}
-                    {/*                                    <FontAwesomeIcon icon={faTrash} onClick={() => handleReviewDeleteClick(review)} />*/}
-                    {/*                                    </div>*/}
-                    {/*                                    <div className="admin__gridView-cell-image-container">*/}
-                    {/*                                    <img src={review.top_adr} alt="Banner jogo" />*/}
-                    {/*                                    </div>*/}
-                    {/*                                    <div className="admin__gridView-cell-text-container">*/}
-                    {/*                                    <p className="gridView-game">{review.opinion}</p>*/}
-                    {/*                                    */}{/*<p className="gridView-game">{review.grade}</p>*/}
-                    {/*                                    <div className="card-post__nota card-post__content gridView-game-nota" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>*/}
-                    {/*                                        {review.grade}*/}
-                    {/*                                    </div>*/}
-                    {/*                                    </div>*/}
+                        {opcaoSelecionada === 'reviews' && (
+                            <>
+                                <div className="admin__gridView-container">
+                                    <div className="admin__toolbar-top">
+                                        <input
+                                            type="text"
+                                            placeholder="Pesquisar..."
+                                            className="admin__search-input"
+                                            value={searchTerm}
+                                            onChange={handleSearchReviewsChange}
+                                        />
+                                    </div>
+                                    <div className="admin__gridView">
+                                        {reviews.length > 0 ? (
+                                            reviews.map((review) => (
+                                                <li key={review.id} className="admin__gridView-cell">
+                                                        <div className="admin__gridView-cell-button-container">
+                                                        <FontAwesomeIcon icon={faEye} onClick={() => handleReviewViewClick(review)} />
+                                                        </div>
+                                                        <div className="admin__gridView-cell-button-container">
+                                                        <FontAwesomeIcon icon={faTrash} onClick={() => handleReviewDeleteClick(review)} />
+                                                        </div>
+                                                        <div className="admin__gridView-cell-image-container">
+                                                        <img src={review.top_adr} alt="Banner jogo" />
+                                                        </div>
+                                                        <div className="admin__gridView-cell-text-container">
+                                                        <p className="gridView-game">{review.opinion}</p>
+                                                        <p className="gridView-game">{review.grade}</p>
+                                                        <div className="card-post__nota card-post__content gridView-game-nota" style={{ backgroundColor: getCoresDasNotas(review.grade) }}>
+                                                            {review.grade}
+                                                        </div>
+                                                        </div>
 
-                    {/*                                </li>*/}
-                    {/*                            ))*/}
-                    {/*                        ) : (*/}
-                    {/*                            <p className='gridView-nonResult'>Não existem reviews no momento</p>*/}
-                    {/*                    )}*/}
-                    {/*                </div>*/}
-                    {/*            </div>*/}
+                                                    </li>
+                                                ))
+                                            ) : (
+                                                <p className='gridView-nonResult'>Não existem reviews no momento</p>
+                                        )}
+                                    </div>
+                                </div>
 
-                    {/*        {mostrarDados && (*/}
-                    {/*            <div className="admin-card__container ">*/}
-                    {/*                <div className="admin__card">*/}
-                    {/*                    <h1>Dados da review</h1>*/}
-                    {/*                    <div className="admin__row">*/}
-                    {/*                        <div className="container__foto-content">*/}
-                    {/*                            <div className="card-post__foto-container">*/}
-                    {/*                                <img src={reviewPhotoAdr} alt="Foto perfil" className="card-post__foto" />*/}
-                    {/*                            </div>*/}
-                    {/*                            <div className="card-post__content-container">*/}
-                    {/*                                <p className='card-post__user card-post__content"'>{reviewUserName}</p>*/}
+                            {mostrarDados && (
+                                <div className="admin-card__container ">
+                                    <div className="admin__card">
+                                        <h1>Dados da review</h1>
+                                        <div className="admin__row">
+                                            <div className="container__foto-content">
+                                                <div className="card-post__foto-container">
+                                                    <img src={reviewPhotoAdr} alt="Foto perfil" className="card-post__foto" />
+                                                </div>
+                                                <div className="card-post__content-container">
+                                                    <p className='card-post__user card-post__content"'>{reviewUserName}</p>
 
-                    {/*                                <p className="card-post__game card-post__content">{reviewGameName}</p>*/}
-                    {/*                                <div className="card-post__nota card-post__content" style={{ backgroundColor: getCoresDasNotas(reviewGrade) }}>*/}
-                    {/*                                    {reviewGrade}*/}
-                    {/*                                </div>*/}
-                    {/*                            </div>*/}
-                    {/*                        </div>*/}
-                    {/*                    </div>*/}
-                    {/*                    <div className="admin__row">*/}
-                    {/*                        <div className="card-post__descricao-container">*/}
-                    {/*                            <div className="card-post__descricao">*/}
-                    {/*                                <div className="card-post__descricao">*/}
-                    {/*                                    <p>{reviewOpinion}</p>*/}
-                    {/*                                </div>*/}
-                    {/*                                <div>*/}
-                    {/*                                    {reviewImageAdr && (*/}
-                    {/*                                        <img src={reviewImageAdr} alt="Foto perfil" className="card-post__foto-opiniao" onClick={() => setLightboxImage(reviewImageAdr)} />*/}
-                    {/*                                    )}*/}
-                    {/*                                </div>*/}
-                    {/*                            </div>*/}
-                    {/*                        </div>*/}
-                    {/*                    </div>*/}
-                    {/*                    <div className="admin__row">*/}
-                    {/*                        <button className="post-cardlike-button" data-review={activeItem}>*/}
-                    {/*                            <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#fff' }} />*/}
-                    {/*                            <span className='post-cardlike-likes'>{reviewLikes} Curtidas</span>*/}
-                    {/*                        </button>*/}
-                    {/*                    </div>*/}
-                    {/*                    <div className="admin__btn-container">*/}
-                    {/*                        <button className='indicar__btn-aprovar' onClick={handleCancelClick} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Fechar</button>*/}
-                    {/*                        <button className='indicar__btn-reprovar' onClick={() => handleReviewDeleteClick()} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Remover</button>*/}
-                    {/*                    </div>*/}
+                                                    <p className="card-post__game card-post__content">{reviewGameName}</p>
+                                                    <div className="card-post__nota card-post__content" style={{ backgroundColor: getCoresDasNotas(reviewGrade) }}>
+                                                        {reviewGrade}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="admin__row">
+                                            <div className="card-post__descricao-container">
+                                                <div className="card-post__descricao">
+                                                    <div className="card-post__descricao">
+                                                        <p>{reviewOpinion}</p>
+                                                    </div>
+                                                    <div>
+                                                        {reviewImageAdr && (
+                                                            <img src={reviewImageAdr} alt="Foto perfil" className="card-post__foto-opiniao" onClick={() => setLightboxImage(reviewImageAdr)} />
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="admin__row">
+                                            <button className="post-cardlike-button" data-review={activeItem}>
+                                                <FontAwesomeIcon icon={faThumbsUp} className={`post-cardlike-icon filled`} style={{ color: '#fff' }} />
+                                                <span className='post-cardlike-likes'>{reviewLikes} Curtidas</span>
+                                            </button>
+                                        </div>
+                                        <div className="admin__btn-container">
+                                            <button className='indicar__btn-aprovar' onClick={handleCancelClick} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Fechar</button>
+                                            <button className='indicar__btn-reprovar' onClick={() => handleReviewDeleteClick()} style={{ cursor: activeItem ? 'pointer' : 'default' }}>Remover</button>
+                                        </div>
 
-                    {/*                </div>*/}
-                    {/*            </div>*/}
-                    {/*        )}*/}
-                    {/*        </>*/}
-                    {/*)}*/}
+                                    </div>
+                                </div>
+                            )}
+                            </>
+                        )}
                         {opcaoSelecionada === 'users' && (
                         <>
                             <div className="admin__gridView-container">

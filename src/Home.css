@@ -80,8 +80,10 @@
 }
 
 .home-carousel-icon {
+    position: absolute;
     cursor: pointer;
     margin: 0 20px;
+    min-width: 30px;
     width: 40px;
     height: 80px;
     transition: ease-in 0.2s;
@@ -91,7 +93,7 @@
 .home-carousel-icon:hover {
     color: blueviolet;
     height: 120px;
-    width: 60px
+    min-width: 60px
 }
 
     .home-carousel-icon svg {

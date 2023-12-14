@@ -9,7 +9,7 @@ import Discord from './icons/discord.png';
 import EpicGames from './icons/epic-games.png';
 import Twitch from './icons/twitch.png';
 import Github from './icons/github.png';
-import FotoPerfil from './image/foto.png'
+import FotoPerfil from './image/foto.png';
 import Lightbox from './components/LightBox';
 
 import { getAuth, MENU_KEY } from './services/Auth';

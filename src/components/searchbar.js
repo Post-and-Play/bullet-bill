@@ -10,6 +10,7 @@ import api from '../services/Api';
 import { getUser } from '../services/Auth';
 import { Modals } from './Modals';
 import { useNavigate } from 'react-router-dom';
+import FotoPerfil from '../image/foto.png';
 
 const SearchBar = ({ currentUser }) => {
 
@@ -28,6 +29,10 @@ const SearchBar = ({ currentUser }) => {
 
     const [gameResults, setGameResults] = useState([]);
     const [userResults, setUserResults] = useState([]);
+
+    const handleImageError = (event) => {
+        event.target.src = FotoPerfil;
+    }
 
     const handleProfileClick = (profile) => {
         // Redirecionar o usuário para o perfil do usuário clicado
@@ -148,7 +153,7 @@ const SearchBar = ({ currentUser }) => {
                 <div className="search-results">
                 {searchResults.map((result, index) => (
                     <div key={index} className="search-result-item" onClick={() => handleGameClick(result.id, result.type)}>
-                    <img src={result.photo_adr || result.top_adr}  alt={`Foto jogo`} className='search-result-item__foto' />
+                        <img src={result.photo_adr || result.top_adr} alt={`Foto jogo`} className='search-result-item__foto' onError={handleImageError} />
                     <p className='search-result-item__nome'>{result.name}</p>
                     {/* <p className='search-result-item__nickname'>{result.nickname}</p> */}
                     {/* <a

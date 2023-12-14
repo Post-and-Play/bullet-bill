@@ -7,6 +7,7 @@ import CSGO from './icons/Render background/Imagens/icon/icon--CSGO.png'
 import EldenRing from './icons/Render background/Imagens/icon/icon--EldenRing.png'
 import Osu from './icons/Render background/Imagens/icon/icon--Osu.png'
 import Skyrim from './icons/Render background/Imagens/icon/icon--Skryim.png'
+import FotoPerfil from './image/foto.png';
 
 import Navbar from './components/navbar';
 import PostButton from './components/postButton'
@@ -140,6 +141,10 @@ const Jogo = () => {
         Osu,
         Skyrim
     ];
+
+    const handleImageError = (event) => {
+        event.target.src = FotoPerfil;
+    }
 
     const handleSlideDown = (review) => {
          if (sliderRef.current) {
@@ -689,7 +694,7 @@ const Jogo = () => {
                     <div className="jogo__post" key={index}>
                         <div className="jogo__post-info-perfil-container">
                             <a href={`/perfil?id=${review.user_id}`} className="jogo__post-foto-user">
-                                <img src={review.photo_adr} alt="Foto perfil" className="jogo__post-foto-user" />
+                                <img src={review.photo_adr} alt="Foto perfil" className="jogo__post-foto-user" onError={handleImageError} />
                             </a>
                             <div className="jogo__post-info-user">
                                 <p className="jogo__post-nomeUser">{review.name}</p>
@@ -716,7 +721,7 @@ const Jogo = () => {
                                 </div>
                                 <div>
                                     {review.image_adr && (
-                                        <img src={review.image_adr} alt="Foto perfil" className="jogo__post-foto-opiniao"  onClick={() => setLightboxImage(review.image_adr)} />
+                                        <img src={review.image_adr} alt="Foto review" className="jogo__post-foto-opiniao"  onClick={() => setLightboxImage(review.image_adr)} />
                                     )}
                                 </div>
                             </div>

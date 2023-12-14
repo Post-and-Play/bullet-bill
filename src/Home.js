@@ -7,6 +7,8 @@ import CSGO from './icons/Render background/Imagens/icon/icon--CSGO.png'
 import EldenRing from './icons/Render background/Imagens/icon/icon--EldenRing.png'
 import Osu from './icons/Render background/Imagens/icon/icon--Osu.png'
 import Skyrim from './icons/Render background/Imagens/icon/icon--Skryim.png'
+import FotoPerfil from './image/foto.png';
+
 //import Cleitin from './image/perfil-cleitin.png';
 //import Atreus from './image/perfil-atreus.png';
 //import Kratus from './image/perfil-kratus.png';
@@ -66,6 +68,9 @@ const Home = () => {
         Skyrim
     ];
 
+    const handleImageError = (event) => {
+        event.target.src = FotoPerfil;
+    }
 
     const handleCheckUserLikes = async (user) => {
         const response = await api.get(`/api/likes/user?id=${user.id}`);
@@ -387,7 +392,7 @@ const Home = () => {
                             <div className="container__foto-content">
                                 <div className="card-post__foto-container">
                                 <a href={review.user_id == currentUser.id ? '/perfil' : `/perfil?id=${review.user_id}`}>
-                                        <img src={review.photo_adr} alt="Foto perfil" className="card-post__foto" />
+                                        <img src={review.photo_adr} alt="Foto perfil" className="card-post__foto" onError={handleImageError} />
                                     </a>
                                 </div>
                                 <div className="card-post__content-container">
